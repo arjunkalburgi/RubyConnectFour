@@ -16,9 +16,4 @@ class AIOpponent
 
     private 
 
-    def random_move(gb)
-        r = rand(0..gb.row(0).size - 1)
-        gb.col_full?(r) ? random_move(gb) : r
-    end 
-
 end 
