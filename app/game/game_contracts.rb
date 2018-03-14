@@ -1,5 +1,5 @@
 
-module BoardContracts
+module GameContracts
 
     def invariant 
 
@@ -17,54 +17,51 @@ module BoardContracts
 
 
     
-    def pre_make_move 
+    def pre_user_move
+    end
+    
+    def post_user_move
+    end
 
+
+    
+    def pre_ai_move
+    end
+    
+    def post_ai_move
+    end
+
+
+    
+    def pre_setup_game
+    end
+    
+    def post_setup_game
     end 
 
-    def post_make_move 
-        
+
+    
+    def pre_setup_board 
+    end
+    
+    def post_setup_board 
     end 
-    
+
 
     
-    def pre_check_win 
-
+    def pre_takedown_board
     end
-
-    def post_check_win 
-
+    
+    def post_takedown_board
     end
 
 
     
-    def pre_clear_board 
-
+    def pre_check_game
     end
-
-    def post_clear_board 
-
+    
+    def post_check_game
     end
-
 
     
-    def pre_can_add_to_column?(column_number)
-
-    end
-
-    def post_can_add_to_column?(column_number)
-
-    end
-
-
-    
-    def pre_available_columns
-
-    end
-
-    def post_available_columns
-
-    end
-
-
-
 end
