@@ -9,6 +9,8 @@ class Game
 
 
     def initialize
+        setup_game
+        setup_board 
     end
 
     def user_move
