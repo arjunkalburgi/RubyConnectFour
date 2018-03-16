@@ -1,13 +1,15 @@
 require_relative './contracts'
+require_relative '../player'
 
 
-class AIOpponent 
+class AIOpponent < Player
     extend AIOpponentContracts
 
     @difficulty 
 
-    def initialize(diff) 
+    def initialize(colour, diff) 
         @difficulty = diff
+        super(colour)
     end
 
     def make_move(game_board)

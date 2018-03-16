@@ -2,6 +2,7 @@ require_relative './game_contracts'
 
 require_relative './ai/ai'
 require_relative './board/board'
+require_relative './player'
 
 
 class Game 
@@ -13,10 +14,8 @@ class Game
         setup_board 
     end
 
-    def user_move
-    end
-
-    def ai_move
+    def make_move(player, column)
+        player.make_move(@board, column)
     end
 
     private 
