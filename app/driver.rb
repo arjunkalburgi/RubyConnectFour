@@ -7,31 +7,25 @@ require_relative './player/ai/ai'
 
 require_relative './gui/gui'
 
-g = Game.new 
 v = Gui.new 
 
 game_type = v.get_game_type
-g.set_game_type(game_type)
-
 dimensions = v.get_game_dimensions 
-g.set_game_dimensions(dimensions) 
-#b = Board.new(dimensions.row, dimensions.columns)
-
 players_list = v.get_game_players
-g.set_game_players(players_list)
-# p1 = Player.new("blue") p2 = Player.new("red") p3 = AIOpponent.new("yellow", 1)
+
+g = Game.new(game_type, dimensions, players_list)
 
 v.start_game 
 
 while True
 
-    current_player = g.current_player
+    current_player = g.get_current_player
     column = v.request_player_move(current_player)
     v.wait_for_computer
 
     begin
         b = g.play_move(b, current_player, column) 
-        # I think this should be b = g.(current_player, column), g should have it's own instance of b.     
+        # I think this should be b = g.play_move(current_player, column), g should have it's own instance of b.     
         # This call should also block, do not continue until the game is ready (ai). 
         v.update_board(b)
     rescue *Game.GameWon => winner 
@@ -51,5 +45,8 @@ while True
         
     
 end 
+
+g.quit
+v.quit
 
 puts "Run the file to play again?"

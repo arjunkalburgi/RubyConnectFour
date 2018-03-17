@@ -8,58 +8,64 @@ module GameContracts
 
     
     def pre_init 
-
-    end 
-
+    end
+    
     def post_init
-
     end
 
 
-    
-    def pre_user_move
-    end
-    
-    def post_user_move
-    end
 
-
-    
-    def pre_ai_move
+    def pre_get_current_player  
     end
     
-    def post_ai_move
+    def post_get_current_player
     end
 
 
-    
-    def pre_setup_game
+
+    def pre_play_move 
     end
     
-    def post_setup_game
-    end 
-
-
-    
-    def pre_setup_board 
-    end
-    
-    def post_setup_board 
-    end 
-
-
-    
-    def pre_takedown_board
-    end
-    
-    def post_takedown_board
+    def post_play_move
     end
 
 
+
+    def pre_set_game_type 
+    end
     
+    def post_set_game_type
+    end
+
+
+
+    def pre_set_game_dimensions 
+    end
+    
+    def post_set_game_dimensions 
+    end
+
+
+
+    def pre_set_game_players 
+    end
+    
+    def post_set_game_players 
+    end
+
+
+
+    def pre_increment_player 
+    end
+    
+    def post_increment_player
+    end
+
+
+
     def pre_check_game
     end
-    
+
     def post_check_game
     end
 
