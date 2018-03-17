@@ -1,4 +1,4 @@
-require_relative './contracts'
+require_relative './ai_contracts'
 require_relative '../player'
 
 

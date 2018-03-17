@@ -1,13 +1,13 @@
 require_relative './board_contracts'
-
+require_relative './board_components'
 
 class Board 
     extend BoardContracts
+    attr_reader :dimensions, :board
 
 
-    def initialize(diff) 
-        @columns = 7
-        @rows = 7 
+    def initialize(dim, diff) 
+        @dimensions = dim
         @board = Array.new(@rows){Array.new(@columns, 0)}
     end
 

@@ -1,9 +1,8 @@
 require_relative './gui_contracts'
-require_relative './game/game'
 
 class Gui 
-    extend GuiContracts
-
+    include GuiContracts
+    attr_reader :get_game_type, :get_game_dimensions, :get_game_players, :start_game, :wait_for_computer, :exit_from_error, :quit
 
     def get_game_type
         invariant 

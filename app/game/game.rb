@@ -1,17 +1,19 @@
 require_relative './game_contracts'
+require_relative './game_error'
+require_relative './game_components'
 
-require_relative './ai/ai'
-require_relative './board/board'
-require_relative './player'
+require_relative '../board/board'
+require_relative '../player/player'
+require_relative '../player/ai/ai'
 
 
 class Game 
-    extend GameContracts
+    include GameContracts
+    attr_reader :get_current_player, :play_move, :quit
 
-
-    def initialize(type=None, dimensions=None, players=None)
+    def initialize(type=nil, dimensions=nil, players=nil)
         invariant
-        pre_init
+        pre_init(type, dimensions, players)
 
         set_game_type(type)
         set_game_dimensions(dimensions)
@@ -26,14 +28,13 @@ class Game
         invariant 
         pre_get_current_player 
 
-        @rows = r
-        @columns = c
+
 
         post_get_current_player
         invariant 
     end
 
-    def play_move(player, column)
+    def play_move(b, player, column)
         invariant 
         pre_play_move
 
@@ -53,10 +54,11 @@ class Game
         invariant
         pre_set_game_type
 
-        if type is None: 
-            @type = "C4"
+        if type.nil? 
+            @type = GameType::ConnectFour
         else 
             @type = type 
+        end
 
         post_set_game_type
         invariant
@@ -66,12 +68,13 @@ class Game
         invariant 
         pre_set_game_dimensions
 
-        if type is None: 
+        if dim.nil? 
             @rows = 6
             @columns = 7
         else 
             @rows = dim.rows
             @columns = dim.columns
+        end
 
         post_set_game_dimensions 
         invariant 
@@ -81,12 +84,13 @@ class Game
         invariant 
         pre_set_game_players
 
-        if players is None: 
+        if players.nil? 
             p1 = Player.new("blue") 
-            p3 = AIOpponent.new("yellow", 1)
-            @players = [p1, p2, p3]
+            p2 = AIOpponent.new("yellow", 1)
+            @players = [p1, p2]
         else 
             @players = players
+        end
 
         @current_player = 0
 
@@ -99,8 +103,10 @@ class Game
         pre_increment_player
 
         num_players = len(@players)
-        if @current_player++ >= num_players: 
+        @current_player++
+        if @current_player >= num_players 
             @current_player = 0 
+        end
 
         post_increment_player
         invariant 
