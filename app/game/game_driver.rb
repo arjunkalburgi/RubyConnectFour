@@ -25,7 +25,7 @@ while True
     column = 4 # input, player playername give me your column
 
     begin
-        b = g.(b, current_player, 4) #I think this should be b = g.(current_player, 5), g should have it's own instance of b.     
+        b = g.(b, current_player, column) #I think this should be b = g.(current_player, 5), g should have it's own instance of b.     
         puts b
     rescue *Game.GameWon => winner 
         puts "Congratulations this is the winner"
