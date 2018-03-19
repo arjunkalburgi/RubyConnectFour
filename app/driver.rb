@@ -17,7 +17,7 @@ g = Game.new(game_type, dimensions, players_list)
 
 v.start_game 
 
-while TRUE
+while true do
 
     current_player = g.get_current_player
     column = v.request_player_move(current_player)
