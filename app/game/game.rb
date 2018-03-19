@@ -9,7 +9,7 @@ require_relative '../player/ai/ai'
 
 class Game 
     include GameContracts
-    attr_reader :get_current_player, :play_move, :quit
+    attr_reader :get_current_player_num, :play_move, :quit
 
     def initialize(type=nil, dimensions=nil, players=nil)
         invariant
@@ -28,27 +28,47 @@ class Game
         invariant 
         pre_get_current_player 
 
-
-
+        increment_player
+        
         post_get_current_player
         invariant 
+
+        @players[@current_player_num]
     end
 
-    def play_move(b, player, column)
+    def play_move(column)
         invariant 
-        pre_play_move
+        pre_play_move(column)
 
-        # playmove 
+        @board.add_piece(column, @players[@current_player_num])
         check_game
 
         post_play_move
         invariant 
+
+        @board
     end
 
     def quit
     end
 
-    private 
+    private
+
+    def check_game
+    end
+
+    def increment_player
+        invariant 
+        pre_increment_player
+
+        @current_player_num++
+        if @current_player_num >= num_players.size
+            @current_player_num = 0
+        end
+
+        post_increment_player
+        invariant 
+    end
 
     def set_game_type(type)
         invariant
@@ -69,11 +89,9 @@ class Game
         pre_set_game_dimensions
 
         if dim.nil? 
-            @rows = 6
-            @columns = 7
+            @board = Board.new(BoardDimensions.new(6, 7))
         else 
-            @rows = dim.rows
-            @columns = dim.columns
+            @board = Board.new(dim)
         end
 
         post_set_game_dimensions 
@@ -92,27 +110,10 @@ class Game
             @players = players
         end
 
-        @current_player = 0
+        @current_player_num = 0
 
         post_set_game_players 
         invariant 
-    end
-
-    def increment_player
-        invariant 
-        pre_increment_player
-
-        num_players = len(@players)
-        @current_player++
-        if @current_player >= num_players 
-            @current_player = 0 
-        end
-
-        post_increment_player
-        invariant 
-    end
-
-    def check_game
     end
 
 end 

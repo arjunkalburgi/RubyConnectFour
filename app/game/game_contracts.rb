@@ -1,11 +1,17 @@
 require_relative '../player/player'
 require_relative '../board/board_components'
+require_relative '../game/game_error'
 
 module GameContracts
 
     def invariant 
-        # do nothing 
+        raise "error" unless @current_player_num.between?(0, @players.size-1)
+        raise "error" unless @b.is_a? Board
+        # make sure all items in @players are Players 
+        # make sure @type is one of the GameTypes 
+        # make sure @dimensions are of type BoardDimensions 
 
+        # should add a "game_state" or something?
     end 
 
 
@@ -37,18 +43,20 @@ module GameContracts
         # do nothing 
     end
     
-    def post_get_current_player
-        # do nothing 
+    def post_get_current_player(p)
+        raise "error" unless !p.nil? 
+        # check player's invariant 
     end
 
 
 
-    def pre_play_move 
-        # do nothing 
+    def pre_play_move(c)
+        # don't put board checks here, they'll go in board.add_piece
     end
     
     def post_play_move
-        # do nothing 
+        # check if game state is still playable 
+        # check if board's invariant 
     end
 
 

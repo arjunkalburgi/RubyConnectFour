@@ -18,7 +18,8 @@ module BoardContracts
 
     
     def pre_make_move 
-
+        # raise "error" unless c.between?(0, @dimensions.columns)
+        # raise GameError.new(somethingsomething) unless column of the @b has space for it
     end 
 
     def post_make_move 

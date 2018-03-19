@@ -24,8 +24,7 @@ while TRUE
     v.wait_for_computer
 
     begin
-        b = g.play_move(b, current_player, column) 
-        # I think this should be b = g.play_move(current_player, column), g should have it's own instance of b.     
+        b = g.play_move(column) 
         # This call should also block, do not continue until the game is ready (ai). 
         v.update_board(b)
     rescue *GameError.GameWon => winner 

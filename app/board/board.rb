@@ -3,12 +3,12 @@ require_relative './board_components'
 
 class Board 
     extend BoardContracts
-    attr_reader :dimensions, :board
+    attr_reader :dimensions, :add_piece
 
 
-    def initialize(dim, diff) 
+    def initialize(dim) 
         @dimensions = dim
-        @board = Array.new(@rows){Array.new(@columns, 0)}
+        @board = Array.new(@dimensions.rows){Array.new(@dimensions.columns, 0)}
     end
 
     def add_piece(column_number)
