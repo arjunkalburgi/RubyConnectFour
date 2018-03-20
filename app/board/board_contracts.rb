@@ -70,7 +70,7 @@ module BoardContracts
     end
 
     def pre_row(row_number)
-        raise "Row index must be either a Range or Integer" unless row_number.is_a? Range || row_number.is_a? Integer
+        raise "Row index must be either a Range or Integer" unless row_number.is_a?(Range) || row_number.is_a?(Integer)
         if row_number.is_a? Range
             row_number.each{ |r|
                 raise "Row index must be an Integer" unless r.is_a? Integer
@@ -86,7 +86,7 @@ module BoardContracts
     end
 
     def pre_col(column_number)
-        raise "Column index must be either a Range or Integer" unless column_number.is_a? Range || column_number.is_a? Integer
+        raise "Column index must be either a Range or Integer" unless column_number.is_a?(Range) || column_number.is_a?(Integer)
         if column_number.is_a? Range
             column_number.each{ |c|
                 raise "Column index must be an Integer" unless c.is_a? Integer
