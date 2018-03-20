@@ -8,44 +8,35 @@ module GuiContracts
 
     
     def pre_get_game_dimensions
-        # do nothing 
+        # no pre conditions
     end
 
     def post_get_game_dimensions
-        # do nothing 
+        # no post conditions
     end 
 
 
     
     def pre_get_game_players
-        # do nothing 
+        # no pre conditions
     end
 
     def post_get_game_players
-        # do nothing 
+        # no post conditions
     end 
 
 
     
     def pre_start_game
-        # do nothing 
+        # check that we have dimensions for the board?
+		# check that there are two players?
+		# check that the board is clear?
+		
     end
 
     def post_start_game
-        # do nothing 
+        # no post conditions
     end 
-
-
-    
-    def pre_request_player_move
-        # do nothing 
-    end
-
-    def post_request_player_move
-        # do nothing 
-    end 
-
-
     
     def pre_update_board
         # do nothing 
