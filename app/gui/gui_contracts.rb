@@ -1,7 +1,7 @@
 module GUIContracts
 
     def invariant 
-        # no invariant???         
+        # no invariant         
     end 
 
 
@@ -18,7 +18,7 @@ module GUIContracts
     
     def pre_initialize(dimensions, token_choices)
         raise "Invalid dimensions" unless dimensions[0] > 0 && dimensions[1] > 0
-		# TODO: check if token_choices contain valid file paths for image representations?
+		# check if token_choices contain valid file paths for image representations
 		
     end
 
@@ -27,7 +27,7 @@ module GUIContracts
     end 
     
     def pre_update_board
-        # TODO: check that file paths are still valid for token image assets?
+        # check that file paths are still valid for token image assets
     end
 
     def post_update_board
