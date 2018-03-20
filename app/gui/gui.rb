@@ -2,8 +2,7 @@ require_relative './gui_contracts'
 
 class Gui 
     include GuiContracts
-    attr_reader :get_game_dimensions, :get_game_players, :start_game, :wait_for_computer, :exit_from_error, :quit
-
+    
     def get_game_dimensions 
         invariant 
         pre_get_game_dimensions
@@ -25,14 +24,6 @@ class Gui
         pre_start_game
 
         post_start_game
-        invariant
-    end
-
-    def request_player_move(current_player)
-        invariant 
-        pre_request_player_move
-
-        post_request_player_move
         invariant
     end
 
