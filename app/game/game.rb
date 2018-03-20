@@ -53,21 +53,21 @@ class Game
 
     private
 
-    def check_game(players_string)
+    def check_game
         # check win 
         # check board for the player's string
     end
 
     def increment_player
         invariant 
-        pre_increment_player(@current_player_num)
+        old_num = pre_increment_player
 
         @current_player_num++
         if @current_player_num >= @players.size
             @current_player_num = 0
         end
 
-        post_increment_player
+        post_increment_player(old_num)
         invariant 
     end
 

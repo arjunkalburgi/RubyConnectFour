@@ -15,8 +15,6 @@ module GameContracts
         @players.each { |player|
             raise "error" unless player.is_a? Player 
         }
-
-        # should add a "game_state" or something?
     end 
 
 
@@ -66,15 +64,6 @@ module GameContracts
 
 
 
-    def pre_increment_player 
-        raise "Incrementing player number did not work properly" unless @current_player_num - 1 == old_num or @current_player_num == 0
-    end
-    
-    def post_increment_player
-        # nothing to do 
-    end
-
-
 
     def pre_check_game
         # nothing to do 
@@ -83,6 +72,35 @@ module GameContracts
     def post_check_game
         # nothing to do 
     end
+
+
+    def pre_increment_player 
+        @current_player_num
+    end
+    
+    def post_increment_player(old_num) 
+        raise "Incrementing player number did not work properly" unless old_num == @players.size ? @current_player_num == 0 : @current_player_num - 1 == old_num
+    end
+
+
+    def pre_set_game_dimensions
+        # nothing to do 
+    end 
+
+    def post_set_game_dimensions
+        # nothing to do 
+    end 
+
+
+    def pre_set_game_players
+        # nothing to do 
+    end 
+
+    def post_set_game_players
+        # nothing to do 
+    end 
+
+
 
     
 end
