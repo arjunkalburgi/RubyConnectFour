@@ -11,11 +11,10 @@ class Game
     include GameContracts
     attr_reader :get_current_player_num, :play_move, :quit
 
-    def initialize(type=nil, dimensions=nil, players=nil)
+    def initialize(dimensions=nil, players=nil)
         invariant
-        pre_init(type, dimensions, players)
+        pre_init(dimensions, players)
 
-        set_game_type(type)
         set_game_dimensions(dimensions)
         set_game_players(players)
 
@@ -54,34 +53,22 @@ class Game
 
     private
 
-    def check_game
+    def check_game(players_string)
+        # check win 
+        # check board for the player's string
     end
 
     def increment_player
         invariant 
-        pre_increment_player
+        pre_increment_player(@current_player_num)
 
         @current_player_num++
-        if @current_player_num >= num_players.size
+        if @current_player_num >= @players.size
             @current_player_num = 0
         end
 
         post_increment_player
         invariant 
-    end
-
-    def set_game_type(type)
-        invariant
-        pre_set_game_type
-
-        if type.nil? 
-            @type = GameType::ConnectFour
-        else 
-            @type = type 
-        end
-
-        post_set_game_type
-        invariant
     end
 
     def set_game_dimensions(dim)

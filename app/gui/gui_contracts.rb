@@ -6,15 +6,6 @@ module GuiContracts
     end 
 
 
-    def pre_get_game_type
-        # do nothing 
-    end
-
-    def post_get_game_type
-        # do nothing 
-    end 
-
-
     
     def pre_get_game_dimensions
         # do nothing 

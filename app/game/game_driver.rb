@@ -7,8 +7,6 @@ require_relative './player/ai/ai'
 
 g = Game.new 
 
-g.set_game_type("c4")
-
 b = Board.new(7, 6)
 g.set_game_dimensions(b.get_dimensions)
 
