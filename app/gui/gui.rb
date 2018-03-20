@@ -2,15 +2,7 @@ require_relative './gui_contracts'
 
 class Gui 
     include GuiContracts
-    attr_reader :get_game_type, :get_game_dimensions, :get_game_players, :start_game, :wait_for_computer, :exit_from_error, :quit
-
-    def get_game_type
-        invariant 
-        pre_get_game_type
-
-        post_get_game_type
-        invariant
-    end
+    attr_reader :get_game_dimensions, :get_game_players, :start_game, :wait_for_computer, :exit_from_error, :quit
 
     def get_game_dimensions 
         invariant 
@@ -44,14 +36,6 @@ class Gui
         invariant
     end
 
-    def wait_for_computer
-        invariant 
-        pre_wait_for_computer
-
-        post_wait_for_computer
-        invariant
-    end
-
     def update_board(b)
         invariant 
         pre_update_board
@@ -65,14 +49,6 @@ class Gui
         pre_show_winner
 
         post_show_winner
-        invariant
-    end
-
-    def request_player_move_again(player) 
-        invariant 
-        pre_request_player_move_again
-
-        post_request_player_move_again
         invariant
     end
 

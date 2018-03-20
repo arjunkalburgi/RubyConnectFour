@@ -2,8 +2,6 @@ require_relative './gui/gui'
 
 v = Gui.new 
 
-v.get_game_type
-
 v.get_game_dimensions 
 
 v.get_game_players

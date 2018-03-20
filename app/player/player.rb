@@ -1,20 +1,18 @@
 
 
 class Player
+    attr_reader :player_name, :player_win_condition, :player_piece_character
 
-    def initialize(colour)
+    def initialize(name, win_condition, piece_char)
+        invariant 
+        pre_init(win_condition, piece_char)
 
-        @piece_colour = colour #"red" | "yellow" | "orange" | "green" | "blue" | "purple" | "white" | "teel" | "brown" | "lightblue"
+        @player_name = name
+        @player_win_condition = win_condition
+        @player_piece_character = piece_char
 
-    end
-
-    def make_move(game_board, column)
-        insert_piece(game_board, column)
-    end
-
-    private 
-
-    def insert_piece(game_board, column)
+        post_init
+        invariant
     end
 
 end

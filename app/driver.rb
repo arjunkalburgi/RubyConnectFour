@@ -3,17 +3,16 @@ require_relative './game/game'
 require_relative './board/board'
 
 require_relative './player/player'
-require_relative './player/ai/ai'
+require_relative './player/ai'
 
 require_relative './gui/gui'
 
 v = Gui.new 
 
-game_type = v.get_game_type
 dimensions = v.get_game_dimensions 
 players_list = v.get_game_players
 
-g = Game.new(game_type, dimensions, players_list)
+g = Game.new(dimensions, players_list)
 
 v.start_game 
 

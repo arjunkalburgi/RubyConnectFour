@@ -4,18 +4,17 @@ require_relative './game_components'
 
 require_relative '../board/board'
 require_relative '../player/player'
-require_relative '../player/ai/ai'
+require_relative '../player/ai'
 
 
 class Game 
     include GameContracts
     attr_reader :get_current_player_num, :play_move, :quit
 
-    def initialize(type=nil, dimensions=nil, players=nil)
+    def initialize(dimensions=nil, players=nil)
         invariant
-        pre_init(type, dimensions, players)
+        pre_init(dimensions, players)
 
-        set_game_type(type)
         set_game_dimensions(dimensions)
         set_game_players(players)
 
@@ -26,11 +25,11 @@ class Game
 
     def get_current_player
         invariant 
-        pre_get_current_player 
+        beforenum = pre_get_current_player 
 
         increment_player
         
-        post_get_current_player
+        post_get_current_player(beforenum)
         invariant 
 
         @players[@current_player_num]
@@ -55,33 +54,21 @@ class Game
     private
 
     def check_game
+        # check win 
+        # check board for the player's string
     end
 
     def increment_player
         invariant 
-        pre_increment_player
+        old_num = pre_increment_player
 
         @current_player_num++
-        if @current_player_num >= num_players.size
+        if @current_player_num >= @players.size
             @current_player_num = 0
         end
 
-        post_increment_player
+        post_increment_player(old_num)
         invariant 
-    end
-
-    def set_game_type(type)
-        invariant
-        pre_set_game_type
-
-        if type.nil? 
-            @type = GameType::ConnectFour
-        else 
-            @type = type 
-        end
-
-        post_set_game_type
-        invariant
     end
 
     def set_game_dimensions(dim)
@@ -103,8 +90,9 @@ class Game
         pre_set_game_players
 
         if players.nil? 
-            p1 = Player.new("blue") 
-            p2 = AIOpponent.new("yellow", 1)
+    def initialize(name, win_string, piece_char, diff) 
+            p1 = Player.new("Player1", ["R", "R", "R", "R"], "R") 
+            p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], "Y", 1)
             @players = [p1, p2]
         else 
             @players = players
