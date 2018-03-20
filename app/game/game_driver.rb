@@ -10,8 +10,8 @@ g = Game.new
 b = Board.new(7, 6)
 g.set_game_dimensions(b.get_dimensions)
 
-p1 = Player.new("Player1", ["R", "R", "R", "R"], "R") 
-p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"], "Y")
+p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
+p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"])
 g.set_game_players([p1, p2])
 
 g.start_game 
