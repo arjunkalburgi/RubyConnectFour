@@ -7,7 +7,7 @@ require_relative './player/ai'
 
 require_relative './gui/gui'
 
-v = GUI.new 
+v = GUI.new
 
 dimensions = v.get_game_dimensions 
 players_list = v.get_game_players

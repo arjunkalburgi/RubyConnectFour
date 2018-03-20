@@ -1,6 +1,5 @@
 require_relative '../player/player'
 require_relative '../board/board'
-require_relative '../game/game_components'
 require_relative '../game/game_error'
 
 module GameContracts

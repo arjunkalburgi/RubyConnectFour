@@ -1,6 +1,5 @@
 require_relative './game_contracts'
 require_relative './game_error'
-require_relative './game_components'
 
 require_relative '../board/board'
 require_relative '../player/player'
@@ -77,11 +76,9 @@ class Game
         @board = Board.new(6,7)
 
         post_set_game_dimensions 
-        invariant 
     end
 
     def set_game_players(players)
-        invariant 
         pre_set_game_players
 
         if players.nil? 
@@ -95,7 +92,6 @@ class Game
         @current_player_num = 0
 
         post_set_game_players 
-        invariant 
     end
 
 end 
