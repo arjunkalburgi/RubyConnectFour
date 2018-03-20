@@ -45,6 +45,13 @@ module GUIContracts
         # no post conditions
     end 
 
+	def pre_display_error_message
+		# no pre conditions
+	end
+	
+	def post_display_error_message
+		# no post conditions
+	end
 
     
     def pre_exit_from_error

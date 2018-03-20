@@ -10,10 +10,6 @@ class GUI
         post_get_game_dimensions
         invariant
     end
-	
-	def set_game_dimensions(dimensions)
-	
-	end
 
     def start_game(dimensions, token_choices)
         invariant 
@@ -38,6 +34,14 @@ class GUI
         post_show_winner
         invariant
     end
+	
+	def display_error_message(message)
+		invariant
+		pre_display_error_message
+		
+		post_display_error_message
+		invariant
+	end
 
     def exit_from_error 
         invariant 
