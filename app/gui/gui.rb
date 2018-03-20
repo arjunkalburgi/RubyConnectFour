@@ -1,27 +1,17 @@
 require_relative './gui_contracts'
 
-class Gui 
-    include GuiContracts
-    
+class GUI 
+    include GUIContracts
+   
+	
     def get_game_dimensions 
-        invariant 
-        pre_get_game_dimensions
-
-        post_get_game_dimensions
-        invariant
+        return @dimensions
     end
 
-    def get_game_players
-        invariant 
-        pre_get_game_players
-
-        post_get_game_players
-        invariant
-    end
-
-    def start_game 
-        invariant 
-        pre_start_game
+    def initialize(dimensions, token_choices)
+        pre_start_game(dimensions, token_choices)
+		@dimensions = dimensions
+		@token_choices = token_choices
 
         post_start_game
         invariant
@@ -35,13 +25,21 @@ class Gui
         invariant
     end
 
-    def show_winner(player, board, winning_set)
+    def show_winner(player)
         invariant 
         pre_show_winner
 
         post_show_winner
         invariant
     end
+	
+	def display_error_message(message)
+		invariant
+		pre_display_error_message
+		
+		post_display_error_message
+		invariant
+	end
 
     def exit_from_error 
         invariant 
