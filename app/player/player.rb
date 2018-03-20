@@ -1,18 +1,18 @@
 
 
 class Player
-    attr_reader :player_name, :player_win_string, :player_piece_character
+    attr_reader :player_name, :player_win_condition, :player_piece_character
 
-    def initialize(name, win_string, piece_char)
+    def initialize(name, win_condition, piece_char)
         invariant 
-        pre_init(win_string, piece_char)
+        pre_init(win_condition, piece_char)
 
         @player_name = name
-        @player_win_string = win_string
+        @player_win_condition = win_condition
         @player_piece_character = piece_char
 
         post_init
-        invariant         
+        invariant
     end
 
 end

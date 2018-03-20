@@ -91,8 +91,8 @@ class Game
 
         if players.nil? 
     def initialize(name, win_string, piece_char, diff) 
-            p1 = Player.new("Player1", "RRRR", "R") 
-            p2 = AIOpponent.new("Player2", "YYYY", "Y", 1)
+            p1 = Player.new("Player1", ["R", "R", "R", "R"], "R") 
+            p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], "Y", 1)
             @players = [p1, p2]
         else 
             @players = players
