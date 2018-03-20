@@ -6,26 +6,25 @@ require_relative '../game/game_error'
 module GameContracts
 
     def invariant 
-        raise "error" unless @b.is_a? Board
-        raise "error" unless @b.dimensions.is_a? BoardDimensions
-        
-        raise "error" unless @current_player_num.between?(0, @players.size-1)
-        raise "error" unless @players.kind_of? Array 
+        raise "board must be of the Board class" unless @board.is_a? Board
+        raise "Current player must exist within the range of players" unless @current_player_num.between?(0, @players.size-1)
+        raise "Players must be an array" unless @players.kind_of? Array 
         @players.each { |player|
-            raise "error" unless player.is_a? Player 
+            raise "Each item in the list of players must be of the Player class" unless player.is_a? Player 
         }
     end 
 
 
     
-    def pre_init(d, p) 
-        if !d.nil?
-            raise TypeError, "Given dimensions are not of type BoardDimensions" unless d.is_a? BoardDimensions
-        end
+    def pre_init(rows, columnds, players) 
+        raise "Rows must be a number" unless rows.is_a? Integer
+        raise "Columns must be a number" unless columns.is_a? Integer
+        raise "Number of rows must be greater than 0" unless rows > 0 
+        raise "Number of columns must be greater than 0" unless columns > 0
 
-        if !p.nil?
-            raise TypeError, "Given players argument must be an array" unless p.kind_of? Array
-            p.each { |player|
+        if !players.nil?
+            raise TypeError, "Given players argument must be an array" unless players.kind_of? Array
+            players.each { |player|
                 raise "All players in players argument must be of type Player" unless player.is_a? Player
             }
         end

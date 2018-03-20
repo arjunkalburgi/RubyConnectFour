@@ -9,13 +9,12 @@ require_relative '../player/ai'
 
 class Game 
     include GameContracts
-    attr_reader :get_current_player_num, :play_move, :quit
+    attr_reader :players, :board, :current_player_num
 
-    def initialize(dimensions=nil, players=nil)
-        invariant
-        pre_init(dimensions, players)
+    def initialize(rows=nil, columns=nil, players=nil)
+        pre_init(rows, columns, players)
 
-        set_game_dimensions(dimensions)
+        set_game_dimensions(rows, columns)
         set_game_players(players)
 
         post_init
@@ -71,15 +70,11 @@ class Game
         invariant 
     end
 
-    def set_game_dimensions(dim)
+    def set_game_dimensions(row=6, columns=7)
         invariant 
         pre_set_game_dimensions
 
-        if dim.nil? 
-            @board = Board.new(BoardDimensions.new(6, 7))
-        else 
-            @board = Board.new(dim)
-        end
+        @board = Board.new(6,7)
 
         post_set_game_dimensions 
         invariant 
