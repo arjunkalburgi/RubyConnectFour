@@ -20,7 +20,7 @@ class Board
         invariant
         pre_can_add_to_column(column_number)
 
-        # result = true
+        result = false # BODY OF CODE GOES HERE
 
         post_can_add_to_column
         invariant
@@ -32,7 +32,7 @@ class Board
         invariant
         pre_available_columns
 
-        # result = 
+        result = nil # BODY OF CODE GOES HERE
 
         post_available_columns
         invariant
@@ -43,7 +43,7 @@ class Board
         invariant
         pre_add_piece(column_number)
 
-        # result = return true or false
+        result = false # BODY OF CODE GOES HERE
 
         post_add_piece(column_number, token)
         invariant
@@ -54,7 +54,7 @@ class Board
         invariant
         pre_is_full
 
-        # result = true
+        result = false # BODY OF CODE GOES HERE
 
         post_is_full
         invariant
@@ -76,7 +76,7 @@ class Board
         invariant
         pre_col(column_number)
 
-        # result = column_number
+        result = column_number
 
         post_col
         invariant
