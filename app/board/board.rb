@@ -1,5 +1,4 @@
 require_relative './board_contracts'
-require_relative './board_components'
 
 class Board 
     include BoardContracts
