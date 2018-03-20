@@ -68,7 +68,7 @@ class Gui
         invariant
     end
 
-    def request_player_move_again(player) 
+    def request_player_move_again(player)
         invariant 
         pre_request_player_move_again
 

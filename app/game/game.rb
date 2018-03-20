@@ -26,11 +26,11 @@ class Game
 
     def get_current_player
         invariant 
-        pre_get_current_player 
+        beforenum = pre_get_current_player 
 
         increment_player
         
-        post_get_current_player
+        post_get_current_player(beforenum)
         invariant 
 
         @players[@current_player_num]

@@ -3,7 +3,7 @@
 class Player
 
     def initialize(colour)
-
+        @player_name 
         @piece_colour = colour #"red" | "yellow" | "orange" | "green" | "blue" | "purple" | "white" | "teel" | "brown" | "lightblue"
 
     end

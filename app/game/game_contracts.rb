@@ -1,15 +1,22 @@
 require_relative '../player/player'
+require_relative '../board/board'
 require_relative '../board/board_components'
+require_relative '../board/game_components'
 require_relative '../game/game_error'
 
 module GameContracts
 
     def invariant 
-        raise "error" unless @current_player_num.between?(0, @players.size-1)
         raise "error" unless @b.is_a? Board
-        # make sure all items in @players are Players 
-        # make sure @type is one of the GameTypes 
-        # make sure @dimensions are of type BoardDimensions 
+        raise "error" unless @b.dimensions.is_a? BoardDimensions
+        
+        raise "error" unless @current_player_num.between?(0, @players.size-1)
+        raise "error" unless @players.kind_of? Array 
+        @players.each { |player|
+            raise "error" unless player.is_a? Player 
+        }
+
+        raise "error" unless GameType.is_defined? @type 
 
         # should add a "game_state" or something?
     end 
@@ -41,11 +48,16 @@ module GameContracts
 
     def pre_get_current_player  
         # do nothing 
+        @current_player_num
     end
     
-    def post_get_current_player(p)
-        raise "error" unless !p.nil? 
-        # check player's invariant 
+    def post_get_current_player(num)
+        # check num 
+        raise "Incrementing player number did not work properly" unless @current_player_num - 1 == num 
+
+        # check player
+        p = @players[@current_player_num]
+        raise "Object in players is not of type Player" unless p.is_a? Player
     end
 
 
