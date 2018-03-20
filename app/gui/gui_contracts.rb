@@ -47,16 +47,6 @@ module GuiContracts
 
 
     
-    def pre_wait_for_computer
-        # do nothing 
-    end
-
-    def post_wait_for_computer
-        # do nothing 
-    end 
-
-
-    
     def pre_update_board
         # do nothing 
     end
@@ -72,16 +62,6 @@ module GuiContracts
     end
 
     def post_show_winner
-        # do nothing 
-    end 
-
-
-    
-    def pre_request_player_move_again
-        # do nothing 
-    end
-
-    def post_request_player_move_again
         # do nothing 
     end 
 
@@ -104,9 +84,5 @@ module GuiContracts
     def post_quit
         # do nothing 
     end 
-
-
-    
-
 
 end
