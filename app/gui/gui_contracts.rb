@@ -1,8 +1,7 @@
 module GUIContracts
 
     def invariant 
-        # do nothing 
-        
+        # no invariant???         
     end 
 
 
@@ -17,13 +16,13 @@ module GUIContracts
 
 
     
-    def pre_start_game(dimensions, token_choices)
+    def pre_initialize(dimensions, token_choices)
         raise "Invalid dimensions" unless dimensions[0] > 0 && dimensions[1] > 0
 		# TODO: check if token_choices contain valid file paths for image representations?
 		
     end
 
-    def post_start_game
+    def post_initialize
         # no post conditions
     end 
     

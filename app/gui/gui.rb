@@ -2,18 +2,16 @@ require_relative './gui_contracts'
 
 class GUI 
     include GUIContracts
-    
+   
+	
     def get_game_dimensions 
-        invariant 
-        pre_get_game_dimensions
-
-        post_get_game_dimensions
-        invariant
+        return @dimensions
     end
 
-    def start_game(dimensions, token_choices)
-        invariant 
-        pre_start_game
+    def initialize(dimensions, token_choices)
+        pre_start_game(dimensions, token_choices)
+		@dimensions = dimensions
+		@token_choices = token_choices
 
         post_start_game
         invariant
