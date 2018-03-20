@@ -9,11 +9,11 @@ class GUI
     end
 
     def initialize(dimensions, token_choices)
-        pre_start_game(dimensions, token_choices)
+        pre_initialize(dimensions, token_choices)
 		@dimensions = dimensions
 		@token_choices = token_choices
 
-        post_start_game
+        post_initialize
         invariant
     end
 
