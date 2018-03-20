@@ -3,7 +3,7 @@ require_relative './game/game'
 require_relative './board/board'
 
 require_relative './player/player'
-require_relative './player/ai/ai'
+require_relative './player/ai'
 
 require_relative './gui/gui'
 

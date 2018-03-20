@@ -3,17 +3,16 @@ require_relative './game/game'
 require_relative './board/board'
 
 require_relative './player/player'
-require_relative './player/ai/ai'
+require_relative './player/ai'
 
 g = Game.new 
 
 b = Board.new(7, 6)
 g.set_game_dimensions(b.get_dimensions)
 
-p1 = Player.new("blue")
-p2 = Player.new("red")
-p3 = AIOpponent.new("yellow", 1)
-g.set_game_players([p1, p2, p3])
+p1 = Player.new("Player1", ["R", "R", "R", "R"], "R") 
+p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"], "Y")
+g.set_game_players([p1, p2])
 
 g.start_game 
 

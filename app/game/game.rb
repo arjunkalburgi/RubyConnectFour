@@ -4,7 +4,7 @@ require_relative './game_components'
 
 require_relative '../board/board'
 require_relative '../player/player'
-require_relative '../player/ai/ai'
+require_relative '../player/ai'
 
 
 class Game 
@@ -90,8 +90,9 @@ class Game
         pre_set_game_players
 
         if players.nil? 
-            p1 = Player.new("blue") 
-            p2 = AIOpponent.new("yellow", 1)
+    def initialize(name, win_string, piece_char, diff) 
+            p1 = Player.new("Player1", ["R", "R", "R", "R"], "R") 
+            p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], "Y", 1)
             @players = [p1, p2]
         else 
             @players = players
