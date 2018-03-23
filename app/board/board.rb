@@ -149,7 +149,7 @@ class Board
         invariant
         pre_clear_board
         
-        @game_board = Array.new(rows){Array.new(columns)}
+        @game_board = Array.new(@rows){Array.new(@columns)}
 
         post_clear_board
         invariant
