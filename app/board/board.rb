@@ -2,6 +2,7 @@ require_relative './board_contracts'
 
 class Board 
     include BoardContracts
+    include Enumerable
     attr_reader :game_board, :rows, :columns
 
 
@@ -10,7 +11,7 @@ class Board
 
         @rows = rows
         @columns = columns
-        @game_board = Array.new(@rows){Array.new(@columns, nil)}
+        @game_board = Array.new(@rows){Array.new(@columns)}
 
         post_init
         invariant
@@ -20,7 +21,10 @@ class Board
         invariant
         pre_can_add_to_column(column_number)
 
-        result = false # BODY OF CODE GOES HERE
+        result = false
+        if !@game_board[0][column_number]
+            result = true
+        end
 
         post_can_add_to_column
         invariant
@@ -32,7 +36,13 @@ class Board
         invariant
         pre_available_columns
 
-        result = nil # BODY OF CODE GOES HERE
+        result = []
+        i = 0
+        while i < @columns do 
+            if !@game_board[0][i]
+                result << i
+            end
+        end 
 
         post_available_columns
         invariant
@@ -43,7 +53,12 @@ class Board
         invariant
         pre_add_piece(column_number)
 
-        result = false # BODY OF CODE GOES HERE
+        (0..@rows).each{ |row_index|
+            if @game_board[@rows - row_index - 1][column_number] == nil
+                @game_board[@rows - row_index - 1][column_number] = token
+                break
+            end
+        }
 
         post_add_piece(column_number, token)
         invariant
@@ -55,8 +70,8 @@ class Board
         pre_is_full
 
         result = true
-        @game_board.each { |e|
-            if e == nil
+        self.each { |e|
+            if !e
                 result = false
                 break
             end
@@ -82,7 +97,9 @@ class Board
         invariant
         pre_col(column_number)
 
-        result = @game_board.flatten.select.with_index{|v,i| i % @columns == column_number}
+        # result = @game_board.flatten.select.with_index{|v,i| i % @columns == column_number}
+        result = Array.new(row_size)
+        (0...@rows).each{|row_index| result[row_index] = self[row_index,i] }
 
         post_col
         invariant
@@ -114,7 +131,13 @@ class Board
 
         line = ""
         @game_board.each { |e|
-            line += "|" + e.join(" ") + "|\n"
+            e.each {|token|
+                if !token
+                    token = "-"
+                end
+                line += element + " "
+            }
+            line += "\n"
         }
 
         post_print_board(line)
@@ -126,10 +149,36 @@ class Board
         invariant
         pre_clear_board
         
-        @game_board = Array.new(rows){Array.new(columns, nil)}
+        @game_board = Array.new(rows){Array.new(columns)}
 
         post_clear_board
         invariant
+    end
+
+    def each
+        invariant
+        pre_each
+        (0...@rows).each{ |row_index|
+            (0...@columns).each {|column_index|
+                result = self[row_index, column_index]
+                post_each
+                invariant
+                yield result
+            }
+        }
+    end
+
+    def each_with_index
+        invariant
+        pre_each_with_index
+        (0...@rows).each{ |row_index|
+            (0...@columns).each {|column_index|
+                result = self[row_index, column_index]
+                post_each_with_index(row_index, column_index)
+                invariant
+                yield result, row_index, column_index
+            } 
+        }
     end
 
 end 

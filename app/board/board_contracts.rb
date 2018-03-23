@@ -122,4 +122,21 @@ module BoardContracts
         }
     end
 
+    def pre_each
+        # no condition necessary
+    end
+
+    def post_each
+        # no condition necessary
+    end
+
+    def pre_each_with_index
+        # no condition necessary
+    end
+
+    def post_each_with_index(row_index, column_index)
+        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows)
+        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns)
+    end
+
 end
