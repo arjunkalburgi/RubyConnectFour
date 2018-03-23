@@ -10,7 +10,7 @@ class Board
 
         @rows = rows
         @columns = columns
-        @game_board = Array.new(@rows){Array.new(@columns, 0)}
+        @game_board = Array.new(@rows){Array.new(@columns, nil)}
 
         post_init
         invariant
@@ -54,7 +54,13 @@ class Board
         invariant
         pre_is_full
 
-        result = false # BODY OF CODE GOES HERE
+        result = true
+        @game_board.each { |e|
+            if e == nil
+                result = false
+                break
+            end
+        }
 
         post_is_full
         invariant
@@ -76,7 +82,7 @@ class Board
         invariant
         pre_col(column_number)
 
-        result = column_number
+        result = @game_board.flatten.select.with_index{|v,i| i % @columns == column_number}
 
         post_col
         invariant
@@ -120,7 +126,7 @@ class Board
         invariant
         pre_clear_board
         
-        @game_board = Array.new(rows){Array.new(columns, 0)}
+        @game_board = Array.new(rows){Array.new(columns, nil)}
 
         post_clear_board
         invariant

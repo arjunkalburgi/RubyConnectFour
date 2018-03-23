@@ -23,7 +23,7 @@ module BoardContracts
         @game_board.each { |e|
             raise "Board row size should be equal to the given column size" unless e.size == @columns
             e.each { |token|
-                raise "Board tokens must all be initally set to 0" unless token == 0
+                raise "Board tokens must all be initally set to nil" unless token == nil
             }
         }
     end
@@ -114,7 +114,12 @@ module BoardContracts
     end
 
     def post_clear_board 
-        # no condition necessary
+        @game_board.each { |e|
+            raise "Board row size should be equal to the given column size" unless e.size == @columns
+            e.each { |token|
+                raise "Board tokens must all be cleared to nil" unless token == nil
+            }
+        }
     end
 
 end
