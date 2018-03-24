@@ -36,13 +36,7 @@ class Board
         invariant
         pre_available_columns
 
-        result = []
-        i = 0
-        while i < @columns do 
-            if !@game_board[0][i]
-                result << i
-            end
-        end 
+        result = @game_board[0].each_index.select{|i| @game_board[0][i] == 0}
 
         post_available_columns
         invariant
@@ -51,7 +45,7 @@ class Board
 
     def add_piece(token, column_number)
         invariant
-        pre_add_piece(column_number)
+        pre_add_token(column_number)
 
         (0..@rows).each{ |row_index|
             if @game_board[@rows - row_index - 1][column_number] == nil
@@ -60,7 +54,7 @@ class Board
             end
         }
 
-        post_add_piece(column_number, token)
+        post_add_token(column_number, token)
         invariant
         return result
     end
