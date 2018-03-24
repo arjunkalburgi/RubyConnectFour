@@ -33,10 +33,13 @@ class Game
         @players[@current_player_num]
     end
 
-    def play_move(column)
+    def play_move(column=nil)
         invariant 
         pre_play_move(column)
 
+        if @players[@current_player_num].is_a? AIOpponent
+            column = @players[@current_player_num].choose_column(@board, @players, @player_num)
+        end
         @board.add_piece(column, @players[@current_player_num])
         check_game
 
@@ -60,7 +63,7 @@ class Game
         invariant 
         old_num = pre_increment_player
 
-        @current_player_num++
+        @current_player_num += 1 
         if @current_player_num >= @players.size
             @current_player_num = 0
         end
@@ -76,9 +79,11 @@ class Game
         @board = Board.new(6,7)
 
         post_set_game_dimensions 
+        invariant 
     end
 
     def set_game_players(players)
+        invariant 
         pre_set_game_players
 
         if players.nil? 
@@ -92,6 +97,7 @@ class Game
         @current_player_num = 0
 
         post_set_game_players 
+        invariant 
     end
 
 end 

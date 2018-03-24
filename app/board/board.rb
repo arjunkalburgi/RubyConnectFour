@@ -36,7 +36,7 @@ class Board
         invariant
         pre_available_columns
 
-        result = @game_board[0].each_index.select{|i| @game_board[0][i] == 0}
+        result = @game_board[0].each_index.select{|i| @game_board[0][i] == nil}
 
         post_available_columns
         invariant
@@ -56,7 +56,6 @@ class Board
 
         post_add_token(column_number, token)
         invariant
-        return result
     end
 
     def is_full?
@@ -129,8 +128,8 @@ class Board
                 if !token
                     token = "-"
                 end
-                line += element + " "
             }
+            line += e.to_s + " "
             line += "\n"
         }
 
@@ -174,5 +173,63 @@ class Board
             } 
         }
     end
+
+    def get_all_combinations_of_length(l)
+        combinations = []
+
+        # rows 
+        @game_board.each { |row_vector|
+            (0..row_vector.size-l).each { |i|
+                combinations << row_vector[i..i+l-1]
+            }
+        }
+
+        # columns 
+        (0..@game_board[0].size-1).each { |c|
+            column_vector = []
+            @game_board.each {|row|
+                column_vector << row[c]
+            }
+            (0..column_vector.size-l).each { |i|
+                combinations << column_vector[i..i+l-1]
+            }
+        }
+
+        # diagonals 
+        combinations << get_diagonal_combinations_of_length(l)
+
+        combinations
+    end
+
+    def get_diagonal_combinations_of_length(l) 
+        diags = []
+        (0..@game_board[0].size - 1).each { |k|
+            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][i+k]}.compact
+        }
+        (0..@game_board[0].size - 1).each { |k|
+            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][k-i] if k-i > -1}.compact
+        }
+        (0..@game_board[0].size - 1).reverse_each { |k|
+            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][i-k] if i-k > -1}.compact
+        }
+        (0..@game_board[0].size - 1).reverse_each { |k|
+            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][k-(i-(@game_board.size-1))]}.compact
+        }
+
+        combinations = []
+        diags.each { |d| 
+            if d.size > l 
+                # break it down 
+                (0..d.size-l).each { |i|
+                    combinations << d[i..i+l-1]
+                }
+            elsif d.size == l 
+                combinations << d
+            end 
+        }
+        
+        combinations
+    end
+
 
 end 

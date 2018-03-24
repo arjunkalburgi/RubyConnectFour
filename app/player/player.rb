@@ -1,10 +1,12 @@
 
+require_relative './player_contracts'
 
 class Player
+    include PlayerContracts
     attr_reader :player_name, :player_win_condition, :tokens
 
     def initialize(name, win_condition)
-        invariant 
+        # invariant 
         pre_init(win_condition)
 
         @player_name = name

@@ -53,7 +53,7 @@ module BoardContracts
     def post_add_token(column_number, token)
         placement = false
         @game_board.each{ |row|
-            if @game_board[row][column_number] == token
+            if row[column_number] == token
                 placement = true
                 break
             end
