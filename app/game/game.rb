@@ -77,11 +77,13 @@ class Game
         pre_check_game
 
         combinations = @board.get_all_combinations_of_length(current_player.player_win_condition.length)
-        if combinations.include? current_player.player_win_condition
-            raise GameWon.new(current_player.player_name)
-        elsif @board.is_full?
-            raise GameEnd.new
-        end
+        @players.each { |p|
+            if combinations.include? p.player_win_condition
+                raise GameWon.new(p.player_name)
+            elsif @board.is_full?
+                raise GameEnd.new
+            end
+        }
 
         post_check_game
         invariant
@@ -116,7 +118,7 @@ class Game
 
         if players.nil? 
             p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
-            p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 1)
+            p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 3)
             @players = [p1, p2]
         else 
             @players = players

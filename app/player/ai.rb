@@ -52,7 +52,7 @@ class AIOpponent < Player
         (0..board.available_columns.size-1).each { |i| 
             thread_list << Thread.new do 
                 boardclone = Marshal.load( Marshal.dump(board) )
-                boardclone.add_piece(players[player_num].tokens[0], i)
+                boardclone.add_piece(i, players[player_num].tokens[0])
                 available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
             end
         }

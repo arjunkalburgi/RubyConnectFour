@@ -8,6 +8,7 @@ while true
 
     current_player = g.get_current_player
     if current_player.is_a? AIOpponent
+        puts "AI's turn"
         column = nil
     else 
         puts current_player.player_name + ", what column number would you like to input your token into: "
