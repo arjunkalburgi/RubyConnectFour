@@ -113,9 +113,7 @@ class Board
     def to_s
         invariant
 
-        @game_board.to_s
-        
-        invariant
+        return @game_board.to_s
     end
 
     def print_board
