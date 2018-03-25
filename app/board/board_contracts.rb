@@ -154,6 +154,14 @@ module BoardContracts
         # no condition necessary
     end
 
+    def post_get_all_combinations_of_length
+        # TODO 
+    end
+
+    def pre_get_diagonal_combinations_of_length
+        # TODO
+    end 
+
     def post_get_diagonal_combinations_of_length
         # no condition necessary
     end
