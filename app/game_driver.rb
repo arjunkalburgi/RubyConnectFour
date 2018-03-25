@@ -4,7 +4,7 @@ require_relative './game/game_error'
 g = Game.new
 
 while true
-    g.board.print_board
+    puts g.board.print_board
 
     current_player = g.get_current_player
     if current_player.is_a? AIOpponent
@@ -12,7 +12,7 @@ while true
     else 
         puts current_player.player_name + ", what column number would you like to input your token into: "
         user_input = gets.chomp
-        column = user_input.to_i
+        column = user_input.to_i - 1
     end 
 
     begin
