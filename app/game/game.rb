@@ -53,7 +53,7 @@ class Game
         beforeboard = @board.dup
 
         if @players[@current_player_num].is_a? AIOpponent
-            column = @players[@current_player_num].choose_column(@board, @players, @player_num)
+            column = @players[@current_player_num].choose_column(@board, @players, @current_player_num)
         end
         @board.add_piece(column, @players[@current_player_num])
         check_game(@players[@current_player_num])
