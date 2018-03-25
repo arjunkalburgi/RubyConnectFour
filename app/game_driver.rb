@@ -30,7 +30,11 @@ while true
         end
         break 
     rescue *GameError.TryAgain => slip
-        puts "That was no good, please try again"
+        if slip.is_a? NotAValidColumn
+            puts "Column number: " + slip.column + " is not valid." 
+        end 
+        reset_current_player(current_player)
+        puts current_player.player_name + " please play again."
         next
     rescue *GameError.Wrong => error 
         puts "Something went wrong sorry"

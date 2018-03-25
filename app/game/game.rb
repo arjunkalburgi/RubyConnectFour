@@ -46,6 +46,12 @@ class Game
         player
     end
 
+    def reset_current_player(player)
+        index = @players.rindex(player)
+
+        @current_player_num = index
+    end 
+
     def play_move(column=nil)
         invariant 
         pre_play_move(column)

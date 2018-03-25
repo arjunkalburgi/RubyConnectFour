@@ -46,6 +46,17 @@ class NoMoreMoves < GameError
     end 
 end 
 
+
+
+class NotAValidColumn < GameError
+    def initialize(columnnumber, msg = "Not a valid command")
+        super(msg)
+        @column = columnnumber
+    end
+end
+
+
+
 class MustBeHash < GameError 
     def initialize(msg = "BUILTINS must be a Hash")
         super(msg)
@@ -57,9 +68,3 @@ class CannotBeEmpty < GameError
         super(msg)
     end
 end 
-
-class InvalidCommand < GameError
-    def initialize(msg = "Not a valid command")
-        super(msg)
-    end
-end
