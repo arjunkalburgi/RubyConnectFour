@@ -35,7 +35,8 @@ end
 
 class GameWon < GameError
     def initialize(player, msg = " has won!")
-        super(player + msg)
+        super(player.player_name + msg)
+        @player = player 
     end 
 end 
 
