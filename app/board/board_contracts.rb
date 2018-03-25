@@ -101,6 +101,17 @@ module BoardContracts
         # no condition necessary
     end
 
+    def pre_brackets(row_number, column_number)
+        raise "Rows must be a number" unless row_number.is_a? Integer
+        raise "Columns must be a number" unless column_number.is_a? Integer
+        raise "Number of rows must be greater than 0" unless row_number.between?(0, @rows)
+        raise "Number of columns must be greater than 0" unless column_number.between?(0, @columns)
+    end
+
+    def post_brackets
+        # no condition necessary
+    end
+
     def pre_print_board
         # no condition necessary
     end
