@@ -30,7 +30,7 @@ module BoardContracts
         
     def pre_can_add_to_column(column_number)
         raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns)
+        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
     end
 
     def post_can_add_to_column
@@ -47,7 +47,7 @@ module BoardContracts
 
     def pre_add_token(column_number)
         raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns)
+        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
     end
 
     def post_add_token(column_number, token)
@@ -146,8 +146,8 @@ module BoardContracts
     end
 
     def post_each_with_index(row_index, column_index)
-        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows)
-        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns)
+        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows-1)
+        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns-1)
     end
 
     def pre_get_all_combinations_of_length
