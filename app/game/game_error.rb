@@ -23,6 +23,10 @@ class GameError < StandardError
         [GameWon]
     end 
 
+    def self.GameEnd
+        [GameEnd]
+    end
+
     def self.TryAgain
         #  Slip: a minor or careless mistake
         [InvalidCommand]
@@ -35,7 +39,13 @@ class GameError < StandardError
 end 
 
 class GameWon < GameError
-    def initialize(msg = "yay you won")
+    def initialize(player, msg = " has won!")
+        super(player + msg)
+    end 
+end 
+
+class GameEnd < GameError
+    def initialize(msg = "No winners")
         super(msg)
     end 
 end 

@@ -1,4 +1,5 @@
 require_relative './board_contracts'
+require 'set'
 
 class Board 
     include BoardContracts
@@ -47,12 +48,16 @@ class Board
         invariant
         pre_add_token(column_number)
 
-        (0..@rows).each{ |row_index|
-            if @game_board[@rows - row_index - 1][column_number] == nil
-                @game_board[@rows - row_index - 1][column_number] = token
-                break
-            end
-        }
+        if self.can_add_to_column?
+            (0..@rows).each{ |row_index|
+                if @game_board[@rows - row_index - 1][column_number] == nil
+                    @game_board[@rows - row_index - 1][column_number] = token
+                    break
+                end
+            }
+        else
+            raise "Cannot add token here"
+        end
 
         post_add_token(column_number, token)
         invariant
@@ -176,7 +181,7 @@ class Board
         invariant
         pre_get_all_combinations_of_length
 
-        combinations = []
+        combinations = Set.new
 
         # rows 
         @game_board.each { |row_vector|
@@ -208,7 +213,7 @@ class Board
         invariant
         post_get_diagonal_combinations_of_length
 
-        diags = []
+        diags = Set.new
         (0..@game_board[0].size - 1).each { |k|
             diags << (0..@game_board.size - 1).collect{|i| @game_board[i][i+k]}.compact
         }
@@ -222,7 +227,7 @@ class Board
             diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][k-(i-(@game_board.size-1))]}.compact
         }
 
-        combinations = []
+        combinations =  Set.new
         diags.each { |d| 
             if d.size > l 
                 # break it down 

@@ -41,7 +41,7 @@ class Game
             column = @players[@current_player_num].choose_column(@board, @players, @player_num)
         end
         @board.add_piece(column, @players[@current_player_num])
-        check_game
+        check_game(@players[@current_player_num])
 
         post_play_move
         invariant 
@@ -54,9 +54,19 @@ class Game
 
     private
 
-    def check_game
-        # check win 
-        # check board for the player's string
+    def check_game(current_player)
+        invariant
+        pre_check_game
+
+        combinations = @board.get_all_combinations_of_length
+        if combinations.include? current_player.player_win_condition
+            raise GameWon.new(current_player.player_name)
+        elsif @board.is_full?
+            raise GameEnd.new
+        end
+
+        post_check_game
+        invariant
     end
 
     def increment_player

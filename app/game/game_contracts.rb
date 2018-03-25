@@ -61,7 +61,9 @@ module GameContracts
 
 
     def pre_play_move(c)
-        # don't put board checks here, they'll go in board.add_piece
+        if @board.is_full?
+            raise GameEnd.new
+        end
     end
     
     def post_play_move(old_board)
