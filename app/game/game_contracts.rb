@@ -86,7 +86,7 @@ module GameContracts
     end
     
     def post_increment_player(old_num) 
-        raise "Incrementing player number did not work properly" unless old_num == @players.size ? @current_player_num == 0 : @current_player_num - 1 == old_num
+        raise "Incrementing player number did not work properly" unless old_num == @players.size - 1 ? @current_player_num == 0 : @current_player_num - 1 == old_num
     end
 
 
