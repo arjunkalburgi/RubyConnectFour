@@ -18,13 +18,8 @@ class GameError < StandardError
         super(msg)
     end
 
-
-    def self.GameWon 
-        [GameWon]
-    end 
-
     def self.GameEnd
-        [GameEnd]
+        [NoMoreMoves, GameWon]
     end
 
     def self.TryAgain
@@ -44,8 +39,8 @@ class GameWon < GameError
     end 
 end 
 
-class GameEnd < GameError
-    def initialize(msg = "No winners")
+class NoMoreMoves < GameError
+    def initialize(msg = "No moves left")
         super(msg)
     end 
 end 

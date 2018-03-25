@@ -75,7 +75,7 @@ class Board
             end
         }
 
-        post_is_full
+        post_is_full(result)
         invariant
         return result
     end
