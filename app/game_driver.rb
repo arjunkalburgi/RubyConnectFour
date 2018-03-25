@@ -54,9 +54,16 @@ while true
 
     begin
         g.play_move(column)
-    rescue *GameError.GameEnd => winner 
-        puts "Congratulations this is the winner"
-        puts winner
+    rescue *GameError.GameEnd => gameend
+        if gameend.is_a? GameWon
+            puts "Congratulations, we have a winner"
+            puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition
+            puts g.board.print_board
+        else 
+            puts "There are no more possible moves."
+            puts g.board.print_board
+            puts "It's a cats game!."
+        end
         break 
     rescue *GameError.TryAgain => slip
         puts "That was no good, please try again"
