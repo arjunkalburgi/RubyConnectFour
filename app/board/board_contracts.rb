@@ -74,10 +74,10 @@ module BoardContracts
         if row_number.is_a? Range
             row_number.each{ |r|
                 raise "Row index must be an Integer" unless r.is_a? Integer
-                raise "Row index must not be negative" unless r.between?(0, @rows)
+                raise "Row index must be within range" unless r.between?(0, @rows-1)
             }
         elsif row_number.is_a? Integer
-            raise "Row index must not be negative" unless row_number.between?(0, @rows)
+            raise "Row index must not be negative" unless row_number.between?(0, @rows-1)
         end 
     end
 
@@ -90,10 +90,10 @@ module BoardContracts
         if column_number.is_a? Range
             column_number.each{ |c|
                 raise "Column index must be an Integer" unless c.is_a? Integer
-                raise "Column index must not be negative" unless c.between?(0, @columns)
+                raise "Column index must be within range" unless c.between?(0, @columns-1)
             }
         elsif column_number.is_a? Integer
-            raise "Column index must be within range" unless column_number.between?(0, @columns)
+            raise "Column index must be within range" unless column_number.between?(0, @columns-1)
         end 
     end
 
