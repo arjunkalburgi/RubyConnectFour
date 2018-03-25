@@ -106,7 +106,7 @@ class Game
         invariant 
         pre_set_game_dimensions
 
-        @board = Board.new(6,7)
+        @board = Board.new(row,columns)
 
         post_set_game_dimensions 
         invariant 

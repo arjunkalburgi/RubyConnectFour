@@ -35,6 +35,9 @@ module GameContracts
             players.each { |player|
                 raise "All players in players argument must be of type Player" unless player.is_a? Player
             }
+            players.each { |p|
+                raise "Size of board must be greater than win condition" unless p.player_win_condition.length <= rows && p.player_win_condition.length <= columns
+            }
         end
     end
     
