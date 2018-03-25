@@ -139,4 +139,12 @@ module BoardContracts
         raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns)
     end
 
+    def pre_get_all_combinations_of_length
+        # no condition necessary
+    end
+
+    def post_get_diagonal_combinations_of_length
+        # no condition necessary
+    end
+
 end

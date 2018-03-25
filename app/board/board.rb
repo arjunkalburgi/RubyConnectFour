@@ -128,8 +128,8 @@ class Board
                 if !token
                     token = "-"
                 end
+                line += token.to_s + " "    
             }
-            line += e.to_s + " "
             line += "\n"
         }
 
@@ -175,6 +175,9 @@ class Board
     end
 
     def get_all_combinations_of_length(l)
+        invariant
+        pre_get_all_combinations_of_length
+
         combinations = []
 
         # rows 
@@ -198,10 +201,15 @@ class Board
         # diagonals 
         combinations << get_diagonal_combinations_of_length(l)
 
-        combinations
+        post_get_all_combinations_of_length
+        invariant
+        return combinations
     end
 
     def get_diagonal_combinations_of_length(l) 
+        invariant
+        post_get_diagonal_combinations_of_length
+
         diags = []
         (0..@game_board[0].size - 1).each { |k|
             diags << (0..@game_board.size - 1).collect{|i| @game_board[i][i+k]}.compact
@@ -228,7 +236,9 @@ class Board
             end 
         }
         
-        combinations
+        post_get_diagonal_combinations_of_length
+        invariant
+        return combinations
     end
 
 
