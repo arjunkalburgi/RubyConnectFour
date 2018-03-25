@@ -44,7 +44,7 @@ class Board
         return result
     end 
 
-    def add_piece(token, column_number)
+    def add_piece(column_number, token)
         invariant
         pre_add_token(column_number)
 

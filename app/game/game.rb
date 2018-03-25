@@ -75,7 +75,7 @@ class Game
         invariant
         pre_check_game
 
-        combinations = @board.get_all_combinations_of_length
+        combinations = @board.get_all_combinations_of_length(current_player.player_win_condition.length)
         if combinations.include? current_player.player_win_condition
             raise GameWon.new(current_player.player_name)
         elsif @board.is_full?

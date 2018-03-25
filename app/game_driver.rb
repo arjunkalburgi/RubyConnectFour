@@ -3,7 +3,7 @@ require_relative './game/game_error'
 
 g = Game.new
 
-while not g.board.is_full? 
+while true
     g.board.print_board
 
     current_player = g.get_current_player
