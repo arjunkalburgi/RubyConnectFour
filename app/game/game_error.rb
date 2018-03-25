@@ -24,7 +24,7 @@ class GameError < StandardError
 
     def self.TryAgain
         #  Slip: a minor or careless mistake
-        [InvalidCommand]
+        [NotAValidColumn]
     end 
 
     def self.Wrong
