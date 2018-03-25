@@ -1,8 +1,9 @@
 require_relative './gui_contracts'
+require "gtk3"
 
 class GUI 
     include GUIContracts
-   
+    attr_reader :dimensions, :token_choices
 	
     def get_game_dimensions 
         return @dimensions
