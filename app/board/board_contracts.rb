@@ -30,7 +30,7 @@ module BoardContracts
         
     def pre_can_add_to_column(column_number)
         raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns)
+        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
     end
 
     def post_can_add_to_column
@@ -47,7 +47,7 @@ module BoardContracts
 
     def pre_add_token(column_number)
         raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns)
+        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
     end
 
     def post_add_token(column_number, token)
@@ -65,7 +65,7 @@ module BoardContracts
         # no condition necessary
     end
 
-    def post_is_full(result)
+    def post_is_full
         # no condition necessary
     end
 
@@ -74,10 +74,10 @@ module BoardContracts
         if row_number.is_a? Range
             row_number.each{ |r|
                 raise "Row index must be an Integer" unless r.is_a? Integer
-                raise "Row index must not be negative" unless r.between?(0, @rows)
+                raise "Row index must be within range" unless r.between?(0, @rows-1)
             }
         elsif row_number.is_a? Integer
-            raise "Row index must not be negative" unless row_number.between?(0, @rows)
+            raise "Row index must not be negative" unless row_number.between?(0, @rows-1)
         end 
     end
 
@@ -90,10 +90,10 @@ module BoardContracts
         if column_number.is_a? Range
             column_number.each{ |c|
                 raise "Column index must be an Integer" unless c.is_a? Integer
-                raise "Column index must not be negative" unless c.between?(0, @columns)
+                raise "Column index must be within range" unless c.between?(0, @columns-1)
             }
         elsif column_number.is_a? Integer
-            raise "Column index must be within range" unless column_number.between?(0, @columns)
+            raise "Column index must be within range" unless column_number.between?(0, @columns-1)
         end 
     end
 
@@ -104,8 +104,8 @@ module BoardContracts
     def pre_brackets(row_number, column_number)
         raise "Rows must be a number" unless row_number.is_a? Integer
         raise "Columns must be a number" unless column_number.is_a? Integer
-        raise "Number of rows must be greater than 0" unless row_number.between?(0, @rows)
-        raise "Number of columns must be greater than 0" unless column_number.between?(0, @columns)
+        raise "Number of rows must be greater than 0" unless row_number.between?(0, @rows-1)
+        raise "Number of columns must be greater than 0" unless column_number.between?(0, @columns-1)
     end
 
     def post_brackets
@@ -146,8 +146,8 @@ module BoardContracts
     end
 
     def post_each_with_index(row_index, column_index)
-        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows)
-        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns)
+        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows-1)
+        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns-1)
     end
 
     def pre_get_all_combinations_of_length

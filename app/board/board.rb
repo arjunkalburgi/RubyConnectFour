@@ -96,7 +96,7 @@ class Board
         pre_col(column_number)
 
         # result = @game_board.flatten.select.with_index{|v,i| i % @columns == column_number}
-        result = Array.new(row_size)
+        result = Array.new(@rows)
         (0...@rows).each{|row_index| result[row_index] = self[row_index,i] }
 
         post_col
