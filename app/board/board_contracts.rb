@@ -65,7 +65,7 @@ module BoardContracts
         # no condition necessary
     end
 
-    def post_is_full(result)
+    def post_is_full
         # no condition necessary
     end
 
