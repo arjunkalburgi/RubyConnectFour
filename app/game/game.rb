@@ -55,7 +55,8 @@ class Game
         if @players[@current_player_num].is_a? AIOpponent
             column = @players[@current_player_num].choose_column(@board, @players, @current_player_num)
         end
-        @board.add_piece(column, @players[@current_player_num])
+        @board.add_piece(column, @players[@current_player_num].tokens[0])
+        # NEED TO CHANGE THE TOKEN PART ASAP.
         check_game(@players[@current_player_num])
 
         increment_player        
