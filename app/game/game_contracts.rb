@@ -46,13 +46,9 @@ module GameContracts
 
     def pre_get_current_player  
         # nothing to do 
-        @current_player_num
     end
     
-    def post_get_current_player(old_num)
-        # check num 
-        raise "Incrementing player number did not work properly" unless @current_player_num - 1 == old_num or @current_player_num == 0
-
+    def post_get_current_player
         # check player
         p = @players[@current_player_num]
         raise "Object in players is not of type Player" unless p.is_a? Player
@@ -62,11 +58,14 @@ module GameContracts
 
     def pre_play_move(c)
         if @board.is_full?
-            raise GameEnd.new
+            raise NoMoreMoves.new
         end
     end
     
-    def post_play_move(old_board)
+    def post_play_move(old_board, old_num)
+        # check num 
+        raise "Incrementing player number did not work properly" unless @current_player_num - 1 == old_num or @current_player_num == 0
+
         raise "Board has not changed, something went wrong" unless old_board != @board
     end
 

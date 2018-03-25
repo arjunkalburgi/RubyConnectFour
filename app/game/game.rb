@@ -20,22 +20,37 @@ class Game
         invariant
     end
 
+    def print_state 
+        curr_player = @players[@current_player_num]
+        @players.each { |p| 
+            if p == curr_player
+                puts "The current player: "
+            end 
+            puts p
+        }
+
+        @board.print_board
+
+    end 
+
 
     def get_current_player
         invariant 
-        beforenum = pre_get_current_player 
-
-        increment_player
+        pre_get_current_player
         
-        post_get_current_player(beforenum)
+        player = @players[@current_player_num]
+        
+        post_get_current_player
         invariant 
 
-        @players[@current_player_num]
+        player
     end
 
     def play_move(column=nil)
         invariant 
         pre_play_move(column)
+        beforenum = @current_player_num
+        beforeboard = @board.dup
 
         if @players[@current_player_num].is_a? AIOpponent
             column = @players[@current_player_num].choose_column(@board, @players, @player_num)
@@ -43,7 +58,9 @@ class Game
         @board.add_piece(column, @players[@current_player_num])
         check_game(@players[@current_player_num])
 
-        post_play_move
+        increment_player        
+
+        post_play_move(beforeboard, beforenum)
         invariant 
 
         @board
