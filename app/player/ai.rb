@@ -6,6 +6,7 @@ class AIOpponent < Player
     include PlayerContracts
 
     attr_reader :difficulty 
+    # From player: player_name, player_win_condition, tokens
 
     def initialize(name, win_condition, diff) 
         # invariant 
@@ -20,7 +21,8 @@ class AIOpponent < Player
 
     def choose_column(board, players, player_num)
         invariant 
-        pre_make_move
+        pre_choose_column(board, players, player_num)
+        old_board = board.dup
 
         # shuffle players array so that current player is first 
         players = shuffle_players_list(players, player_num)
@@ -28,7 +30,7 @@ class AIOpponent < Player
         # returns a column 
         column = minimax(board, @difficulty, players)[1]
 
-        post_make_move
+        post_choose_column(column, board, old_board)
         invariant         
 
         column
@@ -37,8 +39,13 @@ class AIOpponent < Player
     private 
 
     def minimax(board, depth, players, player_num=nil)
+        invariant
+        pre_minimax(board, depth, players, player_num=nil)
+
         if depth == 0
             return [0, board.available_columns.sample] 
+        elsif board.available_columns = []
+            return [0, 0]
         end 
 
         if player_num.nil? or players.size-1 == player_num
@@ -57,19 +64,33 @@ class AIOpponent < Player
             end
         }
         thread_list.each{|thread| thread.join}
+
+        post_minimax(available_moves, board)
+        invariant
         
         [available_moves.max, board.available_columns[available_moves.rindex(available_moves.max)]]
     end
 
     def shuffle_players_list(players, num)
+        invariant 
+        pre_shuffle_players_list(players, num)
+
         if num == 0
-            return players
+            r = players 
         else 
-            return players[num..players.size] + players[0..num-1]
+            r = players[num..players.size] + players[0..num-1]
         end
+
+        post_shuffle_players_list(r)
+        invariant 
+
+        r 
     end
 
     def valueof(board, players_win_conditions)
+        invariant 
+        pre_valueof(board, players_win_conditions)
+
         calculated_value = 0 
         combinations = board.get_all_combinations_of_length(players_win_conditions[0].size)
 
@@ -99,6 +120,9 @@ class AIOpponent < Player
                 calculated_value += 0
             end 
         }
+
+        post_valueof(calculated_value)
+        invariant
 
         calculated_value
     end
