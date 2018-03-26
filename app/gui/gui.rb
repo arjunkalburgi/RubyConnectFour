@@ -3,13 +3,14 @@ require "gtk3"
 
 class GUI 
     include GUIContracts
-    attr_reader :dimensions, :token_choices
+    attr_reader :dimensions, :token_choices, :window
 	
     def get_game_dimensions 
         return @dimensions
     end
 
-    def initialize(dimensions, token_choices)
+    def initialize
+    # def initialize(dimensions, token_choices)
         #pre_initialize(dimensions, token_choices)
 		#@dimensions = dimensions
 		#@token_choices = token_choices
@@ -21,11 +22,12 @@ class GUI
     end
     
     def show_start_menu()
-		menu_glade = 'menuLayout.glade'
+        menu_glade = "#{File.expand_path(File.dirname(__FILE__))}/menuLayout.glade"
 		builder = Gtk::Builder.new(:file => menu_glade)
 		
-		window = builder.get_object("menuWindow")
-		window.signal_connect("destroy") {Gtk.main_quit}
+		@window = builder.get_object("menuWindow")
+		@window.signal_connect("destroy") {Gtk.main_quit}
+        @window.title = "ConnectFour"
 		
 		startButton = builder.get_object("StartButton")
 		startButton.signal_connect("clicked") {Gtk.main_quit}
@@ -33,7 +35,8 @@ class GUI
 		quitButton = builder.get_object("QuitButton")
 		quitButton.signal_connect("clicked") {Gtk.main_quit}
 		
-		Gtk.main
+        @window.show_all
+        Gtk.main
 		
     end
     
@@ -76,6 +79,8 @@ class GUI
     def quit
         invariant 
         pre_quit
+
+        @window.destroy
 
         post_quit
         invariant

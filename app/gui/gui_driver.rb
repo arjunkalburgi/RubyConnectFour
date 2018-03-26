@@ -1,6 +1,6 @@
 require_relative './gui'
 
-v = Gui.new
+v = GUI.new
 
 #v = Gui.new 
 
