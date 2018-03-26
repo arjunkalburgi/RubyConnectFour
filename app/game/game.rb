@@ -107,11 +107,15 @@ class Game
         invariant 
     end
 
-    def set_game_dimensions(row=6, columns=7)
+    def set_game_dimensions(rows, columns)
         invariant 
         pre_set_game_dimensions
 
-        @board = Board.new(row,columns)
+        if rows.nil? && columns.nil?
+            @board = Board.new(6,7)
+        else 
+            @board = Board.new(rows,columns)
+        end
 
         post_set_game_dimensions 
         invariant 
