@@ -10,12 +10,35 @@ class GUI
     end
 
     def initialize(dimensions, token_choices)
-        pre_initialize(dimensions, token_choices)
-		@dimensions = dimensions
-		@token_choices = token_choices
-
-        post_initialize
-        invariant
+        #pre_initialize(dimensions, token_choices)
+		#@dimensions = dimensions
+		#@token_choices = token_choices
+		
+		show_start_menu()
+        
+        #post_initialize
+        #invariant
+    end
+    
+    def show_start_menu()
+		menu_glade = 'menuLayout.glade'
+		builder = Gtk::Builder.new(:file => menu_glade)
+		
+		window = builder.get_object("menuWindow")
+		window.signal_connect("destroy") {Gtk.main_quit}
+		
+		startButton = builder.get_object("StartButton")
+		startButton.signal_connect("clicked") {Gtk.main_quit}
+		
+		quitButton = builder.get_object("QuitButton")
+		quitButton.signal_connect("clicked") {Gtk.main_quit}
+		
+		Gtk.main
+		
+    end
+    
+    def generate_board()
+		
     end
 
     def update_board(b)
