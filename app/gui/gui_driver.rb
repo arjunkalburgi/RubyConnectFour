@@ -1,23 +1,25 @@
-require_relative './gui/gui'
+require_relative './gui'
 
-v = Gui.new 
+v = Gui.new
 
-v.get_game_dimensions 
+#v = Gui.new 
 
-v.get_game_players
+#v.get_game_dimensions 
 
-v.start_game 
+#v.get_game_players
 
-column = v.request_player_move(player)
+#v.start_game 
 
-v.update_board 
+#column = v.request_player_move(player)
 
-column = v.request_player_move(player)
+#v.update_board 
 
-v.update_board
+#column = v.request_player_move(player)
 
-v.show_winner(player, b, winning_set)
+#v.update_board
 
-v.request_player_move_again(player) 
+#v.show_winner(player, b, winning_set)
 
-v.exit_from_error 
+#v.request_player_move_again(player) 
+
+#v.exit_from_error 
