@@ -24,12 +24,14 @@ class GameError < StandardError
 
     def self.TryAgain
         #  Slip: a minor or careless mistake
+        # when the user does something incorrect
         [NotAValidColumn]
     end 
 
     def self.Wrong
         # Error: the state or condition of being wrong
-        [MustBeHash, CannotBeEmpty]
+        # when the game has an error
+        [GameError]
     end
 end 
 
@@ -54,17 +56,3 @@ class NotAValidColumn < GameError
         @column = columnnumber
     end
 end
-
-
-
-class MustBeHash < GameError 
-    def initialize(msg = "BUILTINS must be a Hash")
-        super(msg)
-    end
-end 
-
-class CannotBeEmpty < GameError 
-    def initialize(msg = "BUILTINS cannot be empty")
-        super(msg)
-    end
-end 

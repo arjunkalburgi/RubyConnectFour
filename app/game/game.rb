@@ -55,7 +55,6 @@ class Game
     def play_move(column=nil)
         invariant 
         pre_play_move(column)
-        beforenum = @current_player_num
         beforeboard = @board.dup
 
         if @players[@current_player_num].is_a? AIOpponent
@@ -67,7 +66,7 @@ class Game
 
         increment_player        
 
-        post_play_move(beforeboard, beforenum)
+        post_play_move(beforeboard)
         invariant 
 
         @board
