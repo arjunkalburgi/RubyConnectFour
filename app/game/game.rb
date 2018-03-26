@@ -84,7 +84,7 @@ class Game
         combinations = @board.get_all_combinations_of_length(current_player.player_win_condition.length)
         @players.each { |p|
             if combinations.include? p.player_win_condition
-                raise GameWon.new(p.player_name)
+                raise GameWon.new(p)
             elsif @board.is_full?
                 raise GameEnd.new
             end

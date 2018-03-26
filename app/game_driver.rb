@@ -57,7 +57,7 @@ while true
     rescue *GameError.GameEnd => gameend
         if gameend.is_a? GameWon
             puts "Congratulations, we have a winner"
-            puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition
+            puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
             puts g.board.print_board
         else 
             puts "There are no more possible moves."
