@@ -1,14 +1,50 @@
 require_relative './game/game'
 require_relative './game/game_error'
+require 'set'
 
-g = Game.new
+user_input = nil
+while not Set["y","n"].include? user_input
+    puts "Would you like to be set to default (6x7, player 1 - you, player 2 - AI), y or n"
+    user_input = gets.chomp
+end
+
+if user_input == 'y'
+    g = Game.new
+else 
+    puts "Number of Columns: "
+    columns = gets.chomp.to_i
+    puts "Number of Rows: "
+    rows = gets.chomp.to_i
+    while not Set["1","2"].include? user_input
+        puts "How many players? 1 or 2"
+        user_input = gets.chomp
+    end 
+    num_players = user_input.to_i
+    puts "P1 - What is your name?"
+    name = gets.chomp
+    puts "P1 - How many tokens?"
+    num_token = gets.chomp.to_i
+    puts "P1 - What is your token?"
+    token = gets.chomp
+    p1 = Player.new(name, Array.new(num_token, token)) 
+    if num_players == 1
+        p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+    else 
+        puts "P2 - What is your name?"
+        name = gets.chomp
+        puts "P2 - What is your token?"
+        token = gets.chomp
+        p2 = Player.new(name, Array.new(num_token, token)) 
+    end 
+    g = Game.new(rows,columns,[p1, p2])
+end
 
 while true
     puts g.board.print_board
 
     current_player = g.get_current_player
     if current_player.is_a? AIOpponent
-        puts "AI's turn"
+        puts current_player.player_name + "'s turn"
         column = nil
     else 
         puts current_player.player_name + ", what column number would you like to input your token into: "
