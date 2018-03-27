@@ -2,35 +2,35 @@
 module BoardContracts
 
     def invariant 
-        raise "Board must be an array" unless @game_board.is_a? Array
-        raise "Board size should be greater than 0" unless @game_board.size == @rows
+        raise GameError, "Board must be an array" unless @game_board.is_a? Array
+        raise GameError, "Board size should be greater than 0" unless @game_board.size == @rows
         @game_board.each { |e|
-            raise "Board row must be an array" unless e.is_a? Array
-            raise "Board row size should be greater than 0" unless e.size == @columns
+            raise GameError, "Board row must be an array" unless e.is_a? Array
+            raise GameError, "Board row size should be greater than 0" unless e.size == @columns
         }
     end 
     
     def pre_init(rows, columns)
-        raise "Rows must be a number" unless rows.is_a? Integer
-        raise "Columns must be a number" unless columns.is_a? Integer
-        raise "Number of rows must be greater than 0" unless rows > 0 
-        raise "Number of columns must be greater than 0" unless columns > 0
+        raise GameError, "Rows must be a number" unless rows.is_a? Integer
+        raise GameError, "Columns must be a number" unless columns.is_a? Integer
+        raise GameError, "Number of rows must be greater than 0" unless rows > 0 
+        raise GameError, "Number of columns must be greater than 0" unless columns > 0
     end 
 
     def post_init
-        raise "Board must be an array" unless @game_board.is_a? Array
-        raise "Board size should be equal to the given row size" unless @game_board.size == @rows
+        raise GameError, "Board must be an array" unless @game_board.is_a? Array
+        raise GameError, "Board size should be equal to the given row size" unless @game_board.size == @rows
         @game_board.each { |e|
-            raise "Board row size should be equal to the given column size" unless e.size == @columns
+            raise GameError, "Board row size should be equal to the given column size" unless e.size == @columns
             e.each { |token|
-                raise "Board tokens must all be initally set to nil" unless token == nil
+                raise GameError, "Board tokens must all be initally set to nil" unless token == nil
             }
         }
     end
         
     def pre_can_add_to_column(column_number)
-        raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
+        raise NotAValidColumn.new(column_number, "Column index must be an Integer") unless column_number.is_a? Integer
+        raise NotAValidColumn.new(column_number, "Column index must be within range") unless column_number.between?(0, @columns-1)
     end
 
     def post_can_add_to_column
@@ -46,8 +46,8 @@ module BoardContracts
     end 
 
     def pre_add_token(column_number)
-        raise "Column index must be an Integer" unless column_number.is_a? Integer
-        raise "Column index must be within range" unless column_number.between?(0, @columns-1)
+        raise NotAValidColumn.new(column_number, "Column index must be an Integer") unless column_number.is_a? Integer
+        raise NotAValidColumn.new(column_number, "Column index must be within range") unless column_number.between?(0, @columns-1)
     end
 
     def post_add_token(column_number, token)
@@ -58,7 +58,7 @@ module BoardContracts
                 break
             end
         }
-        raise "Token was not properly placed" unless placement
+        raise GameError, "Token was not properly placed" unless placement
     end
 
     def pre_is_full
@@ -70,14 +70,14 @@ module BoardContracts
     end
 
     def pre_row(row_number)
-        raise "Row index must be either a Range or Integer" unless row_number.is_a?(Range) || row_number.is_a?(Integer)
+        raise IncorrectInput.new("Row index must be either a Range or Integer", {row: row_number}) unless row_number.is_a?(Range) || row_number.is_a?(Integer)
         if row_number.is_a? Range
             row_number.each{ |r|
-                raise "Row index must be an Integer" unless r.is_a? Integer
-                raise "Row index must be within range" unless r.between?(0, @rows-1)
+                raise IncorrectInput.new("Row index must be an Integer", {row: row_number}) unless r.is_a? Integer
+                raise IncorrectInput.new("Row index must be within range", {row: row_number}) unless r.between?(0, @rows-1)
             }
         elsif row_number.is_a? Integer
-            raise "Row index must not be negative" unless row_number.between?(0, @rows-1)
+            raise IncorrectInput.new("Row index must not be negative", {row: row_number}) unless row_number.between?(0, @rows-1)
         end 
     end
 
@@ -86,14 +86,14 @@ module BoardContracts
     end
 
     def pre_col(column_number)
-        raise "Column index must be either a Range or Integer" unless column_number.is_a?(Range) || column_number.is_a?(Integer)
+        raise IncorrectInput.new("Column index must be either a Range or Integer", {column: column_number}) unless column_number.is_a?(Range) || column_number.is_a?(Integer)
         if column_number.is_a? Range
             column_number.each{ |c|
-                raise "Column index must be an Integer" unless c.is_a? Integer
-                raise "Column index must be within range" unless c.between?(0, @columns-1)
+                raise IncorrectInput.new("Column index must be an Integer", {column: column_number}) unless c.is_a? Integer
+                raise IncorrectInput.new("Column index must be within range", {column: column_number}) unless c.between?(0, @columns-1)
             }
         elsif column_number.is_a? Integer
-            raise "Column index must be within range" unless column_number.between?(0, @columns-1)
+            raise IncorrectInput.new("Column index must be within range", {column: column_number}) unless column_number.between?(0, @columns-1)
         end 
     end
 
@@ -102,10 +102,10 @@ module BoardContracts
     end
 
     def pre_brackets(row_number, column_number)
-        raise "Rows must be a number" unless row_number.is_a? Integer
-        raise "Columns must be a number" unless column_number.is_a? Integer
-        raise "Number of rows must be greater than 0" unless row_number.between?(0, @rows-1)
-        raise "Number of columns must be greater than 0" unless column_number.between?(0, @columns-1)
+        raise IncorrectInput.new("Rows must be a number", {row: row_number, column: column_number}) unless row_number.is_a? Integer
+        raise IncorrectInput.new("Columns must be a number", {row: row_number, column: column_number}) unless column_number.is_a? Integer
+        raise IncorrectInput.new("Number of rows must be greater than 0", {row: row_number, column: column_number}) unless row_number.between?(0, @rows-1)
+        raise IncorrectInput.new("Number of columns must be greater than 0", {row: row_number, column: column_number}) unless column_number.between?(0, @columns-1)
     end
 
     def post_brackets
@@ -146,8 +146,8 @@ module BoardContracts
     end
 
     def post_each_with_index(row_index, column_index)
-        raise "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows-1)
-        raise "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns-1)
+        raise GameError, "row_index must be between 0 and the max number of rows" unless row_index.between?(0, @rows-1)
+        raise GameError, "column_index must be between 0 and the max number of columns" unless column_index.between?(0, @columns-1)
     end
 
     def pre_get_all_combinations_of_length
@@ -155,10 +155,6 @@ module BoardContracts
     end
 
     def post_get_all_combinations_of_length
-        # no condition necessary
-    end
-
-    def pre_get_diagonal_combinations_of_length
         # no condition necessary
     end
 

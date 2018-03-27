@@ -35,6 +35,7 @@ class GameError < StandardError
     end
 end 
 
+# Game End Errors 
 class GameWon < GameError
 	attr_reader :player
     def initialize(player, msg = " has won!")
@@ -50,10 +51,21 @@ class NoMoreMoves < GameError
 end 
 
 
-
+# Try Again Errors 
 class NotAValidColumn < GameError
     def initialize(columnnumber, msg = "Not a valid command")
         super(msg)
         @column = columnnumber
     end
 end
+
+class IncorrectInput < GameError 
+    def initialize(msg = "Input into this function is not correct", *args)
+        super(msg) 
+        puts "Inputs: "
+        args.each do |key, val| 
+            puts key + ": " + value
+        end
+    end 
+end
+
