@@ -8,6 +8,12 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="rowAdjustment">
+    <property name="upper">99</property>
+    <property name="value">6</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="menuWindow">
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
@@ -206,18 +212,12 @@
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="rowAdjustment">
-    <property name="upper">99</property>
-    <property name="value">6</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="GtkGrid" id="windowGrid2">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="row_homogeneous">True</property>
     <child>
-      <object class="GtkComboBoxText" id="GameTypes">
+      <object class="GtkComboBoxText" id="GameTypes1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <items>
@@ -233,7 +233,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="GameTypeLabel">
+      <object class="GtkLabel" id="GameTypeLabel1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Game Type:</property>
@@ -246,7 +246,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="StartButton">
+      <object class="GtkButton" id="StartButton1">
         <property name="label" translatable="yes">Start Game</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
@@ -260,7 +260,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="QuitButton">
+      <object class="GtkButton" id="QuitButton1">
         <property name="label" translatable="yes">Quit
 </property>
         <property name="visible">True</property>
@@ -275,7 +275,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="NumberPlayersLabel">
+      <object class="GtkLabel" id="NumberPlayersLabel1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Number Of Players:</property>
@@ -288,7 +288,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkComboBoxText" id="NumberPlayers">
+      <object class="GtkComboBoxText" id="NumberPlayers1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <items>
@@ -304,7 +304,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="NumRowsLabel">
+      <object class="GtkLabel" id="NumRowsLabel1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Number Of Rows</property>
@@ -317,7 +317,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="NumColumnsLabel">
+      <object class="GtkLabel" id="NumColumnsLabel1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Number Of Columns</property>
@@ -330,7 +330,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkSpinButton" id="Rows">
+      <object class="GtkSpinButton" id="Rows1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">2</property>
@@ -350,7 +350,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkSpinButton" id="Columns">
+      <object class="GtkSpinButton" id="Columns1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="max_length">2</property>
