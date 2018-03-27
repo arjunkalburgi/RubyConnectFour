@@ -25,6 +25,7 @@ class GameController
         else 
           p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"])
         end
+        token_limitations = false
       else
         p1 = Player.new("Player1", ["O","T","T","O"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         if num_players == "1"
@@ -32,8 +33,9 @@ class GameController
         else
           p2 = Player.new("Player1", ["T", "O", "O", "T"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         end
+        token_limitations = true
       end
-      @game = Game.new(rows,columns,[p1,p2],true)
+      @game = Game.new(rows, columns, [p1,p2], token_limitations, true)
     end
 
     def subscribe(observer)

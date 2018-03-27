@@ -8,12 +8,13 @@ require_relative '../player/ai'
 
 class Game 
     include GameContracts
-    attr_reader :players, :board, :current_player_num
+    attr_reader :players, :board, :current_player_num, :token_limitations
 
-    def initialize(rows=nil, columns=nil, players=nil, debug=false)
+    def initialize(rows=nil, columns=nil, players=nil, token_limitations=false, debug=false)
         pre_init(rows, columns, players)
 
         @observers = []
+        @token_limitations = token_limitations
         @debug = debug
         set_game_dimensions(rows, columns)
         set_game_players(players)
