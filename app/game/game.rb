@@ -56,7 +56,7 @@ class Game
 
     def play_move(column=nil,token=nil)
         invariant 
-        pre_play_move(column)
+        pre_play_move(column, token)
         beforeboard = @board.dup
 
         if @players[@current_player_num].is_a? AIOpponent
@@ -68,6 +68,10 @@ class Game
         end
 
         row = @board.add_piece(column, token)
+
+        if @token_limitations 
+            @players[@current_player_num].available_tokens.delete(token)
+        end 
 
         @observers.each{|o| o.update_value(column,row,token)}
 

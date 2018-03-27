@@ -59,10 +59,15 @@ module GameContracts
 
 
 
-    def pre_play_move(c)
+    def pre_play_move(c, t)
         if @board.is_full?
             raise NoMoreMoves.new
         end
+
+        if @token_limitations 
+            p = @players[@current_player_num]
+            raise NotAnAvailableToken.new(p, t) unless p.available_tokens.include? t
+        end 
     end
     
     def post_play_move(old_board)

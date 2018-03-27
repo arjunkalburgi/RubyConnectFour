@@ -25,7 +25,7 @@ class GameError < StandardError
     def self.TryAgain
         #  Slip: a minor or careless mistake
         # when the user does something incorrect
-        [NotAValidColumn, IncorrectInput]
+        [NotAValidColumn, IncorrectInput, NotAnAvailableToken]
     end 
 
     def self.Wrong
@@ -57,6 +57,12 @@ class NotAValidColumn < GameError
         super(msg)
         @column = columnnumber
     end
+end
+
+class NotAnAvailableToken < GameError 
+    def initialize(player, token, msg="This player is out of this type of tokens!")
+        super(player.player_name + " is out of " + token + " tokens. These are " + player.player_name + "'s available tokens: " + player.available_tokens.join(", "))
+    end 
 end
 
 class IncorrectInput < GameError 
