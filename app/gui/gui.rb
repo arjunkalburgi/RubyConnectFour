@@ -1,8 +1,7 @@
 require_relative './gui_contracts'
-require_relative './abstract_listener'
 require "gtk3"
 
-class GUI < AbstractListener
+class GUI
     include GUIContracts
     attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
 	
@@ -66,7 +65,7 @@ class GUI < AbstractListener
 
         @images = Array.new(@rows){Array.new(@columns)}
         (0..@rows-1).each{|a|
-          v.pack_end(create_grid_row(a))
+          v.pack_end(create_grid_row(@rows - a - 1))
         }
 
         @game_box.add(v)
@@ -91,8 +90,8 @@ class GUI < AbstractListener
         h = Gtk::Box.new(:horizontal)
         
         (0..@columns-1).each{|b|
-            @images[row_num] << Gtk::Image.new(:file => @pics["E"])
-            h.add(@images[row_num][-1])
+            @images[row_num][b] = Gtk::Image.new(:file => @pics["E"])
+            h.add(@images[row_num][b])
         }
         return h
     end
@@ -105,8 +104,7 @@ class GUI < AbstractListener
     #     invariant
     # end
 
-    # def show_winner(player)
-    def game_over(message)
+    def show_winner(player)
         # invariant 
         # pre_show_winner
 
@@ -138,22 +136,6 @@ class GUI < AbstractListener
         # post_show_winner
         # invariant
     end
-	
-	# def display_error_message(message)
-	# 	invariant
-	# 	pre_display_error_message
-		
-	# 	post_display_error_message
-	# 	invariant
-	# end
-
- #    def exit_from_error 
- #        invariant 
- #        pre_exit_from_error
-
- #        post_exit_from_error
- #        invariant
- #    end
 
     def quit
         invariant 
@@ -175,12 +157,7 @@ class GUI < AbstractListener
     end
 
     def update_value(column, row, value)
-        puts @images[row][column]
-        # puts @game_box.children
-        # puts @game_box.children.reverse[row]
-        # puts @game_box.children.reverse[row].children[column]
-        # @images[row][column].set(@pics[value])
-        @game_box.children.reverse[row].children[column].set(@pics[value])
+        @images[row][column].set_file(@pics[value])
     end
 
 end
