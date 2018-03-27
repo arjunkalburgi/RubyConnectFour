@@ -13,6 +13,7 @@ class Game
     def initialize(rows=nil, columns=nil, players=nil)
         pre_init(rows, columns, players)
 
+        @observers = []
         set_game_dimensions(rows, columns)
         set_game_players(players)
 
@@ -69,12 +70,18 @@ class Game
 
         check_game(@players[@current_player_num])
 
+        @observers.each{|o| o.update_value(column,row,token)}
+
         increment_player        
 
         post_play_move(beforeboard)
         invariant 
 
         return row
+    end
+
+    def add_observer(view)
+        @observers << view
     end
 
     private

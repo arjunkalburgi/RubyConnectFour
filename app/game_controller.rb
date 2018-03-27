@@ -50,4 +50,8 @@ class GameController
       end
       @game = Game.new(rows,columns,[p1,p2])
     end
+
+    def subscribe(observer)
+      @game.add_observer(observer)
+    end
 end
