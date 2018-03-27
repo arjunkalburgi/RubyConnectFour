@@ -16,8 +16,8 @@ module GUIContracts
 
 
     
-    def pre_initialize(dimensions, token_choices)
-        raise "Invalid dimensions" unless dimensions[0] > 0 && dimensions[1] > 0
+    def pre_initialize
+        # raise "Invalid dimensions" unless dimensions[0] > 0 && dimensions[1] > 0
 		# check if token_choices contain valid file paths for image representations
 		
     end

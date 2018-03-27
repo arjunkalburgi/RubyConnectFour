@@ -9,3 +9,5 @@
 
 # ConnectFour Application
 
+# game_driver.rb is the CLI way to run the application
+# driver.rb is the GUI way to run the application
