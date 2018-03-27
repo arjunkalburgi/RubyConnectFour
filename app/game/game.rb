@@ -84,7 +84,7 @@ class Game
 
     def debug_print
         puts "----------------"
-        puts @players[@current_player_num].player_name + "'s choice"
+        puts @players[@current_player_num].player_name + "'s turn"
         puts @board.print_board
         puts "----------------"
     end

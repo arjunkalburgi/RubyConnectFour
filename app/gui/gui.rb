@@ -3,7 +3,8 @@ require "gtk3"
 
 class GUI
     include GUIContracts
-    attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
+    attr_reader :window, :game_window, :game_box, :controller, :pics, 
+                :type, :num_players, :rows, :columns, :images
 	
     def initialize(controller)
         #pre_initialize
