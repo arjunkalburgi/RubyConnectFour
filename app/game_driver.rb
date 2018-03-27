@@ -23,6 +23,7 @@ else
     end 
     num_players = user_input.to_i
     
+    user_input = nil
     while not Set["1","2"].include? user_input
         print "Would you like to play OTTO/TOOT(1) or ConnectFour(2) style? 1 or 2: "
         user_input = gets.chomp
@@ -43,7 +44,7 @@ else
     end
     
     if num_players == 1
-        if style == 1
+        if style == "1"
             p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3)
         else
             p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
