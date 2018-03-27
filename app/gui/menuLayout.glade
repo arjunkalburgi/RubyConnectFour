@@ -126,6 +126,7 @@
           <object class="GtkEntry" id="Rows">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="text" translatable="yes">6</property>
             <property name="placeholder_text" translatable="yes">Enter a number greater than 1</property>
             <property name="input_purpose">number</property>
           </object>
@@ -153,6 +154,7 @@
           <object class="GtkEntry" id="Columns">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="text" translatable="yes">7</property>
             <property name="placeholder_text" translatable="yes">Enter a number greater than 1</property>
             <property name="input_purpose">number</property>
           </object>
