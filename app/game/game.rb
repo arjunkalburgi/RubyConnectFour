@@ -68,11 +68,10 @@ class Game
 
         row = @board.add_piece(column, token)
 
+        @observers.each{|o| o.update_value(column,row,token)}
         check_game(@players[@current_player_num])
 
         debug_print if @debug
-
-        @observers.each{|o| o.update_value(column,row,token)}
 
         increment_player        
 

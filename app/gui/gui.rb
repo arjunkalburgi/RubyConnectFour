@@ -58,8 +58,8 @@ class GUI
         @columns = @columnsObject.value_as_int
 
         if @type.active_text == "Connect4"
-            @buttons = create_buttons("X")
-            @token = "X"
+            @buttons = create_buttons("R")
+            @token = "R"
             v.pack_start(@buttons)
         else
             v.pack_start(create_buttons("O"))
@@ -150,7 +150,8 @@ class GUI
     def set_images
         @pics = Hash.new
         @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
-        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/X.png"
+        @pics["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
+        @pics["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
         @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
         @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
     end
