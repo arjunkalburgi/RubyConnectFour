@@ -48,8 +48,8 @@ class AIOpponent < Player
         end
 
         thread_list = []
-        available_moves = Array.new(board.available_columns.size)
-        (0..board.available_columns.size-1).each { |i| 
+        available_moves = Array.new(board.available_columns.size, 0)
+        board.available_columns.each { |i|
             thread_list << Thread.new do 
                 boardclone = Marshal.load( Marshal.dump(board) )
                 boardclone.add_piece(i, players[player_num].tokens[0])
@@ -59,7 +59,7 @@ class AIOpponent < Player
         thread_list.each{|thread| thread.join}
 
         # randomize if multiple max's 
-        best_columns = available_moves.each_index.select{|i| available_moves[i] == available_moves.max}
+        best_columns = available_moves.each_index.select{|i| available_moves[i] == available_moves.max}    
         [available_moves.max, best_columns.sample]
     end
 
