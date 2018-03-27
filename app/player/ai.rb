@@ -48,7 +48,7 @@ class AIOpponent < Player
         end
 
         thread_list = []
-        available_moves = Array.new(board.available_columns.size, 0)
+        available_moves = Array.new(board.available_columns.size, -100)
         board.available_columns.each { |i|
             thread_list << Thread.new do 
                 boardclone = Marshal.load( Marshal.dump(board) )
