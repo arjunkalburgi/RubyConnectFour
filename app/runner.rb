@@ -1,4 +1,4 @@
 # TESTING FILE
 
-require './game_controller'
+require_relative './game_controller'
 c = GameController.new
