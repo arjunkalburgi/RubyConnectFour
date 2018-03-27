@@ -3,15 +3,15 @@ require "gtk3"
 
 class GUI 
     include GUIContracts
-    attr_reader :window, :controller, :pics, :type, :num_players, :rows, :columns
+    attr_reader :window, :game_window, :controller, :pics, :type, :num_players, :rows, :columns
 	
     def initialize(controller)
         #pre_initialize
         #invariant
 		
 		@controller = controller
-        show_start_menu
         set_images
+        show_start_menu
         
         #post_initialize
         #invariant
@@ -19,17 +19,26 @@ class GUI
     
     def show_start_menu
         menu_glade = "#{File.expand_path(File.dirname(__FILE__))}/menuLayout.glade"
+        game_layout = "#{File.expand_path(File.dirname(__FILE__))}/gameLayout.glade"
+
 		builder = Gtk::Builder.new(:file => menu_glade)
+        game_builder = Gtk::Builder.new(:file => game_layout)
 		
 		@window = builder.get_object("menuWindow")
 		@window.signal_connect("destroy") {Gtk.main_quit}
         @window.title = "ConnectFour"
         @window.set_position(Gtk::WindowPosition::CENTER)
 
+        @game_window = game_builder.get_object("GameWindow")
+        @game_box = game_builder.get_object("gameBox")
+        @game_window.signal_connect("destroy") {Gtk.main_quit}
+        @game_window.title = "Game"
+        @game_window.set_position(Gtk::WindowPosition::CENTER)
+
         @type = builder.get_object("GameTypes")
         @num_players = builder.get_object("NumberPlayers")
-        @rows = builder.get_object("Rows")
-        @columns = builder.get_object("Columns")
+        @rowsObject = builder.get_object("Rows")
+        @columnsObject = builder.get_object("Columns")
 		
         quitButton = builder.get_object("QuitButton")
         quitButton.signal_connect("clicked") {Gtk.main_quit}
@@ -42,30 +51,37 @@ class GUI
     end
     
     def generate_board
-		v = Gtk::VBox.new
+		v = Gtk::Box.new(:vertical)
 
-        if @type.ActiveText == "Connect4"
+        # @rows = @rowsObject.value_as_int
+        # @columns = @columnsObject.value_as_int
+        @rows = 6
+        @columns = 7
+        puts @rows
+        puts @columns
+
+        if @type.active_text == "Connect4"
             v.pack_start(create_buttons("X"))
         else
             v.pack_start(create_buttons("O"))
             v.pack_start(create_buttons("T"))
         end
 
-        (0..@rows).each{|a|
+        (1..@rows).each{|a|
           v.pack_end(create_grid_row)
         }
 
-        @window.add(v)
-
-        @controller.setup_game(@rows, @columns, @type.ActiveText, @num_players.ActiveText)
+        @game_box.add(v)
+        @game_window.show_all
+        @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text)
     end
 
-    def create_buttons(label)
-        btns = Gtk::HBox.new
-        (0..@columns).each{|col|
-          btn = Gtk::Button.new("Place #{label}")
+    def create_buttons(value)
+        btns = Gtk::Box.new(:horizontal)
+        (1..@columns).each{|col|
+          btn = Gtk::Button.new(:label => "Place #{value}")
           btn.signal_connect("clicked") {
-            @controller.column_press(col, label)
+            @controller.column_press(col, value)
           }
           btns.pack_start(btn)
         }
@@ -73,9 +89,9 @@ class GUI
     end
 
     def create_grid_row
-        h = Gtk::HBox.new
-        (0..@columns).each{|b|
-          h.pack_start(Gtk::Image.new(@pics["E"]))
+        h = Gtk::Box.new(:horizontal)
+        (1..@columns).each{|b|
+            h.pack_start(Gtk::Image.new(:file => @pics["E"]))
         }
         return h
     end
@@ -142,6 +158,7 @@ class GUI
         pre_quit
 
         @window.destroy
+        @game_window.destroy
 
         post_quit
         invariant
@@ -156,7 +173,7 @@ class GUI
     end
 
     def update_value(column, row, value)
-        @window.children[0].children.reverse[row].children[column].set(@pics[value])
+        @game_window.children[0].children.reverse[row].children[column].set(@pics[value])
     end
 
 end
