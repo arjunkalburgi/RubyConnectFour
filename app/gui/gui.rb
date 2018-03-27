@@ -76,6 +76,7 @@ class GUI
         @game_window.show_all
         @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text)
         @controller.subscribe(self)
+        @window.hide
     end
 
     def create_buttons(value)
@@ -115,18 +116,12 @@ class GUI
         )
         dialog.signal_connect("destroy") {Gtk.main_quit}
 
-        btnExit = Gtk::Button.new(:label => "Quit")
-        btnExit.signal_connect("clicked"){Gtk.main_quit}
-
-        hbox = Gtk::Box.new(:horizontal)
-        hbox.pack_start(btnExit)
-
-        dialog.child.add(Gtk::Label.new(message))
-        dialog.child.add(hbox)
+        msg = Gtk::Label.new(message)
+        format_text(msg)
+        dialog.child.add(msg)
+        dialog.resize(200,20)
 
         dialog.show_all
-
-
         # post_show_winner
         # invariant
     end
@@ -141,19 +136,11 @@ class GUI
           :flags => :modal
         )
         dialog.signal_connect("destroy") {dialog.close}
-
-        btnExit = Gtk::Button.new(:label => "Quit")
-        btnExit.signal_connect("clicked"){dialog.close}
-
-        hbox = Gtk::Box.new(:horizontal)
-        hbox.pack_start(btnExit)
-
-        dialog.child.add(Gtk::Label.new(message))
-        dialog.child.add(hbox)
+        msg = Gtk::Label.new(message)
+        format_text(msg)
+        dialog.child.add(msg)
 
         dialog.show_all
-
-
         # post_show_winner
         # invariant
     end
@@ -200,6 +187,12 @@ class GUI
              button:active {background-color: #{@colours[value][:bkg]}; background-image: none;}"
         )
         button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+    end
+
+    def format_text(view)
+        css_provider = Gtk::CssProvider.new
+        css_provider.load(data: "label {color: red; font-size: 20px;}")
+        view.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
 
 end
