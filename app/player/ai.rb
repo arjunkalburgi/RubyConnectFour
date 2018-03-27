@@ -57,8 +57,10 @@ class AIOpponent < Player
             end
         }
         thread_list.each{|thread| thread.join}
-        
-        [available_moves.max, board.available_columns[available_moves.rindex(available_moves.max)]]
+
+        # randomize if multiple max's 
+        best_columns = available_moves.each_index.select{|i| available_moves[i] == available_moves.max}
+        [available_moves.max, best_columns.sample]
     end
 
     def shuffle_players_list(players, num)
