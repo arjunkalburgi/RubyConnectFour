@@ -84,7 +84,7 @@ class Game
         combinations = @board.get_all_combinations_of_length(current_player.player_win_condition.length)
         @players.each { |p|
             if combinations.include? p.player_win_condition
-                raise GameWon.new(p.player_name)
+                raise GameWon.new(p)
             elsif @board.is_full?
                 raise GameEnd.new
             end
@@ -107,11 +107,15 @@ class Game
         invariant 
     end
 
-    def set_game_dimensions(row=6, columns=7)
+    def set_game_dimensions(rows, columns)
         invariant 
         pre_set_game_dimensions
 
-        @board = Board.new(row,columns)
+        if rows.nil? && columns.nil?
+            @board = Board.new(6,7)
+        else 
+            @board = Board.new(rows,columns)
+        end
 
         post_set_game_dimensions 
         invariant 

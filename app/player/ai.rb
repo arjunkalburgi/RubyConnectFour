@@ -55,20 +55,21 @@ class AIOpponent < Player
         end
 
         thread_list = []
-        available_moves = Array.new(board.available_columns.size)
-        (0..board.available_columns.size-1).each { |i| 
-            thread_list << Thread.new do 
-                boardclone = Marshal.load( Marshal.dump(board) )
-                boardclone.add_piece(i, players[player_num].tokens[0])
-                available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
-            end
+        available_moves = Array.new(board.available_columns.size, -100)
+        board.available_columns.each { |i|
+            thread_list << fork do 
+                Thread.new do 
+                    boardclone = Marshal.load( Marshal.dump(board) )
+                    boardclone.add_piece(i, players[player_num].tokens[0])
+                    available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
+                end
+            end 
         }
-        thread_list.each{|thread| thread.join}
+        thread_list.each { |thread| Process.wait(thread) }
 
-        post_minimax(available_moves, board)
-        invariant
-        
-        [available_moves.max, board.available_columns[available_moves.rindex(available_moves.max)]]
+        # randomize if multiple max's 
+        best_columns = available_moves.each_index.select{|i| available_moves[i] == available_moves.max}    
+        [available_moves.max, best_columns.sample]
     end
 
     def shuffle_players_list(players, num)
@@ -104,14 +105,14 @@ class AIOpponent < Player
             if combinations.include? cond
                 # if other player will win, mark it higher 
                 if cond == @player_win_condition 
-                    calculated_value += 1
+                    calculated_value += 1*m
                 else 
-                    calculated_value += 2
+                    calculated_value += 2*m
                 end                     
             elsif combinations.include? ([nil] + cond[1..cond.size])
-                calculated_value += 0.5
-            elsif combinations.include? (cond[0..cond.size-1] + [0])
-                calculated_value += 0.5
+                calculated_value += 0.5*m
+            elsif combinations.include? (cond[0..cond.size-1] + [nil])
+                calculated_value += 0.5*m
             # elsif combinations.include? ([0, 0] + cond[2..cond.size])
                 # calculated_value += 0.3*m
             # elsif combinations.include? (cond[0..cond.size-2] + [0, 0])

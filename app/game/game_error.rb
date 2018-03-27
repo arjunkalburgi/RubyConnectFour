@@ -37,6 +37,7 @@ end
 
 # Game End Errors 
 class GameWon < GameError
+	attr_reader :player
     def initialize(player, msg = " has won!")
         super(player.player_name + msg)
         @player = player 

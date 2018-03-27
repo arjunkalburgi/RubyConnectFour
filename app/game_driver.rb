@@ -28,7 +28,7 @@ else
     token = gets.chomp
     p1 = Player.new(name, Array.new(num_token, token)) 
     if num_players == 1
-        p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+        p2 = AIOpponent.new("AIOpponent", Array.new(num_token, 'Y'), 3)
     else 
         puts "P2 - What is your name?"
         name = gets.chomp
@@ -57,7 +57,7 @@ while true
     rescue *GameError.GameEnd => gameend
         if gameend.is_a? GameWon
             puts "Congratulations, we have a winner"
-            puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition
+            puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
             puts g.board.print_board
         else 
             puts "There are no more possible moves."
