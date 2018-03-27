@@ -1,6 +1,6 @@
 require_relative './gui/gui'
-# require_relative './player/player'
 require_relative './game/game'
+require_relative './game/game_error'
 
 class GameController
     attr_reader :game, :gui, :type
@@ -29,6 +29,10 @@ class GameController
     def setup_view
         @gui = GUI.new(self)
     end
+
+    # def show_winner(winner="No winner")
+    #     @gui.show_winner(winner)
+    # end
 
     def setup_game(rows, columns, type, num_players)
       if type == "Connect4"
