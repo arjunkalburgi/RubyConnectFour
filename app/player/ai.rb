@@ -48,7 +48,7 @@ class AIOpponent < Player
 
         if depth == 0
             return [0, board.available_columns.sample] 
-        elsif board.available_columns = []
+        elsif board.available_columns == []
             return [0, 0]
         end 
 

@@ -33,11 +33,11 @@ module PlayerContracts
 
     def post_choose_column(c, b, b_o) 
         # board 
-        raise GameError, "AI should not change the board" unless b == b_o
+        raise GameError, "AI should not change the board" unless b.game_board == b_o.game_board
 
         # column 
         raise GameError, "Column choosen by AI must be a column in the board" unless c.between?(0, b.columns-1)
-        raise GameError, "Column choosen by AI must be an available column" unless b.available_columns.includes? c
+        raise GameError, "Column choosen by AI must be an available column" unless b.available_columns.include? c
     end 
 
 
@@ -56,8 +56,10 @@ module PlayerContracts
         }
         raise GameError, "The first element of the players array should be the AI itself" unless p[0] == self 
 
-        # number 
-        raise GameError, "Player number must be an index of players array inputted" unless n.between?(0, p.size-1)
+        # number, n is initialized at nil. check when has a value.
+        if !n.nil? 
+            raise GameError, "Player number must be an index of players array inputted" unless n.between?(0, p.size-1)
+        end
     end 
 
     def post_minimax(a, b)

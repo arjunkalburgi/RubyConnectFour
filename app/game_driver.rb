@@ -106,7 +106,7 @@ while true
         next
     rescue *GameError.Wrong => error 
         puts "Something went wrong sorry"
-        puts error.msg
+        puts error.message
         exit
     end
     
