@@ -103,7 +103,7 @@ class GUI
         return h
     end
 
-    def show_winner(winner)
+    def show_winner(message)
         # invariant 
         # pre_show_winner
 
@@ -113,12 +113,7 @@ class GUI
           :flags => :modal
         )
         dialog.signal_connect("destroy") {Gtk.main_quit}
-
-        btnRestart = Gtk::Button.new(:label => "New Game")
-        btnRestart.signal_connect("clicked"){
-          @controller.restart
-          dialog.close
-        }
+        
         btnExit = Gtk::Button.new(:label => "Quit")
         btnExit.signal_connect("clicked"){Gtk.main_quit}
 
@@ -126,7 +121,7 @@ class GUI
         hbox.pack_start(btnRestart)
         hbox.pack_start(btnExit)
 
-        dialog.child.add(Gtk::Label.new(winner))
+        dialog.child.add(Gtk::Label.new(message))
         dialog.child.add(hbox)
 
         dialog.show_all

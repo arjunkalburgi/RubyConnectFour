@@ -13,13 +13,6 @@ class GameController
         @gui.quit
     end
 
-    def restart
-        @gui.quit
-        @game = nil
-        @type = nil
-        setup_view
-    end
-
     def column_press(column=nil, value=nil)
         row = @game.play_move(column, value)
         # puts @game.board.print_board
