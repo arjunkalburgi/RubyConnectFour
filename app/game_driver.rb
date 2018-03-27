@@ -34,6 +34,7 @@ else
     name = gets.chomp
     
     if style == "1"
+        puts name + " is playing for OTTO"
         p1 = Player.new(name, ["O","T","T","O"]) 
     else
         print "P1 - How many tokens? "
@@ -53,6 +54,7 @@ else
         print "P2 - What is your name? "
         name = gets.chomp
         if style == 1
+            puts name + " is playing for TOOT"
             p2 = Player.new(name, ["T", "O", "O", "T"]) 
         else
             print "P2 - What is your token? "
