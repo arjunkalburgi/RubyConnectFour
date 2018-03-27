@@ -25,7 +25,7 @@ class GameError < StandardError
     def self.TryAgain
         #  Slip: a minor or careless mistake
         # when the user does something incorrect
-        [NotAValidColumn]
+        [NotAValidColumn, IncorrectInput]
     end 
 
     def self.Wrong
