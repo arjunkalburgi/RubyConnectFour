@@ -183,8 +183,8 @@ class GUI
         @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
         @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
         @colours = Hash.new
-        @colours["R"] = "red"
-        @colours["Y"] = "yellow"
+        @colours["R"] = {:bkg => "red", :text => "white"}
+        @colours["Y"] = {:bkg => "yellow", :text => "black"}
     end
 
     def set_button_colors(value)
@@ -195,9 +195,9 @@ class GUI
 
     def set_button_color(button, value)
         css_provider = Gtk::CssProvider.new
-        css_provider.load(data: "button {background-color: #{@colours[value]}; background-image: none;}\
-             button:hover {background-color: #{@colours[value]}; background-image: none;}\
-             button:active {background-color: #{@colours[value]}; background-image: none;}"
+        css_provider.load(data: "button {background-color: #{@colours[value][:bkg]}; background-image: none; color: #{@colours[value][:text]};}\
+             button:hover {background-color: #{@colours[value][:bkg]}; background-image: none;}\
+             button:active {background-color: #{@colours[value][:bkg]}; background-image: none;}"
         )
         button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
