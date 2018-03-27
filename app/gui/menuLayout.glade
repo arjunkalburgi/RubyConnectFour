@@ -123,21 +123,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="Rows">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="text" translatable="yes">6</property>
-            <property name="placeholder_text" translatable="yes">Enter a number greater than 1</property>
-            <property name="input_purpose">number</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">3</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkLabel" id="NumColumnsLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -151,12 +136,29 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="Columns">
+          <object class="GtkSpinButton" id="Rows">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="text" translatable="yes">7</property>
-            <property name="placeholder_text" translatable="yes">Enter a number greater than 1</property>
+            <property name="input_purpose">email</property>
+            <property name="climb_rate">1</property>
+            <property name="snap_to_ticks">True</property>
+            <property name="numeric">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">3</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinButton" id="Columns">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
             <property name="input_purpose">number</property>
+            <property name="climb_rate">1</property>
+            <property name="snap_to_ticks">True</property>
+            <property name="numeric">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
