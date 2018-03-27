@@ -96,14 +96,6 @@ class GUI
         return h
     end
 
-    # def update_board(b)
-    #     invariant 
-    #     pre_update_board
-
-    #     post_update_board
-    #     invariant
-    # end
-
     def show_winner(player)
         # invariant 
         # pre_show_winner
