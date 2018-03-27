@@ -76,6 +76,7 @@ class GUI
         @game_window.show_all
         @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text)
         @controller.subscribe(self)
+        @window.hide
     end
 
     def create_buttons(value)
@@ -121,7 +122,9 @@ class GUI
         hbox = Gtk::Box.new(:horizontal)
         hbox.pack_start(btnExit)
 
-        dialog.child.add(Gtk::Label.new(message))
+        msg = Gtk::Label.new(message)
+        # format_text(msg)
+        dialog.child.add(msg)
         dialog.child.add(hbox)
 
         dialog.show_all
@@ -148,7 +151,9 @@ class GUI
         hbox = Gtk::Box.new(:horizontal)
         hbox.pack_start(btnExit)
 
-        dialog.child.add(Gtk::Label.new(message))
+        msg = Gtk::Label.new(message)
+        # format_text(msg)
+        dialog.child.add(msg)
         dialog.child.add(hbox)
 
         dialog.show_all
@@ -201,5 +206,11 @@ class GUI
         )
         button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
+
+    # def format_text(view)
+    #     css_provider = Gtk::CssProvider.new
+    #     css_provider.load(data: "{color: red;}")
+    #     view.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+    # end
 
 end

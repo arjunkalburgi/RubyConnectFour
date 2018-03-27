@@ -74,10 +74,9 @@ class Game
             check_game(@players[@current_player_num])
         rescue *GameError.GameEnd => gameend
             if gameend.is_a? GameWon
-                message = "Congratulations, we have a winner"
-                puts message
+                puts "Congratulations, we have a winner"
                 puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
-                @observers.each{|o| o.show_winner(message + " " + gameend.player.player_name + " won!")}
+                @observers.each{|o| o.show_winner(gameend.player.player_name + " won!")}
             else
                 puts "There are no more possible moves. It's a cats game!."
                 @observers.each{|o| o.show_winner("No winner")}
