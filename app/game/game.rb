@@ -71,7 +71,11 @@ class Game
             row = @board.add_piece(column, token)
         rescue *GameError.TryAgain => slip
             if slip.is_a? NotAValidColumn
-                puts "Column number: " + slip.column + " is not valid." 
+                if slip.column
+                    puts "Column number: " + slip.column + " is not valid." 
+                else 
+                    puts "Column number is not valid." 
+                end
             end 
             reset_current_player(current_player)
             puts current_player.player_name + " please try your move again."
