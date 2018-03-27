@@ -145,10 +145,10 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/E.png"
-        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/X.png"
-        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/O.png"
-        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/T.png"
+        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
+        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/X.png"
+        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
+        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
     end
 
     def update_value(column, row, value)

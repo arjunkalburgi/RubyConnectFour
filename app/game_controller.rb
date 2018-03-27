@@ -9,18 +9,15 @@ class GameController
         setup_view
     end
 
-    def start_game
-        @gui.start_game
-    end
-
     def quit
-        @gui.kill
+        @gui.quit
     end
 
     def restart
-        @gui.kill
+        @gui.quit
+        @game = nil
+        @type = nil
         setup_view
-        start_game
     end
 
     def column_press(column=nil, value=nil)
