@@ -73,12 +73,19 @@ while true
         puts current_player.player_name + "'s turn"
         column = nil
     else 
+        token = nil
+        if style == "1"
+            while not Set["O","T"].include? token
+                print "Would you like to place O or T: "
+                token = gets.chomp
+            end 
+        end
         print current_player.player_name + ", what column number would you like to input your token into: "
         column = gets.chomp.to_i - 1
     end 
 
     begin
-        g.play_move(column)
+        g.play_move(column, token)
     rescue *GameError.GameEnd => gameend
         if gameend.is_a? GameWon
             puts "Congratulations, we have a winner"
