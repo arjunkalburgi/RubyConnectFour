@@ -69,6 +69,7 @@ class Game
         ##########
 
         check_game(@players[@current_player_num])
+        puts @board.print_board
 
         @observers.each{|o| o.update_value(column,row,token)}
 

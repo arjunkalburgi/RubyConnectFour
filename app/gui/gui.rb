@@ -1,7 +1,8 @@
 require_relative './gui_contracts'
+require_relative './abstract_listener'
 require "gtk3"
 
-class GUI 
+class GUI < AbstractListener
     include GUIContracts
     attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
 	
@@ -104,7 +105,8 @@ class GUI
     #     invariant
     # end
 
-    def show_winner(player)
+    # def show_winner(player)
+    def game_over(message)
         # invariant 
         # pre_show_winner
 
@@ -166,15 +168,19 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "E.png"
-        @pics["X"] = "X.png"
-        @pics["O"] = "O.png"
-        @pics["T"] = "T.png"
+        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/E.png"
+        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/X.png"
+        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/O.png"
+        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/T.png"
     end
 
     def update_value(column, row, value)
-        @images[row][column].set(@pics[value])
-        # @game_box.children[0].children.reverse[row].children[column].set(@pics[value])
+        puts @images[row][column]
+        # puts @game_box.children
+        # puts @game_box.children.reverse[row]
+        # puts @game_box.children.reverse[row].children[column]
+        # @images[row][column].set(@pics[value])
+        @game_box.children.reverse[row].children[column].set(@pics[value])
     end
 
 end

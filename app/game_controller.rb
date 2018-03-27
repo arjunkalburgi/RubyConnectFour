@@ -25,7 +25,7 @@ class GameController
 
     def column_press(column, value)
         row = @game.play_move(column, value)
-        @gui.update_value(column, row, value)
+        # @gui.update_value(column, row, value)
     end
 
     def setup_view
