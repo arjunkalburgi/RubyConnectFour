@@ -10,10 +10,11 @@ class Game
     include GameContracts
     attr_reader :players, :board, :current_player_num
 
-    def initialize(rows=nil, columns=nil, players=nil)
+    def initialize(rows=nil, columns=nil, players=nil, debug=false)
         pre_init(rows, columns, players)
 
         @observers = []
+        @debug = debug
         set_game_dimensions(rows, columns)
         set_game_players(players)
 
@@ -66,7 +67,7 @@ class Game
 
         check_game(@players[@current_player_num])
 
-        debug_print
+        debug_print if @debug
 
         @observers.each{|o| o.update_value(column,row,token)}
 
@@ -82,14 +83,14 @@ class Game
         @observers << view
     end
 
+    private
+
     def debug_print
         puts "----------------"
         puts @players[@current_player_num].player_name + "'s turn"
         puts @board.print_board
         puts "----------------"
     end
-
-    private
 
     def check_game(current_player)
         invariant

@@ -46,7 +46,7 @@ class GameController
           p2 = Player.new("Player2", ["T", "O", "O", "T"])
         end
       end
-      @game = Game.new(rows,columns,[p1,p2])
+      @game = Game.new(rows,columns,[p1,p2],true)
     end
 
     def subscribe(observer)
