@@ -3,7 +3,8 @@ require "gtk3"
 
 class GUI
     include GUIContracts
-    attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
+    attr_reader :window, :game_window, :game_box, :controller, :pics, 
+                :type, :num_players, :rows, :columns, :images
 	
     def initialize(controller)
         #pre_initialize
@@ -77,9 +78,12 @@ class GUI
     def create_buttons(value)
         btns = Gtk::Box.new(:horizontal)
         (0..@columns-1).each{|col|
-          btn = Gtk::Button.new(:label => "Place #{value}")
+          btn = Gtk::Button.new(:label => "#{value}")
           btn.signal_connect("clicked") {
             @controller.column_press(col, value)
+            if @num_players.active_text == "1"
+                @controller.column_press
+            end
           }
           btns.pack_start(btn)
         }
@@ -142,10 +146,10 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/E.png"
-        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/X.png"
-        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/O.png"
-        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/T.png"
+        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
+        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/X.png"
+        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
+        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
     end
 
     def update_value(column, row, value)

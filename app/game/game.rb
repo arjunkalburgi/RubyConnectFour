@@ -65,7 +65,8 @@ class Game
         row = @board.add_piece(column, token)
 
         check_game(@players[@current_player_num])
-        puts @board.print_board
+
+        debug_print
 
         @observers.each{|o| o.update_value(column,row,token)}
 
@@ -79,6 +80,13 @@ class Game
 
     def add_observer(view)
         @observers << view
+    end
+
+    def debug_print
+        puts "----------------"
+        puts @players[@current_player_num].player_name + "'s turn"
+        puts @board.print_board
+        puts "----------------"
     end
 
     private

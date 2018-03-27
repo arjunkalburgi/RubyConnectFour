@@ -9,22 +9,20 @@ class GameController
         setup_view
     end
 
-    def start_game
-        @gui.start_game
-    end
-
     def quit
-        @gui.kill
+        @gui.quit
     end
 
     def restart
-        @gui.kill
+        @gui.quit
+        @game = nil
+        @type = nil
         setup_view
-        start_game
     end
 
-    def column_press(column, value)
+    def column_press(column=nil, value=nil)
         row = @game.play_move(column, value)
+        # puts @game.board.print_board
         # @gui.update_value(column, row, value)
     end
 
