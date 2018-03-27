@@ -18,15 +18,19 @@ class AIOpponent < Player
         invariant         
     end
 
-    def choose_column(board, players, player_num)
+    def choose_column(board, players, player_num, token=nil)
         invariant 
         pre_make_move
 
         # shuffle players array so that current player is first 
         players = shuffle_players_list(players, player_num)
 
+        if token.nil? 
+            token = @tokens.sample
+        end 
+
         # returns a column 
-        column = minimax(board, @difficulty, players)[1]
+        column = minimax(board, @difficulty, token, players)[1]
 
         post_make_move
         invariant         
@@ -36,7 +40,7 @@ class AIOpponent < Player
 
     private 
 
-    def minimax(board, depth, players, player_num=nil)
+    def minimax(board, depth, token, players, player_num=nil)
         if depth == 0
             return [0, board.available_columns.sample] 
         end 
@@ -53,8 +57,8 @@ class AIOpponent < Player
             thread_list << fork do 
                 Thread.new do 
                     boardclone = Marshal.load( Marshal.dump(board) )
-                    boardclone.add_piece(i, players[player_num].tokens[0])
-                    available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
+                    boardclone.add_piece(i, token)
+                    available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, token, players, player_num)[0]
                 end
             end 
         }
