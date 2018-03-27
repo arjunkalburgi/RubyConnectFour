@@ -91,7 +91,7 @@ while true
             puts "Congratulations, we have a winner"
             puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
             puts g.board.print_board
-        else 
+        elsif gameend.is_a? NoMoreMoves
             puts "There are no more possible moves."
             puts g.board.print_board
             puts "It's a cats game!."

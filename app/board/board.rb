@@ -206,7 +206,7 @@ class Board
         }
 
         # diagonals 
-        combinations << get_diagonal_combinations_of_length(l)
+        combinations.merge(get_diagonal_combinations_of_length(l))
 
         post_get_all_combinations_of_length
         invariant
