@@ -46,7 +46,7 @@ module PlayerContracts
         raise IncorrectInput.new("Board inputted must be of type board", {board: b, depth: d, players: p, players_index: n}) unless b.is_a? Board 
         
         # depth 
-        raise GameError, "Depth should not be below 0" unless d < 0
+        raise GameError, "Depth should not be below 0" unless d > 0
         raise GameError, "Depth should not be above AI's difficulty" unless d <= @difficulty
 
         # players 
