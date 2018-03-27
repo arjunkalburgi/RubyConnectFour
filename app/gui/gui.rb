@@ -4,14 +4,14 @@ require "gtk3"
 class GUI
     include GUIContracts
     attr_reader :window, :game_window, :game_box, :controller, :pics, 
-                :type, :num_players, :rows, :columns, :images, :buttons
+                :type, :num_players, :rows, :columns, :images, :buttons, :colours
 	
     def initialize(controller)
         #pre_initialize
         #invariant
 		
 		@controller = controller
-        set_images
+        set_constants
         show_start_menu
         
         #post_initialize
@@ -61,6 +61,7 @@ class GUI
             @buttons = create_buttons("R")
             @token = "R"
             v.pack_start(@buttons)
+            set_button_colors("R")
         else
             v.pack_start(create_buttons("O"))
             v.pack_start(create_buttons("T"))
@@ -68,7 +69,7 @@ class GUI
 
         @images = Array.new(@rows){Array.new(@columns)}
         (0..@rows-1).each{|a|
-          v.pack_end(create_grid_row(@rows - a - 1))
+          v.pack_end(create_rows(@rows - a - 1))
         }
 
         @game_box.add(v)
@@ -93,7 +94,7 @@ class GUI
         return btns
     end
 
-    def create_grid_row(row_num)
+    def create_rows(row_num)
         h = Gtk::Box.new(:horizontal)
         
         (0..@columns-1).each{|b|
@@ -103,57 +104,58 @@ class GUI
         return h
     end
 
-    def show_winner(player)
+    def show_winner(message)
         # invariant 
         # pre_show_winner
 
         dialog = Gtk::Dialog.new(
-          "Game Over",
-          @window,
-          Gtk::Dialog::MODAL
+          :title => "Game Over",
+          :parent => @game_window,
+          :flags => :modal
         )
+        dialog.signal_connect("destroy") {Gtk.main_quit}
 
-        btnRestart = Gtk::Button.new("New Game")
-        btnRestart.signal_connect("clicked"){
-          @controller.restart
-          dialog.close
-        }
-        btnExit = Gtk::Button.new("Quit")
-        btnExit.signal_connect("clicked"){
-          @controller.quit
-        }
+        btnExit = Gtk::Button.new(:label => "Quit")
+        btnExit.signal_connect("clicked"){Gtk.main_quit}
 
-        hbox = Gtk::HBox.new
-        hbox.pack_start(btnRestart)
+        hbox = Gtk::Box.new(:horizontal)
         hbox.pack_start(btnExit)
 
-        dialog.vbox.add(Gtk::Label.new(message))
-        dialog.vbox.add(hbox)
+        dialog.child.add(Gtk::Label.new(message))
+        dialog.child.add(hbox)
 
         dialog.show_all
+
 
         # post_show_winner
         # invariant
     end
 
-    def quit
-        invariant 
-        pre_quit
+    def show_error(message)
+        # invariant 
+        # pre_show_winner
 
-        @window.destroy
-        @game_window.destroy
+        dialog = Gtk::Dialog.new(
+          :title => "ERROR",
+          :parent => @game_window,
+          :flags => :modal
+        )
+        dialog.signal_connect("destroy") {dialog.close}
 
-        post_quit
-        invariant
-    end
+        btnExit = Gtk::Button.new(:label => "Quit")
+        btnExit.signal_connect("clicked"){dialog.close}
 
-    def set_images
-        @pics = Hash.new
-        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
-        @pics["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
-        @pics["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
-        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
-        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
+        hbox = Gtk::Box.new(:horizontal)
+        hbox.pack_start(btnExit)
+
+        dialog.child.add(Gtk::Label.new(message))
+        dialog.child.add(hbox)
+
+        dialog.show_all
+
+
+        # post_show_winner
+        # invariant
     end
 
     def update_value(column, row, value)
@@ -165,9 +167,39 @@ class GUI
             @buttons.each{ |btn|
                 btn.set_label("#{value}")
                 @token = value
+                set_button_color(btn, value)
             }
         end
         @game_window.title = "Game: " + player + "'s turn"
+    end
+
+    private
+
+    def set_constants
+        @pics = Hash.new
+        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
+        @pics["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
+        @pics["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
+        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
+        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
+        @colours = Hash.new
+        @colours["R"] = "red"
+        @colours["Y"] = "yellow"
+    end
+
+    def set_button_colors(value)
+        @buttons.each{ |btn|
+            set_button_color(btn, value)
+        }
+    end
+
+    def set_button_color(button, value)
+        css_provider = Gtk::CssProvider.new
+        css_provider.load(data: "button {background-color: #{@colours[value]}; background-image: none;}\
+             button:hover {background-color: #{@colours[value]}; background-image: none;}\
+             button:active {background-color: #{@colours[value]}; background-image: none;}"
+        )
+        button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
 
 end

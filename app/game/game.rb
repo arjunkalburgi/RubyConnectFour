@@ -69,7 +69,31 @@ class Game
         row = @board.add_piece(column, token)
 
         @observers.each{|o| o.update_value(column,row,token)}
-        check_game(@players[@current_player_num])
+
+        begin 
+            check_game(@players[@current_player_num])
+        rescue *GameError.GameEnd => gameend
+            if gameend.is_a? GameWon
+                message = "Congratulations, we have a winner"
+                puts message
+                puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
+                @observers.each{|o| o.show_winner(message + " " + gameend.player.player_name + " won!")}
+            else
+                puts "There are no more possible moves. It's a cats game!."
+                @observers.each{|o| o.show_winner("No winner")}
+            end
+        rescue *GameError.TryAgain => slip
+            if slip.is_a? NotAValidColumn
+                puts "Column number: " + slip.column + " is not valid." 
+            end 
+            reset_current_player(current_player)
+            puts current_player.player_name + " please try your move again."
+            @observers.each{|o| o.show_error(current_player.player_name + " please try your move again.")}
+        rescue *GameError.Wrong => error 
+            puts "Something went wrong sorry"
+            puts error.message
+            @observers.each{|o| o.show_error(error.message)}
+        end   
 
         debug_print if @debug
 

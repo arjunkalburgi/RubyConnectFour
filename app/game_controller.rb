@@ -1,6 +1,6 @@
 require_relative './gui/gui'
-# require_relative './player/player'
 require_relative './game/game'
+require_relative './game/game_error'
 
 class GameController
     attr_reader :game, :gui, :type
@@ -9,21 +9,8 @@ class GameController
         setup_view
     end
 
-    def quit
-        @gui.quit
-    end
-
-    def restart
-        @gui.quit
-        @game = nil
-        @type = nil
-        setup_view
-    end
-
     def column_press(column=nil, value=nil)
         row = @game.play_move(column, value)
-        # puts @game.board.print_board
-        # @gui.update_value(column, row, value)
     end
 
     def setup_view
