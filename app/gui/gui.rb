@@ -77,7 +77,7 @@ class GUI
     def create_buttons(value)
         btns = Gtk::Box.new(:horizontal)
         (0..@columns-1).each{|col|
-          btn = Gtk::Button.new(:label => "Place #{value}")
+          btn = Gtk::Button.new(:label => "#{value}")
           btn.signal_connect("clicked") {
             @controller.column_press(col, value)
             if @num_players.active_text == "1"

@@ -25,6 +25,7 @@ class GameController
 
     def column_press(column=nil, value=nil)
         row = @game.play_move(column, value)
+        # puts @game.board.print_board
         # @gui.update_value(column, row, value)
     end
 
