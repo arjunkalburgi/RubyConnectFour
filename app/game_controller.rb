@@ -32,11 +32,11 @@ class GameController
 
     def setup_game(rows, columns, type, num_players)
       if type == "Connect4"
-        p1 = Player.new("Player1", ["X", "X", "X", "X"]) 
+        p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
         if num_players == "1"
-          p2 = AIOpponent.new("Player2", ["O", "O", "O", "O"], 3)
+          p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 3)
         else 
-          p2 = Player.new("Player2", ["O", "O", "O", "O"])
+          p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"])
         end
       else
         p1 = Player.new("Player1", ["O", "T", "T", "O"]) 

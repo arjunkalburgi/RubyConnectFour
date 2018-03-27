@@ -66,11 +66,8 @@ module GameContracts
     end
     
     def post_play_move(old_board)
-        raise GameError, "Board has not changed, something went wrong" unless old_board.game_board != @board.game_board
+        # raise GameError, "Board has not changed, something went wrong" unless old_board.game_board != @board.game_board
     end
-
-
-
 
     def pre_check_game
         # nothing to do 
