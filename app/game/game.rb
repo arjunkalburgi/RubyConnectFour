@@ -59,8 +59,11 @@ class Game
         beforeboard = @board.dup
 
         if @players[@current_player_num].is_a? AIOpponent
-            token = @players[@current_player_num].tokens.sample
             column = @players[@current_player_num].choose_column(@board, @players, @current_player_num, token)
+        end
+
+        if token.nil? 
+            token = @players[@current_player_num].tokens.sample
         end
 
         row = @board.add_piece(column, token)
