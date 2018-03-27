@@ -48,7 +48,9 @@ else
         if style == "1"
             p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3)
         else
-            p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+            print "What do you want the AI token to be? "
+            token = gets.chomp
+            p2 = AIOpponent.new("AIOpponent", Array.new(num_token, token), 3)
         end
     else 
         print "P2 - What is your name? "
