@@ -4,6 +4,13 @@ module GUIContracts
         # image files exist?
     end 
 
+	def pre_initialize
+		# no pre conditions
+	end
+	
+	def post_initialize
+		# no post conditions
+	end
 
     def pre_show_start_menu(menuLayoutFile, gameLayoutFile)
 		raise "Menu layout does not exist" unless File.exist?(menuLayoutFile)
@@ -30,14 +37,14 @@ module GUIContracts
 		# no post conditions
     end
     
-    def pre_create_grid_row
+    def pre_create_rows
 		# ensure all image files are still valid
 		@pics.each do |fileID, filename|
 			raise "Image asset file path is invalid" unless File.exist?(filename)
 		end
     end
     
-    def post_create_grid_row
+    def post_create_rows
 		# no post cinditions
     end
     
@@ -49,23 +56,12 @@ module GUIContracts
 		# no post conditions
     end
     
-    def pre_quit
-		# no pre conditions
+    def pre_show_error
+    
     end
     
-    def post_quit
-		# no post conditions
-    end
+    def post_show_error
     
-    def pre_set_images
-		# no pre conditions
-    end
-    
-    def post_set_images
-		# make sure that all files set are valid files
-		@pics.each do |fileID, filename|
-			raise "Image asset file path is invalid" unless File.exist?(filename)
-		end
     end
     
     def pre_update_value(value)
@@ -82,6 +78,33 @@ module GUIContracts
     
     def post_update_buttons
 		# no post conditions
+    end
+    
+    def pre_set_constants
+		# no pre conditions
+    end
+    
+    def post_set_constants
+		# make sure that all files set are valid files
+		@pics.each do |fileID, filename|
+			raise "Image asset file path is invalid" unless File.exist?(filename)
+		end
+    end
+    
+    def pre_set_button_color
+    
+    end
+    
+    def post_set_button_color
+    
+    end
+    
+    def pre_set_button_colors
+    
+    end
+    
+    def post_set_button_colors
+    
     end
 
 end
