@@ -113,12 +113,11 @@ class GUI
           :flags => :modal
         )
         dialog.signal_connect("destroy") {Gtk.main_quit}
-        
+
         btnExit = Gtk::Button.new(:label => "Quit")
         btnExit.signal_connect("clicked"){Gtk.main_quit}
 
         hbox = Gtk::Box.new(:horizontal)
-        hbox.pack_start(btnRestart)
         hbox.pack_start(btnExit)
 
         dialog.child.add(Gtk::Label.new(message))

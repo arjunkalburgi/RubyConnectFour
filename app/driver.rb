@@ -2,4 +2,4 @@ require_relative './game_controller'
 
 c = GameController.new
 
-puts "Run the file to play again?"
+puts "Run the driver to play again!"
