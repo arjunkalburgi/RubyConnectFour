@@ -95,7 +95,7 @@ class Game
             if combinations.include? p.player_win_condition
                 raise GameWon.new(p)
             elsif @board.is_full?
-                raise GameEnd.new
+                raise NoMoreMoves.new
             end
         }
 
