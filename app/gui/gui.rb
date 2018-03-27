@@ -5,42 +5,38 @@ class GUI
     include GUIContracts
     attr_reader :dimensions, :token_choices, :window
 	
-    def get_game_dimensions 
-        return @dimensions
-    end
-
     def initialize
-    # def initialize(dimensions, token_choices)
         #pre_initialize(dimensions, token_choices)
 		#@dimensions = dimensions
 		#@token_choices = token_choices
 		
-		show_start_menu()
+		show_start_menu
         
         #post_initialize
         #invariant
     end
     
-    def show_start_menu()
+    def show_start_menu
         menu_glade = "#{File.expand_path(File.dirname(__FILE__))}/menuLayout.glade"
 		builder = Gtk::Builder.new(:file => menu_glade)
 		
 		@window = builder.get_object("menuWindow")
 		@window.signal_connect("destroy") {Gtk.main_quit}
         @window.title = "ConnectFour"
+        @window.set_position(Gtk::WindowPosition::CENTER)
 		
+        quitButton = builder.get_object("QuitButton")
+        quitButton.signal_connect("clicked") {Gtk.main_quit}
+
 		startButton = builder.get_object("StartButton")
-		startButton.signal_connect("clicked") {Gtk.main_quit}
-		
-		quitButton = builder.get_object("QuitButton")
-		quitButton.signal_connect("clicked") {Gtk.main_quit}
+		startButton.signal_connect("clicked") {Gtk.main_quit} # put a function here
 		
         @window.show_all
         Gtk.main
 		
     end
     
-    def generate_board()
+    def generate_board
 		
     end
 
@@ -85,10 +81,5 @@ class GUI
         post_quit
         invariant
     end
-
-    private 
-
-
-
 
 end
