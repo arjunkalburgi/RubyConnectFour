@@ -26,11 +26,11 @@ class GameController
           p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"])
         end
       else
-        p1 = Player.new("Player1", ["O", "T", "T", "O"]) 
+        p1 = Player.new("Player1", ["O","T","T","O"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         if num_players == "1"
-          p2 = AIOpponent.new("Player2", ["T", "O", "O", "T"], 3)
+          p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3, ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"])
         else
-          p2 = Player.new("Player2", ["T", "O", "O", "T"])
+          p2 = Player.new("Player1", ["T", "O", "O", "T"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         end
       end
       @game = Game.new(rows,columns,[p1,p2],true)
