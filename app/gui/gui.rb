@@ -9,10 +9,9 @@ class GUI
         #pre_initialize
         #invariant
 		
-		show_start_menu
-        reset_images
-        @controller = controller
-        @controller.subscribe(self)
+		@controller = controller
+        show_start_menu
+        set_images
         
         #post_initialize
         #invariant
@@ -45,38 +44,28 @@ class GUI
     def generate_board
 		v = Gtk::VBox.new
 
-        # toolbar = Gtk::Toolbar.new
-        # file_menu = Gtk::ToolButton.new(nil, "Restart")
-        # file_menu.signal_connect("clicked") {
-        #   # @controller.restart
-        #   Gtk.main_quit
-        # }
-        # toolbar.insert(0, file_menu)
-
-        # v.add(toolbar)
         if @type.ActiveText == "Connect4"
-            v.pack_start(create_buttons("X", "X"))
+            v.pack_start(create_buttons("X"))
         else
-            v.pack_start(create_buttons("O", "O"))
-            v.pack_start(create_buttons("T", "T"))
+            v.pack_start(create_buttons("O"))
+            v.pack_start(create_buttons("T"))
         end
-
-        # SOMEHOW NEED TO DEAL WITH PLAYERS!!!!
 
         (0..@rows).each{|a|
           v.pack_end(create_grid_row)
         }
 
         @window.add(v)
-        @controller.setup_game(@rows, @columns)
+
+        @controller.setup_game(@rows, @columns, @type.ActiveText, @num_players.ActiveText)
     end
 
-    def create_buttons(value, label)
+    def create_buttons(label)
         btns = Gtk::HBox.new
-        (0..@columns).each_with_index{|b,col|
+        (0..@columns).each{|col|
           btn = Gtk::Button.new("Place #{label}")
           btn.signal_connect("clicked") {
-            @controller.button_column(col)
+            @controller.column_press(col, label)
           }
           btns.pack_start(btn)
         }
@@ -100,8 +89,8 @@ class GUI
     # end
 
     def show_winner(player)
-        invariant 
-        pre_show_winner
+        # invariant 
+        # pre_show_winner
 
         dialog = Gtk::Dialog.new(
           "Game Over",
@@ -128,25 +117,25 @@ class GUI
 
         dialog.show_all
 
-        post_show_winner
-        invariant
+        # post_show_winner
+        # invariant
     end
 	
-	def display_error_message(message)
-		invariant
-		pre_display_error_message
+	# def display_error_message(message)
+	# 	invariant
+	# 	pre_display_error_message
 		
-		post_display_error_message
-		invariant
-	end
+	# 	post_display_error_message
+	# 	invariant
+	# end
 
-    def exit_from_error 
-        invariant 
-        pre_exit_from_error
+ #    def exit_from_error 
+ #        invariant 
+ #        pre_exit_from_error
 
-        post_exit_from_error
-        invariant
-    end
+ #        post_exit_from_error
+ #        invariant
+ #    end
 
     def quit
         invariant 
@@ -158,7 +147,7 @@ class GUI
         invariant
     end
 
-    def reset_images
+    def set_images
         @pics = Hash.new
         @pics["E"] = "./assets/E.png"
         @pics["X"] = "./assets/X.png"
@@ -166,8 +155,8 @@ class GUI
         @pics["T"] = "./assets/T.png"
     end
 
-    def update_value(x, y, v)
-        @window.children[0].children.reverse[y].children[x].set(@pics[v])
+    def update_value(column, row, value)
+        @window.children[0].children.reverse[row].children[column].set(@pics[value])
     end
 
 end
