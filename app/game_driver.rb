@@ -28,7 +28,7 @@ else
     token = gets.chomp
     p1 = Player.new(name, Array.new(num_token, token)) 
     if num_players == 1
-        p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+        p2 = AIOpponent.new("AIOpponent", Array.new(num_token, 'Y'), 3)
     else 
         puts "P2 - What is your name?"
         name = gets.chomp
