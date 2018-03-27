@@ -3,7 +3,7 @@ require "gtk3"
 
 class GUI 
     include GUIContracts
-    attr_reader :window, :game_window, :controller, :pics, :type, :num_players, :rows, :columns
+    attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
 	
     def initialize(controller)
         #pre_initialize
@@ -53,12 +53,8 @@ class GUI
     def generate_board
 		v = Gtk::Box.new(:vertical)
 
-        # @rows = @rowsObject.value_as_int
-        # @columns = @columnsObject.value_as_int
-        @rows = 6
-        @columns = 7
-        puts @rows
-        puts @columns
+        @rows = @rowsObject.value_as_int
+        @columns = @columnsObject.value_as_int
 
         if @type.active_text == "Connect4"
             v.pack_start(create_buttons("X"))
@@ -67,18 +63,20 @@ class GUI
             v.pack_start(create_buttons("T"))
         end
 
-        (1..@rows).each{|a|
-          v.pack_end(create_grid_row)
+        @images = Array.new(@rows){Array.new(@columns)}
+        (0..@rows-1).each{|a|
+          v.pack_end(create_grid_row(a))
         }
 
         @game_box.add(v)
         @game_window.show_all
         @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text)
+        @controller.subscribe(self)
     end
 
     def create_buttons(value)
         btns = Gtk::Box.new(:horizontal)
-        (1..@columns).each{|col|
+        (0..@columns-1).each{|col|
           btn = Gtk::Button.new(:label => "Place #{value}")
           btn.signal_connect("clicked") {
             @controller.column_press(col, value)
@@ -88,10 +86,12 @@ class GUI
         return btns
     end
 
-    def create_grid_row
+    def create_grid_row(row_num)
         h = Gtk::Box.new(:horizontal)
-        (1..@columns).each{|b|
-            h.pack_start(Gtk::Image.new(:file => @pics["E"]))
+        
+        (0..@columns-1).each{|b|
+            @images[row_num] << Gtk::Image.new(:file => @pics["E"])
+            h.add(@images[row_num][-1])
         }
         return h
     end
@@ -166,14 +166,15 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "./assets/E.png"
-        @pics["X"] = "./assets/X.png"
-        @pics["O"] = "./assets/O.png"
-        @pics["T"] = "./assets/T.png"
+        @pics["E"] = "E.png"
+        @pics["X"] = "X.png"
+        @pics["O"] = "O.png"
+        @pics["T"] = "T.png"
     end
 
     def update_value(column, row, value)
-        @game_window.children[0].children.reverse[row].children[column].set(@pics[value])
+        @images[row][column].set(@pics[value])
+        # @game_box.children[0].children.reverse[row].children[column].set(@pics[value])
     end
 
 end
