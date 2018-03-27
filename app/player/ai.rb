@@ -50,13 +50,15 @@ class AIOpponent < Player
         thread_list = []
         available_moves = Array.new(board.available_columns.size, -100)
         board.available_columns.each { |i|
-            thread_list << Thread.new do 
-                boardclone = Marshal.load( Marshal.dump(board) )
-                boardclone.add_piece(i, players[player_num].tokens[0])
-                available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
-            end
+            thread_list << fork do 
+                Thread.new do 
+                    boardclone = Marshal.load( Marshal.dump(board) )
+                    boardclone.add_piece(i, players[player_num].tokens[0])
+                    available_moves[i] = valueof(boardclone, players.map(&:player_win_condition)) + minimax(boardclone, depth-1, players, player_num)[0]
+                end
+            end 
         }
-        thread_list.each{|thread| thread.join}
+        thread_list.each { |thread| Process.wait(thread) }
 
         # randomize if multiple max's 
         best_columns = available_moves.each_index.select{|i| available_moves[i] == available_moves.max}    
