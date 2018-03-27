@@ -22,21 +22,42 @@ else
         user_input = gets.chomp
     end 
     num_players = user_input.to_i
+    
+    while not Set["1","2"].include? user_input
+        print "Would you like to play OTTO/TOOT(1) or ConnectFour(2) style? 1 or 2: "
+        user_input = gets.chomp
+    end 
+    style = user_input
+
     print "P1 - What is your name? "
     name = gets.chomp
-    print "P1 - How many tokens? "
-    num_token = gets.chomp.to_i
-    print "P1 - What is your token? "
-    token = gets.chomp
-    p1 = Player.new(name, Array.new(num_token, token)) 
+    
+    if style == "1"
+        p1 = Player.new(name, ["O","T","T","O"]) 
+    else
+        print "P1 - How many tokens? "
+        num_token = gets.chomp.to_i
+        print "P1 - What is your token? "
+        token = gets.chomp
+        p1 = Player.new(name, Array.new(num_token, token)) 
+    end
+    
     if num_players == 1
-        p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+        if style == 1
+            p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3)
+        else
+            p2 = AIOpponent.new("AIOpponent", ["Y", "Y", "Y", "Y"], 3)
+        end
     else 
         print "P2 - What is your name? "
         name = gets.chomp
-        print "P2 - What is your token? "
-        token = gets.chomp
-        p2 = Player.new(name, Array.new(num_token, token)) 
+        if style == 1
+            p2 = Player.new(name, ["T", "O", "O", "T"]) 
+        else
+            print "P2 - What is your token? "
+            token = gets.chomp
+            p2 = Player.new(name, Array.new(num_token, token))
+        end
     end 
     g = Game.new(rows,columns,[p1, p2])
 end

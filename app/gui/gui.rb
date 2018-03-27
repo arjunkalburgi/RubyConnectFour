@@ -53,10 +53,10 @@ class GUI
     def generate_board
 		v = Gtk::Box.new(:vertical)
 
-        # @rows = @rowsObject.value_as_int
-        # @columns = @columnsObject.value_as_int
-        @rows = 6
-        @columns = 7
+        @rows = @rowsObject.value_as_int
+        @columns = @columnsObject.value_as_int
+        # @rows = 6
+        # @columns = 7
         puts @rows
         puts @columns
 
@@ -166,10 +166,10 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "./assets/E.png"
-        @pics["X"] = "./assets/X.png"
-        @pics["O"] = "./assets/O.png"
-        @pics["T"] = "./assets/T.png"
+        @pics["E"] = "E.png"
+        @pics["X"] = "X.png"
+        @pics["O"] = "O.png"
+        @pics["T"] = "T.png"
     end
 
     def update_value(column, row, value)

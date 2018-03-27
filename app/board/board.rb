@@ -48,11 +48,12 @@ class Board
         invariant
         pre_add_token(column_number)
 
+        row_number = nil
         if self.can_add_to_column? column_number
             (0..@rows).each{ |row_index|
                 if @game_board[@rows - row_index - 1][column_number] == nil
                     @game_board[@rows - row_index - 1][column_number] = token
-                    row = @rows - row_index - 1
+                    row_number = @rows - row_index - 1
                     break
                 end
             }
@@ -63,7 +64,7 @@ class Board
         post_add_token(column_number, token)
         invariant
 
-        return row
+        return row_number
     end
 
     def is_full?
