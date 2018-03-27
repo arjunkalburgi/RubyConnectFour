@@ -52,6 +52,7 @@ class Board
             (0..@rows).each{ |row_index|
                 if @game_board[@rows - row_index - 1][column_number] == nil
                     @game_board[@rows - row_index - 1][column_number] = token
+                    row = @rows - row_index - 1
                     break
                 end
             }
@@ -61,6 +62,8 @@ class Board
 
         post_add_token(column_number, token)
         invariant
+
+        return row
     end
 
     def is_full?

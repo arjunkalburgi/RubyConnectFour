@@ -60,11 +60,13 @@ class Game
             column = @players[@current_player_num].choose_column(@board, @players, @current_player_num)
         end
 
+        ##########THIS MAY NOT WORK
         if token == nil
             token = @players[@current_player_num].tokens[0]
         end
-        @board.add_piece(column, token)
-        
+        row = @board.add_piece(column, token)
+        ##########
+
         check_game(@players[@current_player_num])
 
         increment_player        
@@ -72,10 +74,7 @@ class Game
         post_play_move(beforeboard)
         invariant 
 
-        @board
-    end
-
-    def quit
+        return row
     end
 
     private
