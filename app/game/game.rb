@@ -87,12 +87,13 @@ class Game
                 puts "Column number: " + slip.column + " is not valid." 
             end 
             reset_current_player(current_player)
-            puts current_player.player_name + " please play again."
+            puts current_player.player_name + " please try your move again."
+            @observers.each{|o| o.show_error(current_player.player_name + " please try your move again.")}
         rescue *GameError.Wrong => error 
             puts "Something went wrong sorry"
             puts error.message
+            @observers.each{|o| o.show_error(error.message)}
         end   
-        
 
         debug_print if @debug
 
