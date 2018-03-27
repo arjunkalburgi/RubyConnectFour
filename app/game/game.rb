@@ -118,6 +118,10 @@ class Game
             @current_player_num = 0
         end
 
+        if !(@players[@current_player_num].is_a? AIOpponent)
+            @observers.each{|o| o.update_buttons(@players[@current_player_num].tokens[0], @players[@current_player_num].player_name)}
+        end
+
         post_increment_player(old_num)
         invariant 
     end

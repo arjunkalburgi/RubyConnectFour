@@ -4,7 +4,7 @@ require "gtk3"
 class GUI
     include GUIContracts
     attr_reader :window, :game_window, :game_box, :controller, :pics, 
-                :type, :num_players, :rows, :columns, :images
+                :type, :num_players, :rows, :columns, :images, :buttons
 	
     def initialize(controller)
         #pre_initialize
@@ -58,7 +58,9 @@ class GUI
         @columns = @columnsObject.value_as_int
 
         if @type.active_text == "Connect4"
-            v.pack_start(create_buttons("X"))
+            @buttons = create_buttons("X")
+            @token = "X"
+            v.pack_start(@buttons)
         else
             v.pack_start(create_buttons("O"))
             v.pack_start(create_buttons("T"))
@@ -78,9 +80,10 @@ class GUI
     def create_buttons(value)
         btns = Gtk::Box.new(:horizontal)
         (0..@columns-1).each{|col|
+
           btn = Gtk::Button.new(:label => "#{value}")
           btn.signal_connect("clicked") {
-            @controller.column_press(col, value)
+            @token ? @controller.column_press(col, @token) : @controller.column_press(col, value)
             if @num_players.active_text == "1"
                 @controller.column_press
             end
@@ -154,6 +157,16 @@ class GUI
 
     def update_value(column, row, value)
         @images[row][column].set_file(@pics[value])
+    end
+
+    def update_buttons(value, player)
+        if @buttons
+            @buttons.each{ |btn|
+                btn.set_label("#{value}")
+                @token = value
+            }
+        end
+        @game_window.title = "Game: " + player + "'s turn"
     end
 
 end
