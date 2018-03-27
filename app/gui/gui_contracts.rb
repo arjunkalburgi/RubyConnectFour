@@ -57,11 +57,11 @@ module GUIContracts
     end
     
     def pre_show_error
-    
+		# no pre conditions
     end
     
     def post_show_error
-    
+		# no post conditions
     end
     
     def pre_update_value(value)
@@ -92,19 +92,19 @@ module GUIContracts
     end
     
     def pre_set_button_color
-    
+		# no pre conditions
     end
     
     def post_set_button_color
-    
+		# no post conditions
     end
     
     def pre_set_button_colors
-    
+		# no pre conditions
     end
     
     def post_set_button_colors
-    
+		# no post conditions
     end
 
 end
