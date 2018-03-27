@@ -23,7 +23,7 @@ class GameController
         start_game
     end
 
-    def column_press(column, value)
+    def column_press(column=nil, value=nil)
         row = @game.play_move(column, value)
         # @gui.update_value(column, row, value)
     end

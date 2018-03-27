@@ -80,6 +80,9 @@ class GUI
           btn = Gtk::Button.new(:label => "Place #{value}")
           btn.signal_connect("clicked") {
             @controller.column_press(col, value)
+            if @num_players.active_text == "1"
+                @controller.column_press
+            end
           }
           btns.pack_start(btn)
         }
