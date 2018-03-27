@@ -62,9 +62,9 @@ class IncorrectInput < GameError
     def initialize(msg = "Input into this function is not correct", *args)
         super(msg) 
         puts "Inputs: "
-        args.each do { |key, val| 
+        args.each do |key, val| 
             puts key + ": " + value
-        }
+        end
     end 
 end
 

@@ -28,7 +28,7 @@ module PlayerContracts
         }
 
         # check num 
-        raise IncorrectInput.new("Player number must be an index of players array inputted" unless n.between?(0,, {board: b, players: ps, players_index: n}) ps.size-1)
+        raise IncorrectInput.new("Player number must be an index of players array inputted", {board: b, players: ps, players_index: n}) unless n.between?(0, ps.size-1)
     end 
 
     def post_choose_column(c, b, b_o) 
@@ -76,7 +76,7 @@ module PlayerContracts
         }
 
         # check num 
-        raise IncorrectInput.new("Player number must be an index of players array inputted" unless n.between?(0,, {board: b, players: ps, players_index: n}) ps.size-1)
+        raise IncorrectInput.new("Player number must be an index of players array inputted", {board: b, players: ps, players_index: n}) unless n.between?(0, ps.size-1)
     end 
     
     def post_shuffle_players_list(ps) 

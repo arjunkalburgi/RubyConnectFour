@@ -86,14 +86,14 @@ module BoardContracts
     end
 
     def pre_col(column_number)
-        raise IncorrectInput.new("Column index must be either a Range or Integer", {column: column_number} unless column_number.is_a?(Range) || column_number.is_a?(Integer)
+        raise IncorrectInput.new("Column index must be either a Range or Integer", {column: column_number}) unless column_number.is_a?(Range) || column_number.is_a?(Integer)
         if column_number.is_a? Range
             column_number.each{ |c|
-                raise IncorrectInput.new("Column index must be an Integer", {column: column_number} unless c.is_a? Integer
-                raise IncorrectInput.new("Column index must be within range", {column: column_number} unless c.between?(0, @columns-1)
+                raise IncorrectInput.new("Column index must be an Integer", {column: column_number}) unless c.is_a? Integer
+                raise IncorrectInput.new("Column index must be within range", {column: column_number}) unless c.between?(0, @columns-1)
             }
         elsif column_number.is_a? Integer
-            raise IncorrectInput.new("Column index must be within range", {column: column_number} unless column_number.between?(0, @columns-1)
+            raise IncorrectInput.new("Column index must be within range", {column: column_number}) unless column_number.between?(0, @columns-1)
         end 
     end
 
