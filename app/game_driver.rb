@@ -55,7 +55,7 @@ else
     else 
         print "P2 - What is your name? "
         name = gets.chomp
-        if style == 1
+        if style == "1"
             puts name + " is playing for TOOT"
             p2 = Player.new(name, ["T", "O", "O", "T"]) 
         else
