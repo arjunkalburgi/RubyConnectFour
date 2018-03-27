@@ -13,6 +13,7 @@ class Game
     def initialize(rows=nil, columns=nil, players=nil)
         pre_init(rows, columns, players)
 
+        @observers = []
         set_game_dimensions(rows, columns)
         set_game_players(players)
 
@@ -29,8 +30,7 @@ class Game
             puts p
         }
 
-        @board.print_board
-
+        puts @board.print_board
     end 
 
 
@@ -52,7 +52,7 @@ class Game
         @current_player_num = index
     end 
 
-    def play_move(column=nil)
+    def play_move(column=nil,token=nil)
         invariant 
         pre_play_move(column)
         beforeboard = @board.dup
@@ -60,19 +60,28 @@ class Game
         if @players[@current_player_num].is_a? AIOpponent
             column = @players[@current_player_num].choose_column(@board, @players, @current_player_num)
         end
-        @board.add_piece(column, @players[@current_player_num].tokens[0])
-        # NEED TO CHANGE THE TOKEN PART ASAP.
+
+        ##########THIS MAY NOT WORK
+        if token == nil
+            token = @players[@current_player_num].tokens[0]
+        end
+        row = @board.add_piece(column, token)
+        ##########
+
         check_game(@players[@current_player_num])
+
+        @observers.each{|o| o.update_value(column,row,token)}
 
         increment_player        
 
         post_play_move(beforeboard)
         invariant 
 
-        @board
+        return row
     end
 
-    def quit
+    def add_observer(view)
+        @observers << view
     end
 
     private
