@@ -85,14 +85,14 @@ class AIOpponent < Player
             if combinations.include? cond
                 # if other player will win, mark it higher 
                 if cond == @player_win_condition 
-                    calculated_value += 1
+                    calculated_value += 1*m
                 else 
-                    calculated_value += 2
+                    calculated_value += 2*m
                 end                     
             elsif combinations.include? ([nil] + cond[1..cond.size])
-                calculated_value += 0.5
-            elsif combinations.include? (cond[0..cond.size-1] + [0])
-                calculated_value += 0.5
+                calculated_value += 0.5*m
+            elsif combinations.include? (cond[0..cond.size-1] + [nil])
+                calculated_value += 0.5*m
             # elsif combinations.include? ([0, 0] + cond[2..cond.size])
                 # calculated_value += 0.3*m
             # elsif combinations.include? (cond[0..cond.size-2] + [0, 0])
