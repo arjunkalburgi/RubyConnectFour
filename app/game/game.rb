@@ -29,8 +29,7 @@ class Game
             puts p
         }
 
-        @board.print_board
-
+        puts @board.print_board
     end 
 
 
@@ -52,7 +51,7 @@ class Game
         @current_player_num = index
     end 
 
-    def play_move(column=nil)
+    def play_move(column=nil,token=nil)
         invariant 
         pre_play_move(column)
         beforeboard = @board.dup
@@ -60,8 +59,12 @@ class Game
         if @players[@current_player_num].is_a? AIOpponent
             column = @players[@current_player_num].choose_column(@board, @players, @current_player_num)
         end
-        @board.add_piece(column, @players[@current_player_num].tokens[0])
-        # NEED TO CHANGE THE TOKEN PART ASAP.
+
+        if token == nil
+            token = @players[@current_player_num].tokens[0]
+        end
+        @board.add_piece(column, token)
+        
         check_game(@players[@current_player_num])
 
         increment_player        

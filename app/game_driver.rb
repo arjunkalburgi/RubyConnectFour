@@ -2,6 +2,8 @@ require_relative './game/game'
 require_relative './game/game_error'
 require 'set'
 
+puts "This game only tests ConnectFour on the Board"
+
 user_input = nil
 while not Set["y","n"].include? user_input
     print "Would you like to be set to default (6x7, player 1 - you, player 2 - AI), y or n: "
