@@ -1,7 +1,7 @@
 require_relative './gui_contracts'
 require "gtk3"
 
-class GUI 
+class GUI
     include GUIContracts
     attr_reader :window, :game_window, :game_box, :controller, :pics, :type, :num_players, :rows, :columns, :images
 	
@@ -65,7 +65,7 @@ class GUI
 
         @images = Array.new(@rows){Array.new(@columns)}
         (0..@rows-1).each{|a|
-          v.pack_end(create_grid_row(a))
+          v.pack_end(create_grid_row(@rows - a - 1))
         }
 
         @game_box.add(v)
@@ -90,19 +90,11 @@ class GUI
         h = Gtk::Box.new(:horizontal)
         
         (0..@columns-1).each{|b|
-            @images[row_num] << Gtk::Image.new(:file => @pics["E"])
-            h.add(@images[row_num][-1])
+            @images[row_num][b] = Gtk::Image.new(:file => @pics["E"])
+            h.add(@images[row_num][b])
         }
         return h
     end
-
-    # def update_board(b)
-    #     invariant 
-    #     pre_update_board
-
-    #     post_update_board
-    #     invariant
-    # end
 
     def show_winner(player)
         # invariant 
@@ -136,22 +128,6 @@ class GUI
         # post_show_winner
         # invariant
     end
-	
-	# def display_error_message(message)
-	# 	invariant
-	# 	pre_display_error_message
-		
-	# 	post_display_error_message
-	# 	invariant
-	# end
-
- #    def exit_from_error 
- #        invariant 
- #        pre_exit_from_error
-
- #        post_exit_from_error
- #        invariant
- #    end
 
     def quit
         invariant 
@@ -166,15 +142,14 @@ class GUI
 
     def set_images
         @pics = Hash.new
-        @pics["E"] = "E.png"
-        @pics["X"] = "X.png"
-        @pics["O"] = "O.png"
-        @pics["T"] = "T.png"
+        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/E.png"
+        @pics["X"] = "#{File.expand_path(File.dirname(__FILE__))}/X.png"
+        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/O.png"
+        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/T.png"
     end
 
     def update_value(column, row, value)
-        @images[row][column].set(@pics[value])
-        # @game_box.children[0].children.reverse[row].children[column].set(@pics[value])
+        @images[row][column].set_file(@pics[value])
     end
 
 end
