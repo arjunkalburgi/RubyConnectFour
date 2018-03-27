@@ -8,12 +8,12 @@ class AIOpponent < Player
     attr_reader :difficulty 
     # From player: player_name, player_win_condition, tokens
 
-    def initialize(name, win_condition, diff) 
+    def initialize(name, win_condition, diff, available_tokens=nil) 
         # invariant 
         pre_init(win_condition)
 
         @difficulty = diff
-        super(name, win_condition)
+        super(name, win_condition, available_tokens)
 
         post_init
         invariant         

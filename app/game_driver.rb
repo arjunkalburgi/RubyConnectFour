@@ -33,7 +33,7 @@ else
     
     if style == "1"
         puts name + " is playing for OTTO"
-        p1 = Player.new(name, ["O","T","T","O"]) 
+        p1 = Player.new(name, ["O","T","T","O"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
     else
         print "P1 - How many tokens? "
         num_token = gets.chomp.to_i
@@ -44,7 +44,7 @@ else
     
     if num_players == 1
         if style == "1"
-            p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3)
+            p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3, ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"])
         else
             print "What do you want the AI token to be? "
             token = gets.chomp
