@@ -101,7 +101,7 @@ class Game
         rescue *GameError.Wrong => error 
             puts "Something went wrong sorry"
             puts error.message
-            @observers.each{|o| o.show_error(error.message)}
+            @observers.each{|o| o.show_error(error.message,true)}
             return
         end   
 

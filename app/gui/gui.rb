@@ -11,6 +11,7 @@ class GUI
         #invariant
 		
 		@controller = controller
+        @winner = false
         set_constants
         show_start_menu
         
@@ -98,7 +99,7 @@ class GUI
             button = Gtk::Button.new(:label => "#{value}")
             button.signal_connect("clicked") {
                 @token ? @controller.column_press(column, @token) : @controller.column_press(column, value)
-                @controller.column_press if @num_players.active_text == "1"
+                @controller.column_press if @num_players.active_text == "1" && !@winner
             }
             button_box.pack_start(button)
         }
@@ -117,7 +118,7 @@ class GUI
     def show_winner(message)
         # invariant 
         # pre_show_winner
-
+        @winner = true
         dialog = Gtk::Dialog.new(
             :title => "Game Over",
             :parent => @game_window,
