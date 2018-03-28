@@ -8,12 +8,12 @@ class AIOpponent < Player
     attr_reader :difficulty 
     # From player: player_name, player_win_condition, tokens
 
-    def initialize(name, win_condition, diff) 
+    def initialize(name, win_condition, diff, available_tokens=nil) 
         # invariant 
-        pre_init(win_condition)
+        pre_init(win_condition, available_tokens)
 
         @difficulty = diff
-        super(name, win_condition)
+        super(name, win_condition, available_tokens)
 
         post_init
         invariant         
@@ -27,8 +27,12 @@ class AIOpponent < Player
         # shuffle players array so that current player is first 
         players = shuffle_players_list(players, player_num)
 
-        if token.nil? 
-            token = @tokens.sample
+        if token.nil?
+            if !@available_tokens.nil? 
+                token = @available_tokens.sample
+            else 
+                token = @tokens.sample
+            end 
         end 
 
         # returns a column 

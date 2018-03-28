@@ -33,11 +33,13 @@ class GameController
             return
         rescue *GameError.TryAgain => slip
             if slip.is_a? NotAValidColumn
-                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
-            end 
+                slip.column ? (puts "Column number: " + slip.column.to_s + " is not valid.") : (puts "Column number is not valid.")
+            elsif slip.is_a? NotAnAvailableToken
+                puts slip.message
+            end
             @game.reset_current_player(current_player)
             puts current_player.player_name + " please try your move again."
-            gui.show_error(current_player.player_name + " please try your move again.")
+            gui.show_error(slip.message + "\n"+ current_player.player_name + " please try your move again.")
             return
         rescue *GameError.Wrong => error 
             puts "Something went wrong sorry"
@@ -56,6 +58,7 @@ class GameController
         player_names[1].empty? ? name2 = "Player2" : name2 = player_names[1]
         red_yellow = [["R", "R", "R", "R"],["Y", "Y", "Y", "Y"]]
         otto_toot = [["O", "T", "T", "O"],["T", "O", "O", "T"]]
+        available_tokens = ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]
 
         @num_players = num_players
 
@@ -66,18 +69,20 @@ class GameController
             else 
                 p2 = Player.new(name2, red_yellow[1])
             end
+            token_limitations = false
         else
-            p1 = Player.new(name1, otto_toot[0]) 
+            p1 = Player.new(name1, otto_toot[0], available_tokens.clone) 
             if num_players == "1"
-                p2 = AIOpponent.new(name2, otto_toot[1], 3)
+                p2 = AIOpponent.new(name2, otto_toot[1], 3, available_tokens.clone)
             else
-                 p2 = Player.new(name2, otto_toot[1])
+                p2 = Player.new(name2, otto_toot[1], available_tokens.clone)
             end
+            token_limitations = true
         end
 
-        @game = Game.new(rows,columns,[p1,p2],true)
-		invariant
-		post_setup_game
+        @game = Game.new(rows, columns, [p1,p2], token_limitations, true)
+  	  	invariant
+	  	  post_setup_game
     end
 
     def subscribe(observer)

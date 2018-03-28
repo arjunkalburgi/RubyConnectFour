@@ -27,13 +27,18 @@ else
         user_input = gets.chomp
     end 
     style = user_input
+    if style == "1"
+        token_limitations = true
+    else 
+        token_limitations = false 
+    end
 
     print "P1 - What is your name? "
     name = gets.chomp
     
-    if style == "1"
+    if token_limitations
         puts name + " is playing for OTTO"
-        p1 = Player.new(name, ["O","T","T","O"]) 
+        p1 = Player.new(name, ["O","T","T","O"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
     else
         print "P1 - Length of win condition? "
         num_token = gets.chomp.to_i
@@ -43,8 +48,8 @@ else
     end
     
     if num_players == 1
-        if style == "1"
-            p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3)
+        if token_limitations
+            p2 = AIOpponent.new("AIOpponent", ["T", "O", "O", "T"], 3, ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"])
         else
             print "What do you want the AI token to be? "
             token = gets.chomp
@@ -53,16 +58,16 @@ else
     else 
         print "P2 - What is your name? "
         name = gets.chomp
-        if style == "1"
+        if token_limitations
             puts name + " is playing for TOOT"
-            p2 = Player.new(name, ["T", "O", "O", "T"]) 
+            p2 = Player.new(name, ["T", "O", "O", "T"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         else
             print "P2 - What is your token? "
             token = gets.chomp
             p2 = Player.new(name, Array.new(num_token, token))
         end
     end 
-    g = Game.new(rows,columns,[p1, p2])
+    g = Game.new(rows, columns, [p1, p2], token_limitations)
 end
 
 while true
@@ -74,7 +79,7 @@ while true
         column = nil
     else 
         token = nil
-        if style == "1"
+        if token_limitations
             while not Set["O","T"].include? token
                 print "Would you like to place O or T: "
                 token = gets.chomp
@@ -96,12 +101,13 @@ while true
             puts g.board.print_board
             puts "It's a cats game!."
         end
-        break 
+        break
     rescue *GameError.TryAgain => slip
         if slip.is_a? NotAValidColumn
-            puts "Column number: " + slip.column + " is not valid." 
+            puts "Column number: " + slip.column.to_s + " is not valid." 
         end 
-        reset_current_player(current_player)
+        puts slip.message
+        g.reset_current_player(current_player)
         puts current_player.player_name + " please play again."
         next
     rescue *GameError.Wrong => error 

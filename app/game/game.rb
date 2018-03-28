@@ -8,12 +8,13 @@ require_relative '../player/ai'
 
 class Game 
     include GameContracts
-    attr_reader :players, :board, :current_player_num
+    attr_reader :players, :board, :current_player_num, :token_limitations
 
-    def initialize(rows=nil, columns=nil, players=nil, debug=false)
+    def initialize(rows=nil, columns=nil, players=nil, token_limitations=false, debug=false)
         pre_init(rows, columns, players)
 
         @observers = []
+        @token_limitations = token_limitations
         @debug = debug
         set_game_dimensions(rows, columns)
         set_game_players(players)
@@ -54,18 +55,22 @@ class Game
 
     def play_move(column=nil,token=nil)
         invariant 
-        pre_play_move(column)
-        beforeboard = @board.dup
-
         current_player = @players[@current_player_num]
+        token = current_player.tokens.sample if token.nil? 
+        pre_play_move(column, token)
+
+        beforeboard = Marshal.load( Marshal.dump(@board) )
+
         if current_player.is_a? AIOpponent
             column = current_player.choose_column(@board, @players, @current_player_num, token)
         end
 
-        token = current_player.tokens.sample if token.nil? 
-
         row = @board.add_piece(column, token)
-        
+
+        if @token_limitations 
+            current_player.available_tokens.delete_at(current_player.available_tokens.index(token))
+        end 
+
         @observers.each{|o| o.update_token(column,row,token)}
 
         check_game(current_player) 
