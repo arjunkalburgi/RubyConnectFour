@@ -35,7 +35,7 @@ else
         puts name + " is playing for OTTO"
         p1 = Player.new(name, ["O","T","T","O"]) 
     else
-        print "P1 - How many tokens? "
+        print "P1 - Length of win condition? "
         num_token = gets.chomp.to_i
         print "P1 - What is your token? "
         token = gets.chomp
