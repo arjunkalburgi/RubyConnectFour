@@ -57,7 +57,7 @@ class Game
         invariant 
         current_player = @players[@current_player_num]
         token = current_player.tokens.sample if token.nil? 
-        pre_play_move(column, token)
+        pre_play_move(token)
 
         beforeboard = Marshal.load( Marshal.dump(@board) )
 

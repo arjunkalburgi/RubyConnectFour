@@ -87,7 +87,7 @@ class GUI
             @controller.subscribe(self)
             @window.hide
         rescue => err
-            show_error(err.message,true)
+            show_error(err.message,false)
             return
         end
     end

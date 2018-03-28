@@ -59,22 +59,26 @@ module GameContracts
 
 
 
-    def pre_play_move(c, t)
+    def pre_play_move(token)
         if @board.is_full?
             raise NoMoreMoves.new
         end
 
         if @token_limitations 
-            p = @players[@current_player_num]
-            raise NotAnAvailableToken.new(p, t) unless p.available_tokens.include? t
-            @players.each{|p|
-                raise NoMoreMoves.new unless !p.available_tokens.empty?
-            }
+            player = @players[@current_player_num]
+            raise NotAnAvailableToken.new(player, token) unless player.available_tokens.include? token
         end 
     end
     
     def post_play_move(old_board)
         raise GameError, "Board has not changed, something went wrong" unless old_board.game_board != @board.game_board
+        if @token_limitations
+            is_empty = [false, false]
+            (0..@players.size-1).each{|p_index|
+                is_empty[p_index] = @players[p_index].available_tokens.empty?
+            }
+            raise NoMoreMoves.new unless !is_empty.all?
+        end
     end
 
     def pre_check_game
