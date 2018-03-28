@@ -27,8 +27,12 @@ class AIOpponent < Player
         # shuffle players array so that current player is first 
         players = shuffle_players_list(players, player_num)
 
-        if token.nil? 
-            token = @available_tokens.sample
+        if token.nil?
+            if @available_tokens.nil? 
+                token = @available_tokens.sample
+            else 
+                token = @tokens.sample
+            end 
         end 
 
         # returns a column 
