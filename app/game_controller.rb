@@ -26,11 +26,13 @@ class GameController
             return
         rescue *GameError.TryAgain => slip
             if slip.is_a? NotAValidColumn
-                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
-            end 
+                slip.column ? (puts "Column number: " + slip.column.to_s + " is not valid.") : (puts "Column number is not valid.")
+            elsif slip.is_a? NotAnAvailableToken
+                puts slip.message
+            end
             @game.reset_current_player(current_player)
             puts current_player.player_name + " please try your move again."
-            gui.show_error(current_player.player_name + " please try your move again.")
+            gui.show_error(slip.message + "\n"+ current_player.player_name + " please try your move again.")
             return
         rescue *GameError.Wrong => error 
             puts "Something went wrong sorry"
@@ -63,7 +65,7 @@ class GameController
             if num_players == "1"
                 p2 = AIOpponent.new(name2, otto_toot[1], 3, available_tokens.clone)
             else
-                 p2 = Player.new(name2, otto_toot[1], available_tokens.clone)
+                p2 = Player.new(name2, otto_toot[1], available_tokens.clone)
             end
             token_limitations = true
         end

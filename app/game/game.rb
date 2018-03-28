@@ -55,16 +55,15 @@ class Game
 
     def play_move(column=nil,token=nil)
         invariant 
-        pre_play_move(column, token)
-        beforeboard = Marshal.load( Marshal.dump(@board) )
-
         current_player = @players[@current_player_num]
+        token = current_player.tokens.sample if token.nil? 
+        pre_play_move(column, token)
+
+        beforeboard = Marshal.load( Marshal.dump(@board) )
 
         if current_player.is_a? AIOpponent
             column = current_player.choose_column(@board, @players, @current_player_num, token)
         end
-
-        token = current_player.tokens.sample if token.nil? 
 
         row = @board.add_piece(column, token)
 

@@ -154,23 +154,6 @@ class GUI
         # invariant
     end
 
-    def show_toot_and_otto_help(player_names)
-        
-        dialog = Gtk::Dialog.new(
-            :title => "TOOT/OTTO Rules",
-            :parent => @game_window,
-            :flags => :modal
-        )
-        dialog.signal_connect("destroy") {dialog.close} 
-
-        message = "Please note that:\n" + player_names[0] + ": must complete OTTO\n" + player_names[1] + ": must complete TOOT\n"
-        msg = Gtk::Label.new(message)
-        format_text(msg, "blue")
-        dialog.child.add(msg)
-
-        dialog.show_all
-    end
-
     def update_token(column, row, value)
         @images[row][column].set_file(@pictures[value])
     end
@@ -219,6 +202,24 @@ class GUI
         css_provider = Gtk::CssProvider.new
         css_provider.load(data: "label {color: #{text_color}; font-size: 20px;}")
         view.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+    end
+
+    def show_toot_and_otto_help(player_names)
+        
+        dialog = Gtk::Dialog.new(
+            :title => "TOOT/OTTO Rules",
+            :parent => @game_window,
+            :flags => :modal
+        )
+        dialog.signal_connect("destroy") {dialog.close} 
+
+        message = "Please note that:\n" + player_names[0] + ": must complete OTTO\n" + player_names[1] + ": must complete TOOT\n"
+        message += "There are a limited number of tokens. 6 O's and 6 T's per player."
+        msg = Gtk::Label.new(message)
+        format_text(msg, "blue")
+        dialog.child.add(msg)
+
+        dialog.show_all
     end
 
 end
