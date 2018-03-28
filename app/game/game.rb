@@ -64,46 +64,11 @@ class Game
 
         token = current_player.tokens.sample if token.nil? 
 
-        begin
-            row = @board.add_piece(column, token)
-        rescue *GameError.TryAgain => slip
-            if slip.is_a? NotAValidColumn
-                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
-            end 
-            reset_current_player(current_player)
-            puts current_player.player_name + " please try your move again."
-            @observers.each{|o| o.show_error(current_player.player_name + " please try your move again.")}
-            return
-        end
-
+        row = @board.add_piece(column, token)
+        
         @observers.each{|o| o.update_token(column,row,token)}
 
-        begin 
-            check_game(current_player)
-        rescue *GameError.GameEnd => game_end
-            if game_end.is_a? GameWon
-                puts "Congratulations, we have a winner"
-                puts game_end.player.player_name + " won with the combination: " + game_end.player.player_win_condition.to_s
-                @observers.each{|o| o.show_winner(game_end.player.player_name + " won!")}
-            else
-                puts "There are no more possible moves. It's a cats game!"
-                @observers.each{|o| o.show_winner("No winner")}
-            end
-            return
-        rescue *GameError.TryAgain => slip
-            if slip.is_a? NotAValidColumn
-                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
-            end 
-            reset_current_player(current_player)
-            puts current_player.player_name + " please try your move again."
-            @observers.each{|o| o.show_error(current_player.player_name + " please try your move again.")}
-            return
-        rescue *GameError.Wrong => error 
-            puts "Something went wrong sorry"
-            puts error.message
-            @observers.each{|o| o.show_error(error.message,true)}
-            return
-        end   
+        check_game(current_player) 
 
         debug_print if @debug
 
