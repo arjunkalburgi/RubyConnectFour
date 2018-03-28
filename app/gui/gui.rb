@@ -98,8 +98,8 @@ class GUI
         (0..@columns-1).each{|column|
             button = Gtk::Button.new(:label => "#{value}")
             button.signal_connect("clicked") {
-                @token ? @controller.column_press(column, @token) : @controller.column_press(column, value)
-                @controller.column_press if @num_players.active_text == "1" && !@winner
+                @token ? @controller.column_press(column, @token, self) : @controller.column_press(column, value, self)
+                # @controller.column_press if @num_players.active_text == "1" && !@winner
             }
             button_box.pack_start(button)
         }
