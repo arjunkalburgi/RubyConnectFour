@@ -27,9 +27,8 @@ class Game
         curr_player = @players[@current_player_num]
         @players.each { |p| 
             if p == curr_player
-                puts "The current player: "
+                puts "The current player: " + p.to_s
             end 
-            puts p
         }
 
         puts @board.print_board
@@ -65,9 +64,7 @@ class Game
             column = current_player.choose_column(@board, @players, @current_player_num, token)
         end
 
-        if token.nil? 
-            token = current_player.tokens.sample
-        end
+        token = current_player.tokens.sample if token.nil? 
 
         row = @board.add_piece(column, token)
 
@@ -75,32 +72,9 @@ class Game
             current_player.available_tokens.delete_at(current_player.available_tokens.index(token))
         end 
 
-        @observers.each{|o| o.update_value(column,row,token)}
+        @observers.each{|o| o.update_token(column,row,token)}
 
-        begin 
-            check_game(current_player)
-        rescue *GameError.GameEnd => gameend
-            if gameend.is_a? GameWon
-                message = "Congratulations, we have a winner"
-                puts message
-                puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
-                @observers.each{|o| o.show_winner(message + " " + gameend.player.player_name + " won!")}
-            else
-                puts "There are no more possible moves. It's a cats game!."
-                @observers.each{|o| o.show_winner("No winner")}
-            end
-        rescue *GameError.TryAgain => slip
-            if slip.is_a? NotAValidColumn
-                puts "Column number: " + slip.column + " is not valid." 
-            end 
-            reset_current_player(current_player)
-            puts current_player.player_name + " please try your move again."
-            @observers.each{|o| o.show_error(current_player.player_name + " please try your move again.")}
-        rescue *GameError.Wrong => error 
-            puts "Something went wrong sorry"
-            puts error.message
-            @observers.each{|o| o.show_error(error.message)}
-        end   
+        check_game(current_player) 
 
         debug_print if @debug
 
@@ -177,12 +151,11 @@ class Game
         invariant 
         pre_set_game_players
 
+        @players = players
         if players.nil? 
             p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
             p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 3)
             @players = [p1, p2]
-        else 
-            @players = players
         end
 
         @current_player_num = 0

@@ -1,4 +1,5 @@
 require_relative './board_contracts'
+require_relative '../game/game_contracts'
 require 'set'
 
 class Board 
@@ -58,7 +59,7 @@ class Board
                 end
             }
         else
-            raise GameError
+            raise IncorrectInput.new("No room to add token")
         end
 
         post_add_token(column_number, token)

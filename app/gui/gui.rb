@@ -3,8 +3,7 @@ require "gtk3"
 
 class GUI
     include GUIContracts
-    attr_reader :window, :game_window, :game_box, :controller, :pics, 
-                :type, :num_players, :rows, :columns, :images, :buttons, :colours
+    attr_reader :window, :game_window, :game_box, :controller, :pictures, :colours, :buttons
 	
     def initialize(controller)
         #pre_initialize
@@ -40,6 +39,9 @@ class GUI
         @num_players = builder.get_object("NumberPlayers")
         @rowsObject = builder.get_object("Rows")
         @columnsObject = builder.get_object("Columns")
+        @players = []
+        @players << builder.get_object("Player1")
+        @players << builder.get_object("Player2")
 		
         quitButton = builder.get_object("QuitButton")
         quitButton.signal_connect("clicked") {Gtk.main_quit}
@@ -52,114 +54,125 @@ class GUI
     end
     
     def generate_board
-		v = Gtk::Box.new(:vertical)
+		v_box = Gtk::Box.new(:vertical)
 
         @rows = @rowsObject.value_as_int
         @columns = @columnsObject.value_as_int
 
+        player_names = []
+        @players.each{|e|
+            player_names << e.text
+        }
+
         if @type.active_text == "Connect4"
             @buttons = create_buttons("R")
             @token = "R"
-            v.pack_start(@buttons)
+            v_box.pack_start(@buttons)
             set_button_colors("R")
         else
-            v.pack_start(create_buttons("O"))
-            v.pack_start(create_buttons("T"))
+            v_box.pack_start(create_buttons("O"))
+            v_box.pack_start(create_buttons("T"))
+            show_toot_and_otto_help(player_names)
         end
 
         @images = Array.new(@rows){Array.new(@columns)}
         (0..@rows-1).each{|a|
-          v.pack_end(create_rows(@rows - a - 1))
+            v_box.pack_end(create_rows(@rows - a - 1))
         }
 
-        @game_box.add(v)
-        @game_window.show_all
-        @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text)
-        @controller.subscribe(self)
+        begin
+            @controller.setup_game(@rows, @columns, @type.active_text, @num_players.active_text, player_names)
+            @game_box.add(v_box)
+            @game_window.show_all
+            @controller.subscribe(self)
+            @window.hide
+        rescue => err
+            show_error(err.message,true)
+            return
+        end
     end
 
     def create_buttons(value)
-        btns = Gtk::Box.new(:horizontal)
-        (0..@columns-1).each{|col|
-
-          btn = Gtk::Button.new(:label => "#{value}")
-          btn.signal_connect("clicked") {
-            @token ? @controller.column_press(col, @token) : @controller.column_press(col, value)
-            if @num_players.active_text == "1"
-                @controller.column_press
-            end
-          }
-          btns.pack_start(btn)
+        button_box = Gtk::Box.new(:horizontal)
+        (0..@columns-1).each{|column|
+            button = Gtk::Button.new(:label => "#{value}")
+            button.signal_connect("clicked") {
+                @token ? @controller.column_press(column, @token, self) : @controller.column_press(column, value, self)
+            }
+            button_box.pack_start(button)
         }
-        return btns
+        return button_box
     end
 
     def create_rows(row_num)
-        h = Gtk::Box.new(:horizontal)
-        
+        h_box = Gtk::Box.new(:horizontal)
         (0..@columns-1).each{|b|
-            @images[row_num][b] = Gtk::Image.new(:file => @pics["E"])
-            h.add(@images[row_num][b])
+            @images[row_num][b] = Gtk::Image.new(:file => @pictures["E"])
+            h_box.add(@images[row_num][b])
         }
-        return h
+        return h_box
     end
 
     def show_winner(message)
         # invariant 
         # pre_show_winner
-
         dialog = Gtk::Dialog.new(
-          :title => "Game Over",
-          :parent => @game_window,
-          :flags => :modal
+            :title => "Game Over",
+            :parent => @game_window,
+            :flags => :modal
         )
         dialog.signal_connect("destroy") {Gtk.main_quit}
 
-        btnExit = Gtk::Button.new(:label => "Quit")
-        btnExit.signal_connect("clicked"){Gtk.main_quit}
-
-        hbox = Gtk::Box.new(:horizontal)
-        hbox.pack_start(btnExit)
-
-        dialog.child.add(Gtk::Label.new(message))
-        dialog.child.add(hbox)
+        msg = Gtk::Label.new(message)
+        format_text(msg, "green")
+        dialog.child.add(msg)
+        dialog.resize(200,20)
 
         dialog.show_all
-
-
         # post_show_winner
         # invariant
     end
 
-    def show_error(message)
+    def show_error(message, close_all=false)
         # invariant 
         # pre_show_winner
 
         dialog = Gtk::Dialog.new(
-          :title => "ERROR",
-          :parent => @game_window,
-          :flags => :modal
+            :title => "ERROR",
+            :parent => @game_window,
+            :flags => :modal
         )
-        dialog.signal_connect("destroy") {dialog.close}
+        close_all ? dialog.signal_connect("destroy") {Gtk.main_quit} : dialog.signal_connect("destroy") {dialog.close} 
+        dialog.set_position(Gtk::WindowPosition::CENTER)
 
-        btnExit = Gtk::Button.new(:label => "Quit")
-        btnExit.signal_connect("clicked"){dialog.close}
-
-        hbox = Gtk::Box.new(:horizontal)
-        hbox.pack_start(btnExit)
-
-        dialog.child.add(Gtk::Label.new(message))
-        dialog.child.add(hbox)
+        msg = Gtk::Label.new(message)
+        format_text(msg, "red")
+        dialog.child.add(msg)
 
         dialog.show_all
-
-
         # post_show_winner
         # invariant
     end
 
-    def update_value(column, row, value)
-        @images[row][column].set_file(@pics[value])
+    def show_toot_and_otto_help(player_names)
+        
+        dialog = Gtk::Dialog.new(
+            :title => "TOOT/OTTO Rules",
+            :parent => @game_window,
+            :flags => :modal
+        )
+        dialog.signal_connect("destroy") {dialog.close} 
+
+        message = "Please note that:\n" + player_names[0] + ": must complete OTTO\n" + player_names[1] + ": must complete TOOT\n"
+        msg = Gtk::Label.new(message)
+        format_text(msg, "blue")
+        dialog.child.add(msg)
+
+        dialog.show_all
+    end
+
+    def update_token(column, row, value)
+        @images[row][column].set_file(@pictures[value])
     end
 
     def update_buttons(value, player)
@@ -176,15 +189,15 @@ class GUI
     private
 
     def set_constants
-        @pics = Hash.new
-        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
-        @pics["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
-        @pics["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
-        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
-        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
+        @pictures = Hash.new
+        @pictures["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
+        @pictures["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
+        @pictures["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
+        @pictures["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
+        @pictures["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
         @colours = Hash.new
-        @colours["R"] = "red"
-        @colours["Y"] = "yellow"
+        @colours["R"] = {:bkg => "red", :text => "white"}
+        @colours["Y"] = {:bkg => "yellow", :text => "black"}
     end
 
     def set_button_colors(value)
@@ -195,11 +208,17 @@ class GUI
 
     def set_button_color(button, value)
         css_provider = Gtk::CssProvider.new
-        css_provider.load(data: "button {background-color: #{@colours[value]}; background-image: none;}\
-             button:hover {background-color: #{@colours[value]}; background-image: none;}\
-             button:active {background-color: #{@colours[value]}; background-image: none;}"
+        css_provider.load(data: "button {background-color: #{@colours[value][:bkg]}; background-image: none; color: #{@colours[value][:text]};}\
+                                button:hover {background-color: #{@colours[value][:bkg]}; background-image: none;}\
+                                button:active {background-color: #{@colours[value][:bkg]}; background-image: none;}"
         )
         button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+    end
+
+    def format_text(view, text_color)
+        css_provider = Gtk::CssProvider.new
+        css_provider.load(data: "label {color: #{text_color}; font-size: 20px;}")
+        view.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
 
 end
