@@ -58,9 +58,9 @@ else
     else 
         print "P2 - What is your name? "
         name = gets.chomp
-        if style == "1"
+        if token_limitations
             puts name + " is playing for TOOT"
-            p2 = Player.new(name, ["T", "O", "O", "T"]) 
+            p2 = Player.new(name, ["T", "O", "O", "T"], ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]) 
         else
             print "P2 - What is your token? "
             token = gets.chomp
@@ -101,12 +101,13 @@ while true
             puts g.board.print_board
             puts "It's a cats game!."
         end
-        break 
+        break
     rescue *GameError.TryAgain => slip
         if slip.is_a? NotAValidColumn
-            puts "Column number: " + slip.column + " is not valid." 
+            puts "Column number: " + slip.column.to_s + " is not valid." 
         end 
-        reset_current_player(current_player)
+        puts slip.message
+        g.reset_current_player(current_player)
         puts current_player.player_name + " please play again."
         next
     rescue *GameError.Wrong => error 

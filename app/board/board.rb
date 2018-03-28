@@ -58,7 +58,7 @@ class Board
                 end
             }
         else
-            raise "Cannot add token here"
+            raise GameError
         end
 
         post_add_token(column_number, token)

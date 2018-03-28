@@ -53,6 +53,7 @@ end
 
 # Try Again Errors 
 class NotAValidColumn < GameError
+    attr_reader :column
     def initialize(columnnumber, msg = "Not a valid command")
         super(msg)
         @column = columnnumber

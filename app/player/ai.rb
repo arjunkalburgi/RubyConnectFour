@@ -10,7 +10,7 @@ class AIOpponent < Player
 
     def initialize(name, win_condition, diff, available_tokens=nil) 
         # invariant 
-        pre_init(win_condition)
+        pre_init(win_condition, available_tokens)
 
         @difficulty = diff
         super(name, win_condition, available_tokens)
@@ -28,7 +28,7 @@ class AIOpponent < Player
         players = shuffle_players_list(players, player_num)
 
         if token.nil? 
-            token = @tokens.sample
+            token = @available_tokens.sample
         end 
 
         # returns a column 

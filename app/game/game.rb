@@ -59,24 +59,26 @@ class Game
         pre_play_move(column, token)
         beforeboard = @board.dup
 
-        if @players[@current_player_num].is_a? AIOpponent
-            column = @players[@current_player_num].choose_column(@board, @players, @current_player_num, token)
+        current_player = @players[@current_player_num]
+
+        if current_player.is_a? AIOpponent
+            column = current_player.choose_column(@board, @players, @current_player_num, token)
         end
 
         if token.nil? 
-            token = @players[@current_player_num].tokens.sample
+            token = current_player.tokens.sample
         end
 
         row = @board.add_piece(column, token)
 
         if @token_limitations 
-            @players[@current_player_num].available_tokens.delete(token)
+            current_player.available_tokens.delete_at(current_player.available_tokens.index(token))
         end 
 
         @observers.each{|o| o.update_value(column,row,token)}
 
         begin 
-            check_game(@players[@current_player_num])
+            check_game(current_player)
         rescue *GameError.GameEnd => gameend
             if gameend.is_a? GameWon
                 message = "Congratulations, we have a winner"

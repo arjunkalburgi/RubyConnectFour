@@ -31,6 +31,7 @@ module BoardContracts
     def pre_can_add_to_column(column_number)
         raise NotAValidColumn.new(column_number, "Column index must be an Integer") unless column_number.is_a? Integer
         raise NotAValidColumn.new(column_number, "Column index must be within range") unless column_number.between?(0, @columns-1)
+        raise NotAValidColumn.new(column_number, "Column is full") unless @game_board[0][column_number].nil?
     end
 
     def post_can_add_to_column

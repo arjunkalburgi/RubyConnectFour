@@ -7,8 +7,14 @@ module PlayerContracts
     end 
 
 
-    def pre_init(w)
+    def pre_init(w, at)
         raise GameError, "The Player object win_condition is not correct" unless w.is_a? Array and w.size > 1
+
+        if !at.nil? 
+            w.uniq.each { |t|
+                raise GameError, "The player must have enough tokens to win the game." unless w.count(t) < at.count(t)
+            }
+        end
     end 
 
     def post_init

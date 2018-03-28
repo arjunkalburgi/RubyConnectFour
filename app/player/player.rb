@@ -8,7 +8,7 @@ class Player
 
     def initialize(name, win_condition, available_tokens=nil)
         # invariant 
-        pre_init(win_condition)
+        pre_init(win_condition, available_tokens)
 
         @player_name = name
         @player_win_condition = win_condition
