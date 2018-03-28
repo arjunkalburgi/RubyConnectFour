@@ -10,6 +10,7 @@
 # ConnectFour Application
 
 # game_driver.rb is the CLI way to run the application
-# driver.rb is the GUI way to run the application
+# require_relative './app/game_driver'
 
+# driver.rb is the GUI way to run the application
 require_relative './app/driver'

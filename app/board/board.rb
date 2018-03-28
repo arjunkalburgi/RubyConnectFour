@@ -59,7 +59,7 @@ class Board
                 end
             }
         else
-            raise IncorrectInput.new("Cannot add token here")
+            raise IncorrectInput.new("No room to add token")
         end
 
         post_add_token(column_number, token)

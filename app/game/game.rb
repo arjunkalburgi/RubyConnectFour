@@ -26,9 +26,8 @@ class Game
         curr_player = @players[@current_player_num]
         @players.each { |p| 
             if p == curr_player
-                puts "The current player: "
+                puts "The current player: " + p.to_s
             end 
-            puts p
         }
 
         puts @board.print_board
@@ -63,19 +62,13 @@ class Game
             column = current_player.choose_column(@board, @players, @current_player_num, token)
         end
 
-        if token.nil? 
-            token = current_player.tokens.sample
-        end
+        token = current_player.tokens.sample if token.nil? 
 
         begin
             row = @board.add_piece(column, token)
         rescue *GameError.TryAgain => slip
             if slip.is_a? NotAValidColumn
-                if slip.column
-                    puts "Column number: " + slip.column + " is not valid." 
-                else 
-                    puts "Column number is not valid." 
-                end
+                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
             end 
             reset_current_player(current_player)
             puts current_player.player_name + " please try your move again."
@@ -83,22 +76,23 @@ class Game
             return
         end
 
-        @observers.each{|o| o.update_value(column,row,token)}
+        @observers.each{|o| o.update_token(column,row,token)}
 
         begin 
             check_game(current_player)
-        rescue *GameError.GameEnd => gameend
-            if gameend.is_a? GameWon
+        rescue *GameError.GameEnd => game_end
+            if game_end.is_a? GameWon
                 puts "Congratulations, we have a winner"
-                puts gameend.player.player_name + " won with the combination: " + gameend.player.player_win_condition.to_s
-                @observers.each{|o| o.show_winner(gameend.player.player_name + " won!")}
+                puts game_end.player.player_name + " won with the combination: " + game_end.player.player_win_condition.to_s
+                @observers.each{|o| o.show_winner(game_end.player.player_name + " won!")}
             else
-                puts "There are no more possible moves. It's a cats game!."
+                puts "There are no more possible moves. It's a cats game!"
                 @observers.each{|o| o.show_winner("No winner")}
             end
+            return
         rescue *GameError.TryAgain => slip
             if slip.is_a? NotAValidColumn
-                puts "Column number: " + slip.column + " is not valid." 
+                slip.column ? (puts "Column number: " + slip.column + " is not valid.") : (puts "Column number is not valid.")
             end 
             reset_current_player(current_player)
             puts current_player.player_name + " please try your move again."
@@ -186,12 +180,11 @@ class Game
         invariant 
         pre_set_game_players
 
+        @players = players
         if players.nil? 
             p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
             p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 3)
             @players = [p1, p2]
-        else 
-            @players = players
         end
 
         @current_player_num = 0

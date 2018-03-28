@@ -17,26 +17,32 @@ class GameController
         @gui = GUI.new(self)
     end
 
-    def setup_game(rows, columns, type, num_players)
-      if type == "Connect4"
-        p1 = Player.new("Player1", ["R", "R", "R", "R"]) 
-        if num_players == "1"
-          p2 = AIOpponent.new("Player2", ["Y", "Y", "Y", "Y"], 3)
-        else 
-          p2 = Player.new("Player2", ["Y", "Y", "Y", "Y"])
-        end
-      else
-        p1 = Player.new("Player1", ["O", "T", "T", "O"]) 
-        if num_players == "1"
-          p2 = AIOpponent.new("Player2", ["T", "O", "O", "T"], 3)
+    def setup_game(rows, columns, type, num_players, player_names)
+        player_names[0].empty? ? name1 = "Player1" : name1 = player_names[0]
+        player_names[1].empty? ? name2 = "Player2" : name2 = player_names[1]
+        red_yellow = [["R", "R", "R", "R"],["Y", "Y", "Y", "Y"]]
+        otto_toot = [["O", "T", "T", "O"],["T", "O", "O", "T"]]
+
+        if type == "Connect4"
+            p1 = Player.new(name1, red_yellow[0])
+            if num_players == "1"
+                p2 = AIOpponent.new(name2, red_yellow[1], 3)
+            else 
+                p2 = Player.new(name2, red_yellow[1])
+            end
         else
-          p2 = Player.new("Player2", ["T", "O", "O", "T"])
+            p1 = Player.new(name1, otto_toot[0]) 
+            if num_players == "1"
+                p2 = AIOpponent.new(name2, otto_toot[1], 3)
+            else
+                 p2 = Player.new(name2, otto_toot[1])
+            end
         end
-      end
-      @game = Game.new(rows,columns,[p1,p2],true)
+
+        @game = Game.new(rows,columns,[p1,p2],true)
     end
 
     def subscribe(observer)
-      @game.add_observer(observer)
+        @game.add_observer(observer)
     end
 end
