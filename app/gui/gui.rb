@@ -3,8 +3,7 @@ require "gtk3"
 
 class GUI
     include GUIContracts
-    attr_reader :window, :game_window, :game_box, :controller, :pics, 
-                :type, :num_players, :rows, :columns, :images, :buttons, :colours
+    attr_reader :window, :game_window, :game_box, :controller, :pictures, :colours, :buttons
 	
     def initialize(controller)
         #pre_initialize
@@ -61,6 +60,11 @@ class GUI
         @rows = @rowsObject.value_as_int
         @columns = @columnsObject.value_as_int
 
+        player_names = []
+        @players.each{|e|
+            player_names << e.text
+        }
+
         if @type.active_text == "Connect4"
             @buttons = create_buttons("R")
             @token = "R"
@@ -69,16 +73,12 @@ class GUI
         else
             v_box.pack_start(create_buttons("O"))
             v_box.pack_start(create_buttons("T"))
+            show_toot_and_otto_help(player_names)
         end
 
         @images = Array.new(@rows){Array.new(@columns)}
         (0..@rows-1).each{|a|
             v_box.pack_end(create_rows(@rows - a - 1))
-        }
-
-        player_names = []
-        @players.each{|e|
-            player_names << e.text
         }
 
         begin
@@ -109,7 +109,7 @@ class GUI
     def create_rows(row_num)
         h_box = Gtk::Box.new(:horizontal)
         (0..@columns-1).each{|b|
-            @images[row_num][b] = Gtk::Image.new(:file => @pics["E"])
+            @images[row_num][b] = Gtk::Image.new(:file => @pictures["E"])
             h_box.add(@images[row_num][b])
         }
         return h_box
@@ -127,7 +127,7 @@ class GUI
         dialog.signal_connect("destroy") {Gtk.main_quit}
 
         msg = Gtk::Label.new(message)
-        format_text(msg)
+        format_text(msg, "green")
         dialog.child.add(msg)
         dialog.resize(200,20)
 
@@ -149,7 +149,7 @@ class GUI
         dialog.set_position(Gtk::WindowPosition::CENTER)
 
         msg = Gtk::Label.new(message)
-        format_text(msg)
+        format_text(msg, "red")
         dialog.child.add(msg)
 
         dialog.show_all
@@ -157,8 +157,25 @@ class GUI
         # invariant
     end
 
+    def show_toot_and_otto_help(player_names)
+        
+        dialog = Gtk::Dialog.new(
+            :title => "TOOT/OTTO Rules",
+            :parent => @game_window,
+            :flags => :modal
+        )
+        dialog.signal_connect("destroy") {dialog.close} 
+
+        message = "Please note that:\n" + player_names[0] + ": must complete OTTO\n" + player_names[1] + ": must complete TOOT\n"
+        msg = Gtk::Label.new(message)
+        format_text(msg, "blue")
+        dialog.child.add(msg)
+
+        dialog.show_all
+    end
+
     def update_token(column, row, value)
-        @images[row][column].set_file(@pics[value])
+        @images[row][column].set_file(@pictures[value])
     end
 
     def update_buttons(value, player)
@@ -175,12 +192,12 @@ class GUI
     private
 
     def set_constants
-        @pics = Hash.new
-        @pics["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
-        @pics["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
-        @pics["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
-        @pics["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
-        @pics["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
+        @pictures = Hash.new
+        @pictures["E"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/E.png"
+        @pictures["Y"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/Y.png"
+        @pictures["R"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/R.png"
+        @pictures["O"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/O.png"
+        @pictures["T"] = "#{File.expand_path(File.dirname(__FILE__))}/assets/T.png"
         @colours = Hash.new
         @colours["R"] = {:bkg => "red", :text => "white"}
         @colours["Y"] = {:bkg => "yellow", :text => "black"}
@@ -201,9 +218,9 @@ class GUI
         button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
 
-    def format_text(view)
+    def format_text(view, text_color)
         css_provider = Gtk::CssProvider.new
-        css_provider.load(data: "label {color: red; font-size: 20px;}")
+        css_provider.load(data: "label {color: #{text_color}; font-size: 20px;}")
         view.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
     end
 
