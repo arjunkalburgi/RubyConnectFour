@@ -26,7 +26,7 @@ class GUI
 		
 		@window = builder.get_object("menuWindow")
 		@window.signal_connect("destroy") {Gtk.main_quit}
-        @window.title = "ConnectFour"
+        @window.title = "Connect4"
         @window.set_position(Gtk::WindowPosition::CENTER)
 
         @game_window = game_builder.get_object("GameWindow")
