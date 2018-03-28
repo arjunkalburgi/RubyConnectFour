@@ -72,7 +72,6 @@ class GUI
         else
             v_box.pack_start(create_buttons("O"))
             v_box.pack_start(create_buttons("T"))
-            show_toot_and_otto_help(player_names)
         end
 
         @images = Array.new(@rows){Array.new(@columns)}
@@ -86,6 +85,7 @@ class GUI
             @game_window.show_all
             @controller.subscribe(self)
             @window.hide
+            show_toot_and_otto_help(player_names) if @type.active_text == "TOOT/OTTO"
         rescue => err
             show_error(err.message,false)
             return

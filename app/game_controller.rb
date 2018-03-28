@@ -82,7 +82,7 @@ class GameController
 
         @game = Game.new(rows, columns, [p1,p2], token_limitations, true)
   	  	invariant
-	  	  post_setup_game
+	  	post_setup_game
     end
 
     def subscribe(observer)
