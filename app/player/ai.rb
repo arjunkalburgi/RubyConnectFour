@@ -28,7 +28,7 @@ class AIOpponent < Player
         players = shuffle_players_list(players, player_num)
 
         if token.nil?
-            if @available_tokens.nil? 
+            if !@available_tokens.nil? 
                 token = @available_tokens.sample
             else 
                 token = @tokens.sample
