@@ -106,10 +106,11 @@ class Game
         @players.each { |p|
             if combinations.include? p.player_win_condition
                 raise GameWon.new(p)
-            elsif @board.is_full?
-                raise NoMoreMoves.new
             end
         }
+        if @board.is_full?
+            raise NoMoreMoves.new
+        end
 
         post_check_game
         invariant
