@@ -1,15 +1,22 @@
 require_relative './gui/gui'
 require_relative './game/game'
 require_relative './game/game_error'
+require_relative './game_controller_contracts'
 
 class GameController
+	include GameControllerContracts
     attr_reader :game, :gui, :type, :num_players, :current_player
 
     def initialize
+		pre_initialize
         @gui = GUI.new(self)
+		invariant
+		post_initialize
     end
 
     def column_press(column, value, gui)
+		pre_column_press
+		invariant
         current_player = @game.players[@game.current_player_num]
         begin
             @game.play_move(column, value)
@@ -38,10 +45,13 @@ class GameController
             gui.show_error(error.message,true)
             return
         end  
-        
+        post_column_press
+		invariant
     end
 
     def setup_game(rows, columns, type, num_players, player_names)
+		pre_setup_game
+		invariant
         player_names[0].empty? ? name1 = "Player1" : name1 = player_names[0]
         player_names[1].empty? ? name2 = "Player2" : name2 = player_names[1]
         red_yellow = [["R", "R", "R", "R"],["Y", "Y", "Y", "Y"]]
@@ -66,9 +76,15 @@ class GameController
         end
 
         @game = Game.new(rows,columns,[p1,p2],true)
+		invariant
+		post_setup_game
     end
 
     def subscribe(observer)
+		pre_subscribe
+		invariant
         @game.add_observer(observer)
+		invariant
+		post_subscribe
     end
 end

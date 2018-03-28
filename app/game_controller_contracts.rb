@@ -13,11 +13,11 @@ module GameControllerContracts
 	end
 	
 	def pre_column_press
-		# no pre conditions?
+		# no pre conditions
 	end
 	
 	def post_column_press
-		# no post conditions
+		# no post conditions -board change post conditions are handled by game contracts
 	end
 	
 	def pre_setup_view
