@@ -67,6 +67,9 @@ module GameContracts
         if @token_limitations 
             p = @players[@current_player_num]
             raise NotAnAvailableToken.new(p, t) unless p.available_tokens.include? t
+            @players.each{|p|
+                raise NoMoreMoves.new unless !p.available_tokens.empty?
+            }
         end 
     end
     
