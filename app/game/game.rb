@@ -56,7 +56,7 @@ class Game
     def play_move(column=nil,token=nil)
         invariant 
         pre_play_move(column, token)
-        beforeboard = @board.dup
+        beforeboard = Marshal.load( Marshal.dump(@board) )
 
         current_player = @players[@current_player_num]
 

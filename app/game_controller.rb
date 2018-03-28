@@ -46,6 +46,7 @@ class GameController
         player_names[1].empty? ? name2 = "Player2" : name2 = player_names[1]
         red_yellow = [["R", "R", "R", "R"],["Y", "Y", "Y", "Y"]]
         otto_toot = [["O", "T", "T", "O"],["T", "O", "O", "T"]]
+        max_turns = ["O", "O", "O", "O", "O", "O", "T", "T", "T", "T", "T", "T"]
 
         @num_players = num_players
 
@@ -58,11 +59,11 @@ class GameController
             end
             token_limitations = false
         else
-            p1 = Player.new(name1, otto_toot[0]) 
+            p1 = Player.new(name1, otto_toot[0], max_turns) 
             if num_players == "1"
-                p2 = AIOpponent.new(name2, otto_toot[1], 3)
+                p2 = AIOpponent.new(name2, otto_toot[1], 3, max_turns)
             else
-                 p2 = Player.new(name2, otto_toot[1])
+                 p2 = Player.new(name2, otto_toot[1], max_turns)
             end
             token_limitations = true
         end
