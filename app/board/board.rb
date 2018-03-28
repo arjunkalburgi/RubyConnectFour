@@ -220,16 +220,16 @@ class Board
 
         diags = Set.new
         (0..@game_board[0].size - 1).each { |k|
-            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][i+k]}.compact
+            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][i+k]}
         }
         (0..@game_board[0].size - 1).each { |k|
-            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][k-i] if k-i > -1}.compact
+            diags << (0..@game_board.size - 1).collect{|i| @game_board[i][k-i] if k-i > -1}
         }
         (0..@game_board[0].size - 1).reverse_each { |k|
-            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][i-k] if i-k > -1}.compact
+            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][i-k] if i-k > -1}
         }
         (0..@game_board[0].size - 1).reverse_each { |k|
-            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][k-(i-(@game_board.size-1))]}.compact
+            diags << (0..@game_board.size - 1).to_a.reverse.collect{|i| @game_board[i][k-(i-(@game_board.size-1))]}
         }
 
         combinations =  Set.new
